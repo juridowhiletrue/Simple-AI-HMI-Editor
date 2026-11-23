@@ -1,0 +1,13 @@
+/workspaces/
+/.local/
+/node_modules/
+/.editor-local.json
+/.env
+/.env.*
+/qa/*-results.json
+/qa/*-results.md
+/qa/*-review.md
+*.log
+*.tmp
+Thumbs.db
+.DS_Store

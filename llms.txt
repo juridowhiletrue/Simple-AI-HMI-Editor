@@ -1,0 +1,21 @@
+# Smart HMI Editor
+
+> Local offline HMI design, review, annotation and prototype tool for AI coding agents. Includes a neutral interactive automation demo.
+
+Repository: https://github.com/juridowhiletrue/Smart-HMI-Editor
+
+## Agent entry points
+
+- [Installable Smart HMI Editor skill](https://github.com/juridowhiletrue/Smart-HMI-Editor/blob/main/codex-skill/smart-hmi-editor/SKILL.md): load for a new automation project or open the included demo.
+- [README](https://github.com/juridowhiletrue/Smart-HMI-Editor/blob/main/README.md): requirements, first use and installation.
+- [AGENTS.md](https://github.com/juridowhiletrue/Smart-HMI-Editor/blob/main/AGENTS.md): repository working rules.
+
+## Local commands
+
+- `node tools/codex-workspace.cjs --project <absolute-project-path>` resolves an existing private workspace read-only.
+- `node tools/init-workspace.cjs --project <absolute-project-path> --source <project-relative-hmi-file>` prepares a new private workspace from actual HTML or embedded C++ HTML.
+- `node server.cjs` starts the loopback-only editor. A fresh clone opens its neutral demo.
+
+User trigger examples: “Lade den Skill Smart HMI Editor”; “Open the Smart HMI Editor demo”; “Review this project's HMI with Smart HMI Editor.”
+
+Real project data stays in ignored `workspaces/`. A generic source import leaves program behavior unmapped. Trace actual source bindings before making behavior claims.

@@ -1,0 +1,16 @@
+.shn-navigator{display:flex;flex-direction:column;gap:12px;min-width:0;color:#173147;font:14px/1.45 Segoe UI,system-ui,sans-serif}
+.shn-navigator .shn-field{display:flex;flex-direction:column;gap:6px;min-width:0;font-size:13px;font-weight:600}
+.shn-navigator .shn-search,.shn-navigator .shn-page{box-sizing:border-box;width:100%;max-width:100%;min-width:0;min-height:42px;padding:9px 11px;border:1px solid #c6d4df;border-radius:8px;background:#fff;color:#173147;font:400 14px/1.45 Segoe UI,system-ui,sans-serif}
+.shn-navigator .shn-page{padding-right:30px}
+.shn-navigator .shn-count,.shn-navigator .shn-hint{margin:0;color:#657889;font-size:12px;line-height:1.5}
+.shn-navigator .shn-results{list-style:none;padding:0;margin:0;max-height:min(48dvh,580px);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;display:flex;flex-direction:column;gap:5px;scroll-padding:5px}
+.shn-navigator .shn-results>li{padding:0;margin:0;min-width:0}
+.shn-navigator .shn-result{box-sizing:border-box;display:flex;flex-direction:column;gap:4px;width:100%;min-width:0;min-height:48px;padding:10px 11px;border:1px solid #e0e7ed;border-radius:8px;text-align:left;background:#fff;color:#173147;cursor:pointer;white-space:normal;touch-action:manipulation;font:400 13px/1.45 Segoe UI,system-ui,sans-serif}
+.shn-navigator .shn-result:hover{border-color:#91b9ce;background:#edf6fb}
+.shn-navigator .shn-result.is-selected{border-color:#185d83;background:#e8f3fa;box-shadow:inset 3px 0 #185d83}
+.shn-navigator .shn-label{font-weight:600;overflow-wrap:anywhere}
+.shn-navigator .shn-meta{font-size:11px;color:#607588;overflow-wrap:anywhere}
+.shn-navigator .shn-search:focus-visible,.shn-navigator .shn-page:focus-visible,.shn-navigator .shn-result:focus-visible{outline:3px solid #367eac;outline-offset:2px}
+.shn-navigator .shn-empty{padding:20px 8px!important;color:#657889;line-height:1.6;font-size:13px}
+@media(max-width:600px){.shn-navigator .shn-results{max-height:37dvh}.shn-navigator .shn-result{min-height:52px}}
+@media(forced-colors:active){.shn-navigator .shn-result.is-selected{border:2px solid Highlight}.shn-navigator .shn-result:focus-visible{outline-color:Highlight}.shn-navigator .shn-meta{color:CanvasText}}

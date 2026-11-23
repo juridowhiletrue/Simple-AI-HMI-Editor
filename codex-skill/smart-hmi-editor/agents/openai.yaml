@@ -1,0 +1,6 @@
+interface:
+  display_name: "Smart HMI Editor"
+  short_description: "HMI-Entwürfe und neutrale Demo lokal bearbeiten"
+  default_prompt: "Nutze $smart-hmi-editor für dieses Projekt und weise auf die Demo zum Ausprobieren hin."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,602 @@
+/* Smart HMI Editor — workshop chrome only. The HMI iframe stays untouched. */
+:root {
+  --editor-focus: #2082ad;
+  --editor-focus-soft: #d9edf7;
+  --editor-paper: #ffffff;
+  --editor-edge: #c7d7e3;
+  --editor-muted: #536d80;
+}
+
+html {
+  scroll-padding-top: calc(var(--chrome-height, 200px) + 18px);
+}
+
+body {
+  background: linear-gradient(155deg, #f0f5f8 0, #e8eff4 65%, #e2ebf2 100%);
+  text-rendering: optimizeLegibility;
+}
+
+button,
+select,
+input:not([type="checkbox"]) {
+  min-height: 44px;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+button:not(:disabled):hover {
+  box-shadow: 0 2px 8px #1731470c;
+}
+
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--editor-focus);
+  outline-offset: 3px;
+}
+
+textarea,
+input,
+select {
+  accent-color: var(--blue);
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: #62778a;
+  opacity: 1;
+}
+
+textarea::selection,
+input::selection {
+  background: #d6edfa;
+  color: #15374e;
+}
+
+.workbar {
+  background: linear-gradient(110deg, #102f45, #153e56);
+  padding-block: 14px;
+}
+
+.brand h1 {
+  letter-spacing: -.025em;
+}
+
+.brand p,
+.workstate {
+  color: #d1dfe8;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #ffffff0b;
+  color: #72e3c8;
+}
+
+.top-actions {
+  align-items: center;
+}
+
+.top-actions button {
+  border-color: #ffffff36;
+}
+
+#snapshot {
+  background: #e7f4f3;
+  border-color: #e7f4f3;
+  color: #123f4e;
+}
+
+#snapshot:not(:disabled):hover {
+  background: #cdece6;
+  border-color: #cdece6;
+}
+
+.draft-badge {
+  border-color: #e6c27285;
+  background: #f4c65b0b;
+}
+
+.toolbar {
+  background: #fcfdff;
+  border-bottom-color: #dce6ee;
+  gap: 9px;
+}
+
+.modes {
+  padding: 4px;
+  border-radius: 12px;
+  background: #e9f0f5;
+}
+
+.modes button {
+  min-height: 42px;
+  padding-inline: 13px;
+  white-space: nowrap;
+}
+
+.modes button[aria-pressed="true"] {
+  background: #185d83;
+  box-shadow: 0 2px 6px #163a501c;
+}
+
+.page-select select {
+  background: #ffffff;
+  border-color: #b8ccd9;
+  font-weight: 600;
+}
+
+.count {
+  background: #e5f0f7;
+  color: #174f71;
+  font-weight: 650;
+}
+
+.canvas-tools {
+  background: #edf3f7;
+  border-bottom: 1px solid #dde6ee;
+  border-left: 3px solid transparent;
+  padding-block: 9px;
+}
+
+#modeHint {
+  color: #4f687c;
+  line-height: 1.5;
+}
+
+body:has([data-mode="edit"][aria-pressed="true"]) .canvas-tools {
+  border-left-color: #3487af;
+  background: #e9f3f9;
+}
+
+body:has([data-mode="comment"][aria-pressed="true"]) .canvas-tools {
+  border-left-color: #cf9b2d;
+  background: #f8f4e8;
+}
+
+.canvas-options select {
+  min-height: 35px;
+  border-color: #c6d6e1;
+  background-color: #ffffffcf;
+}
+
+#workspace {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+#canvas {
+  box-shadow: 0 8px 30px #183c5517, 0 1px 4px #183c551a;
+  outline: 1px solid #cbd9e3;
+}
+
+body > .drawer {
+  width: 360px;
+  border-color: var(--editor-edge);
+  box-shadow: 0 12px 44px #16394f25, 0 2px 8px #16394f12;
+}
+
+.drawer > .drawer-head {
+  flex-shrink: 0;
+  background: #fbfdff;
+}
+
+.drawer > .drawer-body {
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+
+.drawer-head h2 {
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.drawer-head > button {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 9px;
+  line-height: 1;
+}
+
+.drawer-head > button:hover {
+  background: #e9f1f7;
+}
+
+.eyebrow {
+  font-size: .75rem;
+  letter-spacing: .085em;
+  color: #587286;
+}
+
+.drawer-body > label {
+  font-weight: 550;
+}
+
+.drawer-body textarea {
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.drawer-body p,
+.comment-card p,
+.comment-card > b,
+.comment-meta {
+  overflow-wrap: anywhere;
+}
+
+.comment-card .anchor-link {
+  min-height: 32px;
+  padding: 5px 0;
+  line-height: 1.45;
+  text-decoration: underline;
+  text-decoration-color: #9dc0d3;
+  text-underline-offset: 3px;
+}
+
+.comment-tag {
+  background: #eaf1f6;
+  color: #46657b;
+}
+
+.comment-tag:first-child {
+  background: #f9e5b4;
+  color: #654609;
+  min-width: 25px;
+  text-align: center;
+  font-weight: 650;
+}
+
+.comment-tag.important {
+  background: #fff0d0;
+  color: #80530a;
+}
+
+.reply {
+  border-left-color: #8eb6cd;
+  background: #f0f6fa;
+}
+
+.page-row {
+  row-gap: 10px;
+  padding-block: 14px;
+}
+
+.page-row .page-actions button {
+  min-width: 40px;
+  min-height: 42px;
+}
+
+.page-row label {
+  width: fit-content;
+  min-height: 30px;
+  font-size: .8125rem;
+}
+
+.dialog:not(.welcome) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dialog:not(.welcome) > .drawer-head {
+  flex-shrink: 0;
+  background: #ffffff;
+}
+
+.dialog:not(.welcome) > .drawer-body {
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+
+#commentEditor .dialog {
+  box-shadow: 0 16px 52px #16394f33, 0 2px 8px #16394f18;
+}
+
+#commentEditor.anchored-note .drawer-head {
+  background: #fff0c9;
+}
+
+#commentEditor .eyebrow {
+  line-height: 1.5;
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+#commentEditor #commentText {
+  line-height: 1.65;
+  font-size: .9375rem;
+}
+
+#commentEditor.expanded-note .dialog {
+  width: min(820px, 92vw) !important;
+}
+
+#commentEditor.expanded-note #commentText {
+  font-size: 1rem;
+}
+
+.welcome {
+  gap: 22px;
+}
+
+.welcome-steps {
+  gap: 20px;
+}
+
+.popover button {
+  min-height: 44px;
+  border-radius: 7px;
+}
+
+.empty {
+  color: #526c80;
+  padding-block: 30px;
+}
+
+.work-footer {
+  color: #536d80;
+}
+
+@media (min-width: 700px) and (max-width: 1240px) {
+  .toolbar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 10px;
+    row-gap: 9px;
+    align-items: stretch;
+  }
+
+  .toolbar .modes {
+    grid-column: 1 / span 2;
+    width: auto;
+    justify-content: stretch;
+  }
+
+  .toolbar .modes button {
+    flex: 1;
+    min-width: 0;
+    padding-inline: 9px;
+  }
+
+  .toolbar .page-select {
+    grid-column: 3 / span 2;
+    width: auto;
+    min-width: 0;
+  }
+
+  .toolbar .page-select select {
+    width: 100%;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .toolbar > button {
+    white-space: nowrap;
+    padding-inline: 8px;
+  }
+
+  body > .drawer {
+    right: 18px;
+  }
+}
+
+@media (max-width: 800px) {
+  body > .drawer {
+    width: auto;
+    right: 10px;
+    left: 10px;
+    bottom: 12px;
+    max-height: min(66dvh, calc(100dvh - var(--chrome-height, 220px) - 25px));
+  }
+
+  .drawer-body {
+    gap: 15px;
+  }
+
+  .canvas-options select {
+    min-height: 38px;
+  }
+}
+
+@media (max-width: 699px) {
+  .toolbar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .toolbar .modes,
+  .toolbar .page-select {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .toolbar .modes button {
+    min-width: 0;
+    padding-inline: 9px;
+  }
+
+  .toolbar .page-select select {
+    flex: 1;
+    width: 100%;
+  }
+
+  .toolbar > button {
+    min-width: 0;
+    padding: 8px 4px;
+    line-height: 1.3;
+    overflow-wrap: normal;
+  }
+
+  .canvas-tools {
+    gap: 8px;
+    padding-block: 9px;
+  }
+
+  .canvas-options {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .canvas-options label {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+
+  .canvas-options select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #workspace {
+    padding-top: 14px;
+  }
+
+  .button-row {
+    flex-wrap: wrap;
+  }
+
+  .button-row > button {
+    flex-basis: 100px;
+  }
+
+  #commentEditor .drawer-head {
+    padding: 14px 16px;
+  }
+
+  #commentEditor .drawer-body {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .workbar {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .brand {
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .brand-mark {
+    width: 34px;
+    height: 36px;
+    font-size: 30px;
+    border-radius: 9px;
+  }
+
+  .brand h1 {
+    font-size: 1.2rem;
+  }
+
+  .brand p {
+    font-size: .75rem;
+  }
+
+  .top-actions {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .top-actions button {
+    padding-inline: 8px;
+  }
+
+  .top-actions #undo,
+  .top-actions #redo {
+    min-width: 42px;
+  }
+
+  .toolbar .count {
+    display: none;
+  }
+
+  .toolbar > button {
+    font-size: .8125rem;
+  }
+
+  .drawer-head,
+  .drawer-body {
+    padding-inline: 16px;
+  }
+
+  #commentEditor.anchored-note .dialog {
+    max-height: 76dvh;
+  }
+
+  #commentEditor.expanded-note .dialog {
+    width: 100% !important;
+    max-height: calc(100dvh - 24px) !important;
+  }
+
+  .work-footer {
+    font-size: .75rem;
+    line-height: 1.5;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .drawer:not([hidden]) {
+    animation: editor-panel-in 150ms ease-out;
+  }
+
+  #commentEditor:not([hidden]) > .dialog {
+    animation: editor-note-in 140ms ease-out;
+  }
+
+  @keyframes editor-panel-in {
+    from { opacity: .5; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes editor-note-in {
+    from { opacity: .5; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+#elementPath{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 12px}
+#elementPath button{font-size:.73rem;min-height:30px;padding:4px 7px;text-align:left}
+#elementPath button+button::before{content:'› ';color:#647989}
+#componentDraftState{margin:12px 0 7px}
+#navigatorDialog .dialog{width:min(720px,calc(100vw - 24px))}
+#navigatorBody{padding-top:8px}
+
+@media (forced-colors: active) {
+  .workbar,
+  .canvas-tools,
+  .draft-badge,
+  .modes,
+  .modes button[aria-pressed="true"],
+  .comment-tag,
+  .reply {
+    forced-color-adjust: auto;
+  }
+
+  #canvas,
+  body > .drawer,
+  #commentEditor .dialog {
+    border: 1px solid CanvasText;
+  }
+}

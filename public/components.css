@@ -1,0 +1,66 @@
+/* Smart HMI Editor: invented components remain visibly unimplemented. */
+.shc-component{box-sizing:border-box;min-width:0;border:2px dashed #9470c3;border-radius:13px;background:#faf7ff;color:#29344b;padding:15px;font:15px/1.45 Segoe UI,system-ui,sans-serif}
+.shc-component *{box-sizing:border-box}
+.shc-component [hidden],.shc-editor [hidden]{display:none!important}
+.shc-header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.shc-badge{display:inline-flex!important;visibility:visible!important;opacity:1!important;padding:5px 8px;border-radius:6px;background:#eee4fd;color:#613798;font-size:12px;font-weight:650;line-height:1.4}
+.shc-type{font-size:12px;color:#715e88}
+.shc-body{display:flex;flex-direction:column;gap:10px;min-width:0}
+.shc-component .shc-control,.shc-component .shc-select{font:600 15px/1.4 Segoe UI,system-ui,sans-serif;min-height:46px;width:100%;border:1px solid #b7a7cf;border-radius:9px;padding:11px 14px;box-shadow:none;letter-spacing:normal;white-space:normal;cursor:pointer;touch-action:manipulation}
+.shc-component .shc-control{display:flex;align-items:center;justify-content:center;gap:10px;background:#ffffff;color:#29344b}
+.shc-component .shc-control:hover:not(:disabled){filter:brightness(.97)}
+.shc-component .shc-control:focus-visible,.shc-component .shc-select:focus-visible{outline:3px solid #8756b8;outline-offset:3px}
+.shc-component .shc-control:disabled,.shc-component .shc-select:disabled{cursor:default;opacity:.7}
+.shc-component .shc-icon{font-size:24px;line-height:1.2;display:inline-block;min-width:1.1em;text-align:center}
+.shc-component .shc-iconbutton{min-height:90px;flex-direction:column;gap:7px}
+.shc-component .shc-iconbutton .shc-icon{font-size:31px}
+.shc-component .shc-iconbutton .shc-label{font-size:14px}
+.shc-label{overflow-wrap:anywhere}
+.shc-component .shc-toggle{justify-content:flex-start;flex-wrap:wrap;text-align:left}
+.shc-toggle-track{position:relative;display:inline-block;flex:0 0 48px;width:48px;height:26px;border:1px solid #7a8b9a;border-radius:16px;transition:background-color .15s}
+.shc-toggle-knob{position:absolute;left:3px;top:3px;width:18px;height:18px;background:white;border:1px solid #6d7b86;border-radius:50%;box-shadow:0 1px 2px #21374620;transition:transform .15s}
+.shc-component .shc-toggle[data-state="1"] .shc-toggle-knob{transform:translateX(21px)}
+.shc-toggle>.shc-label{flex:1;min-width:80px}
+.shc-state,.shc-selected,.shc-indicator{display:inline-flex;align-items:center;justify-content:center;border-radius:7px;padding:6px 10px;font-size:14px;font-weight:650;overflow-wrap:anywhere;line-height:1.45}
+.shc-selected{align-self:flex-start;max-width:100%}
+.shc-select-label{display:flex;flex-direction:column;gap:7px;font-size:14px;font-weight:600;min-width:0}
+.shc-component .shc-select{background-color:white;padding-right:28px;color:#29344b;max-width:100%}
+.shc-component .shc-indicator{min-width:90px;padding:12px 16px;font-size:17px}
+.shc-component .shc-control.shc-indicator{justify-content:space-between;gap:10px}
+.shc-component .shc-output{font-size:12px;line-height:1.5;color:#68557f;margin-top:11px;overflow-wrap:anywhere;min-height:18px}
+.shc-purpose{font-size:12px;line-height:1.6;margin-top:10px;color:#624e79}
+.shc-purpose summary{cursor:pointer;font-weight:600;padding:3px 0;min-height:24px}
+.shc-purpose p{margin:6px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.6;color:#5f516f}
+.shc-component[data-ui-test="on"]{border-style:solid}
+.shc-editor{display:flex;flex-direction:column;gap:17px;min-width:0;font:14px/1.5 Segoe UI,system-ui,sans-serif}
+.shc-editor-intro{margin:0;padding:11px 12px;border-left:3px solid #8a58bb;background:#f4edfc;color:#623d8c;border-radius:0 7px 7px 0;font-size:13px;line-height:1.55}
+.shc-fields{display:flex;flex-direction:column;gap:14px;min-width:0}
+.shc-field{display:flex;flex-direction:column;gap:6px;color:#30495d;font-size:14px;font-weight:550;min-width:0}
+.shc-editor .shc-input{font:400 14px/1.5 Segoe UI,system-ui,sans-serif;min-width:0;width:100%;max-width:100%;min-height:42px;padding:9px 10px;border:1px solid #c6d4df;border-radius:8px;background:#fff;color:#233c50;box-sizing:border-box}
+.shc-editor textarea.shc-input{min-height:92px;resize:vertical}
+.shc-editor .shc-input:focus-visible,.shc-editor button:focus-visible,.shc-color-picker:focus-visible{outline:3px solid #8756b8;outline-offset:3px}
+.shc-state-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.shc-state-settings{display:flex;flex-direction:column;gap:10px;min-width:0}
+.shc-state-settings>strong{font-size:13px;color:#6c4b8e}
+.shc-color-row{display:flex;align-items:center;gap:10px;min-height:42px}
+.shc-editor .shc-color-picker{width:48px!important;height:40px;min-height:40px;padding:3px;border:1px solid #c6d4df;border-radius:8px;background:white;cursor:pointer;flex:0 0 48px}
+.shc-color-code{font:12px Consolas,monospace;color:#596e80;overflow-wrap:anywhere}
+.shc-preview{display:flex;flex-direction:column;gap:10px;border-top:1px solid #dce4ec;padding-top:15px}
+.shc-preview-title{font-size:13px;color:#65517e;font-weight:600}
+.shc-preview .shc-component{padding:12px}
+.shc-options-editor{display:flex;flex-direction:column;gap:12px;min-width:0}
+.shc-options-editor select[size]{min-height:115px;padding:6px}
+.shc-options-editor select[size] option{padding:5px 4px;white-space:normal}
+.shc-option-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.shc-editor button{min-height:42px;font:600 13px/1.4 Segoe UI,system-ui,sans-serif;padding:9px 10px;border:1px solid #c6d4df;border-radius:8px;color:#30495d;background:white;cursor:pointer;touch-action:manipulation;white-space:normal}
+.shc-editor button:hover:not(:disabled){background:#f1eafa;border-color:#ab8dca}
+.shc-editor button:disabled{cursor:default;opacity:.5}
+.shc-editor .shc-editor-apply{min-height:46px;background:#7043a1;border-color:#7043a1;color:white;font-size:14px}
+.shc-editor .shc-editor-apply:hover{background:#5f358e;border-color:#5f358e}
+.shc-editor-status{margin:0;color:#65517e;font-size:13px;line-height:1.55;overflow-wrap:anywhere;min-height:20px}
+.shc-bulk{padding-top:7px;font-size:13px}
+.shc-bulk summary{cursor:pointer;min-height:30px;font-weight:600;color:#65517e}
+.shc-bulk p{margin:8px 0;font-size:12px;line-height:1.55;color:#5e7180}
+.shc-bulk .shc-field{margin:10px 0}
+@media(max-width:450px){.shc-header{align-items:flex-start}.shc-badge{max-width:100%}.shc-state-fields{gap:10px}.shc-component .shc-toggle{gap:8px}.shc-state{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){.shc-toggle-track,.shc-toggle-knob{transition:none}}

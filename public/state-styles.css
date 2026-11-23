@@ -1,0 +1,30 @@
+.shs-editor{display:flex;flex-direction:column;gap:16px;min-width:0;font:14px/1.5 Segoe UI,system-ui,sans-serif;color:#30495d}
+.shs-editor [hidden]{display:none!important}
+.shs-intro{font-size:13px;line-height:1.55;margin:0;padding:10px 12px;background:#edf5fa;border-left:3px solid #357d9f;border-radius:0 7px 7px 0;color:#365b71}
+.shs-fields{display:flex;flex-direction:column;gap:13px;min-width:0}
+.shs-field{display:flex;flex-direction:column;gap:6px;min-width:0;font-weight:550;font-size:14px}
+.shs-editor .shs-input{width:100%;max-width:100%;min-width:0;min-height:42px;padding:9px 10px;border:1px solid #c4d3df;border-radius:8px;background:white;color:#233c50;font:400 14px/1.5 Segoe UI,system-ui,sans-serif;box-sizing:border-box}
+.shs-editor select[size]{min-height:110px;padding:6px}
+.shs-editor select[size] option{padding:5px 4px;white-space:normal}
+.shs-color-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.shs-color-row{display:flex;align-items:center;gap:9px;min-height:42px}
+.shs-editor .shs-color{flex:0 0 48px;width:48px!important;height:40px;min-height:40px;padding:3px;border:1px solid #c4d3df;border-radius:8px;background:white;cursor:pointer}
+.shs-color-row output{font:12px Consolas,monospace;color:#5a7083;overflow-wrap:anywhere}
+.shs-check{display:flex;align-items:center;gap:8px;font-size:13px;line-height:1.5;font-weight:400}
+.shs-check input{width:17px;height:17px;flex:0 0 17px;accent-color:#236f94}
+.shs-hint{font-size:12px;line-height:1.55;color:#617586;margin:0;overflow-wrap:anywhere}
+.shs-preview{border-top:1px solid #dce5ec;padding-top:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.shs-preview>strong{font-size:13px;font-weight:600;color:#41647a}
+.shs-preview-holder{padding:12px;border:1px dashed #b4c9d9;border-radius:9px;background:#f4f8fb;min-width:0}
+.shs-editor .shs-preview-element{font:600 15px/1.45 Segoe UI,system-ui,sans-serif;min-height:52px;padding:12px 14px;border:1px solid #b9c9d5;border-radius:8px;width:100%;box-sizing:border-box;white-space:normal;overflow-wrap:anywhere;background:#ffffff;color:#233c50}
+.shs-test-buttons{display:flex;gap:9px;justify-content:center}
+.shs-test-buttons button{flex:1}
+.shs-test-buttons button[aria-pressed="true"]{background:#e4f0f8;border-color:#347c9e;color:#1d5777;box-shadow:inset 0 0 0 1px #347c9e}
+.shs-editor button{font:600 13px/1.4 Segoe UI,system-ui,sans-serif;padding:9px 11px;min-height:42px;border:1px solid #c4d3df;border-radius:8px;color:#30495d;background:white;cursor:pointer;touch-action:manipulation;white-space:normal}
+.shs-editor button:hover:not(:disabled){background:#eaf3f9;border-color:#85afc6}
+.shs-editor button:disabled{opacity:.5;cursor:default}
+.shs-editor .shs-apply{min-height:46px;background:#236f94;color:white;border-color:#236f94;font-size:14px}
+.shs-editor .shs-apply:hover{background:#185c80;border-color:#185c80}
+.shs-editor button:focus-visible,.shs-editor input:focus-visible,.shs-editor select:focus-visible{outline:3px solid #347c9e;outline-offset:3px}
+.shs-feedback{font-size:13px;line-height:1.55;min-height:20px;margin:0;color:#41647a;overflow-wrap:anywhere}
+@media(max-width:450px){.shs-color-grid{gap:9px}.shs-color-row{gap:7px;flex-wrap:wrap}}

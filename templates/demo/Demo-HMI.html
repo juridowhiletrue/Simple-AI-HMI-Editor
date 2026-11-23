@@ -1,0 +1,1675 @@
+
+<!DOCTYPE html><html lang="de"><head><meta name="color-scheme" content="light"><link rel="icon" href="data:,"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Automation Demo</title>
+<style>
+:root{--bg:#eef0f5;--card:#fff;--line:#cdd1df;--text:#252945;--muted:#676b7b;--mint:#1d205b;--amber:#985a12;--red:#b32336;--orange:#ff931f;--blue:#1d205b}*{box-sizing:border-box}
+.side-warnings{display:grid;gap:10px;width:100%;margin-top:28px}.side-warning{background:#fff0e7;border:1px solid #d68d72;border-left:4px solid #ce542f;color:#9f3120;border-radius:5px;padding:12px 10px;line-height:1.35}.side-warning strong{display:flex;gap:8px;align-items:flex-start;font-size:14px;font-weight:700}.side-warning strong>span:last-child{min-width:0;overflow-wrap:anywhere}.side-warning .alarm{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#bd4729;color:#fff;flex:none;font-weight:800}.side-warning p{font-size:12px;color:#9f3120;margin:7px 0 0;padding-left:28px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 "Segoe UI",Arial,sans-serif}header{background:#fff;border-top:5px solid var(--orange);border-bottom:1px solid var(--line);padding:24px 32px}.brand{display:flex;align-items:center;gap:30px}.brand img{width:280px;height:73px;object-fit:contain;flex:none}.brand>div{border-left:1px solid #dddde5;padding-left:28px;min-width:0}.brand strong{font-size:clamp(20px,1.8vw,28px);line-height:1.25;font-weight:650;display:block;color:var(--blue)}.brand small{display:none}.id{margin-left:auto;color:var(--blue);font-weight:700;white-space:nowrap}
+.layout{display:grid;grid-template-columns:190px minmax(0,1fr);min-height:calc(100vh - 128px)}aside{background:#d8dbe7;border-right:1px solid #c6c8d6;padding:22px 12px;display:flex;flex-direction:column;gap:18px}nav{display:flex;flex-direction:column;gap:8px}.nav-heading{font-size:11px;letter-spacing:.1em;color:var(--muted);font-weight:700;padding:14px 9px 0;text-transform:uppercase}.nav-heading:first-child{padding-top:0}nav button{display:flex;align-items:center;gap:12px;text-align:left;line-height:1.3;min-height:64px;padding:10px;background:#f9f9fd;color:var(--blue);font-size:14px;border-color:#8190ac}nav .nav-icon{font-size:26px;line-height:1;width:30px;text-align:center;flex:none}nav button.current{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:inset 4px 0 var(--orange)}nav button:hover:enabled{background:#eeeef7;border-color:var(--blue)}nav button.current:hover:enabled{background:#30346b}.side-foot{margin-top:auto;border:1px solid #c6c8d6;border-radius:5px;background:#f7f7fc;padding:12px;font-size:12px}.side-foot>div+div{border-top:1px solid #d9dbe5;margin-top:12px;padding-top:12px}.side-foot .owner{display:block}.side-foot input{width:100%;min-width:0;font-size:12px}.side-foot button{width:100%;font-size:12px;margin-top:8px;min-height:40px}.side-foot .actions{display:block}.ownerLabel{font-weight:600}#notices{color:var(--amber)}#notices:empty{display:none}
+button,input,select{font:inherit;border:1px solid #8190ac;border-radius:5px;min-height:44px;padding:9px 13px}button{background:#fff;color:var(--blue);cursor:pointer;font-weight:600;touch-action:manipulation}button:hover:enabled{border-color:var(--blue);background:#f2f2fa}button:disabled{opacity:.43;cursor:default}input,select{background:#fff;color:var(--text);max-width:100%}input[type=number]{width:8rem}input[type=checkbox]{min-height:22px;width:22px;vertical-align:middle;accent-color:var(--blue)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--orange);outline-offset:2px}button.active{background:var(--blue);color:#fff;border-color:var(--blue)}button.danger{color:var(--red);border-color:#bf909b;background:#fff8f8}button.danger:hover:enabled{background:#fdecee;border-color:var(--red)}button[data-cmd=start]{background:var(--blue);color:#fff}button[data-cmd=stop]{color:var(--red);border-color:#bf909b}
+main{min-width:0;padding:22px 28px 0;max-width:1600px;width:100%;margin:0 auto;align-self:start}h1{font-size:clamp(25px,3vw,35px);line-height:1.2;font-weight:650;margin:7px 0 20px;color:var(--blue);letter-spacing:-.025em}h2{font-size:18px;margin:0 0 14px;color:var(--blue)}h3{font-size:16px;margin:0 0 9px}.kicker{font-size:11px;letter-spacing:.12em;color:var(--muted);font-weight:650}.muted,small{color:var(--muted)}p{margin:10px 0 14px}.panel{background:var(--card);border:1px solid #98a4bb;border-radius:6px;padding:20px;margin:18px 0}.panel.accent{border-top:2px solid var(--orange)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));gap:18px}.grid>.panel{margin:0}.actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.space{margin-top:14px}.operation{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:15px 19px;margin:0 0 12px;border-top:2px solid var(--orange)}.operation small{display:block}#globalActions{display:flex;gap:8px;flex-wrap:wrap}.system-strip{display:flex;gap:15px;align-items:center;flex-wrap:wrap;margin:0 0 24px;padding:11px 16px;background:#e4e6ef;border-left:3px solid var(--blue);font-size:13px}#modeBadge{font-weight:700;white-space:nowrap}#activity{flex:1;min-width:190px}.good{color:#176b5d}.warn{color:var(--amber)}.bad{color:var(--red)}.pill{display:inline-block;font-size:12px;border-radius:4px;border:1px solid #a5adbd;background:#f0f0f5;padding:3px 9px;white-space:nowrap}.pill.on{background:#eeeef8;color:var(--blue);border-color:#9ca3bf}.standalone{padding:12px 16px;background:#fff4e6;border-left:3px solid var(--orange);border-radius:4px;font-weight:600;margin:0 0 20px}
+.process{display:grid;grid-template-columns:1fr .55fr 1fr 1fr;gap:15px;margin:20px 0}.node{background:#fdfdff;border:1px solid #98a4bb;border-top:3px solid #858484;border-radius:6px;padding:19px;min-height:165px}.node strong{font-size:20px;display:block;margin:9px 0;color:var(--blue)}.node small{font-size:10px;letter-spacing:.07em}.node.current{border-color:var(--orange);background:#fffaf3}.loop{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:13px}.loop svg{width:100%;height:70px}.loop svg path{stroke:var(--orange)}.metrics{font-size:27px;font-weight:650;color:var(--blue);margin:5px 0}.grid .panel>small{font-size:11px;letter-spacing:.04em}.rule{border-top:1px solid #e1e3ea;padding-top:12px;margin-top:15px}.row{display:flex;justify-content:space-between;gap:15px;margin:8px 0}.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}.formgrid label{display:flex;flex-direction:column;gap:7px;font-size:14px}.quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:18px 0}.quick-grid>.panel{margin:0}.loop-state,.short-state{padding:10px 12px;background:#f0f0f7;color:var(--blue);border-radius:4px;margin:12px 0 0;font-size:13px}.short-state.on{background:#fff1de;border:1px solid var(--orange)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:12px 13px;border-bottom:1px solid #e3e4eb;vertical-align:middle}th{background:#e9eaf2;color:var(--muted);font-size:12px}td.signal{font-weight:600}td small{display:block;font-size:12px}.tablewrap{overflow:auto}tr.forced{background:#fff3df}td select{min-width:110px}.forcebox{padding:18px;border:2px solid #c13e4e;background:#fff1f2;border-radius:5px;margin:15px 0}.forcebox strong{color:var(--red)}.progress{height:5px;background:#e3e5ee;border-radius:5px;overflow:hidden;margin:12px 0}.progress div{height:100%;width:0;background:var(--orange)}.logs{max-height:470px;overflow:auto;padding-left:20px}.logs li{padding:9px 0;border-bottom:1px solid #e1e4e9}.logs time{font:12px ui-monospace,monospace;color:var(--muted);display:block}footer{padding:17px 0;border-top:1px solid var(--line);font-size:12px;margin-top:25px}#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);max-width:min(92vw,750px);padding:13px 20px;background:var(--blue);border:1px solid var(--blue);border-radius:6px;color:#fff;z-index:20;box-shadow:0 8px 28px #1d205b25}#toast.bad{background:#a32333;border-color:#a32333}.confirmOverlay{position:fixed;inset:0;background:#171a3b77;display:grid;place-items:center;padding:20px;z-index:30}.confirmCard{background:#fff;border:2px solid var(--orange);border-radius:7px;padding:25px;max-width:580px;width:100%;box-shadow:0 15px 60px #171a3b35}.confirmCard h2{color:var(--amber)}.confirmCard .actions{justify-content:space-between;margin-top:25px}[hidden]{display:none!important}.offline .metrics,.offline .node{opacity:.6}
+@media(max-width:1100px){header{padding:20px}.brand{gap:20px}.brand>div{padding-left:20px}.brand img{width:235px;height:65px}.layout{grid-template-columns:166px minmax(0,1fr)}aside{padding:18px 10px}nav button{font-size:13px;gap:7px}main{padding:20px}.process{grid-template-columns:1fr 1fr 1fr}.process>.loop{display:none}.node{padding:15px}.node strong{font-size:18px}.operation{align-items:flex-start}#globalActions{flex:1;justify-content:flex-end}.quick-grid{grid-template-columns:1fr}}
+@media(max-width:760px){header{padding:18px 20px}.brand{flex-wrap:wrap;gap:15px}.brand img{width:235px;height:60px;max-width:74%}.brand>div{order:3;width:100%;padding:0;border:0}.brand strong{font-size:23px}.id{font-size:13px}.layout{display:block}aside{padding:10px 14px;border-right:0;border-bottom:1px solid #c6c8d6;gap:10px}nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}nav button{min-height:67px;padding:8px 3px;flex-direction:column;gap:4px;font-size:12px;text-align:center}nav .nav-icon{font-size:23px}.nav-heading{display:none}.side-foot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;padding:10px;font-size:11px}.side-foot>div+div{border:0;margin:0;padding:0}.side-foot .owner{grid-row:span 2}.side-foot .actions{display:flex;gap:5px}.side-foot input{width:75px;flex:1;min-height:35px}.side-foot button{width:auto;flex:1;margin:0;min-height:35px;padding:6px}.side-foot #notices{grid-column:2}main{padding:18px 14px 0}.operation{gap:12px;padding:14px}#globalActions{justify-content:flex-start;flex-basis:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}#globalActions button{font-size:14px;padding:10px 7px}.system-strip{gap:5px;margin-bottom:22px}#activity{flex-basis:100%;min-width:0}.process{grid-template-columns:1fr}.node{min-height:115px}.node strong{font-size:20px}.panel{padding:17px}.grid{gap:15px}.grid>.panel{margin:0}.formgrid{grid-template-columns:1fr}.tablewrap table{min-width:570px}th,td{padding:11px 9px}.metrics{font-size:25px}.actions>button{flex-grow:1}.quick-grid{gap:15px}.quick-grid .actions{display:grid;grid-template-columns:1fr;width:100%}.confirmCard{padding:20px}.confirmCard .actions button{min-width:120px}}
+@media(max-width:380px){.brand strong{font-size:21px}.brand img{width:200px}.side-foot{grid-template-columns:1fr}.side-foot .owner{grid-row:auto}.side-foot #notices{grid-column:1}nav button{font-size:11px}.side-foot .actions input{width:90px}}
+
+
+.band-indicator{width:112px;max-width:100%;height:112px;aspect-ratio:1;min-height:0;display:grid;place-items:center;text-align:center;padding:8px;margin:12px 0;color:#fff;border:3px solid #4b5361;border-radius:5px;background:#657080;font-size:18px;font-weight:800;line-height:1.15}.band-indicator.is-hole{background:#16733c;border-color:#10552c}.band-indicator.is-no-hole{background:#c52632;border-color:#951b25}.band-indicator.is-invalid,.band-indicator.is-offline{background:#657080;border-color:#4b5361}#bandSource,#bandValidity{display:block;font-size:13px;line-height:1.4}#bandValidity{margin-top:5px}.skipButton{margin-left:auto}.skipButton.skip-active{background:#ffd596;border-color:#d77c13;color:#683600;box-shadow:inset 0 0 0 1px #d77c13}.skip-state{font-size:13px;margin-top:10px;padding:10px 12px;border-radius:4px;background:#f0f0f7;color:var(--blue)}.skip-state.on{background:#fff0d9;color:#854700;border:1px solid #e0a24d}#skipDialog .confirmCard{border-color:var(--orange)}#skipYes{background:#ffd596;border-color:#d77c13;color:#683600}.bmk-note{font-size:12px}
+@media(max-width:760px){.skipButton{margin-left:0;width:100%}.band-indicator{width:112px;height:112px}}
+
+
+.side-tools{margin-top:auto;display:grid;gap:14px;min-width:0}
+.side-tools .side-foot{margin:0;padding:14px 12px;border-radius:10px;background:#f8f9fd;border-color:#bdc3d6;box-shadow:0 3px 10px #1d205b08}
+.side-tools .side-foot>.owner{border:0;margin:0;padding:0}
+.side-tools .owner-caption{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.side-tools #ownerLabel{font-size:13px;font-weight:650;line-height:1.5;overflow-wrap:anywhere}
+.side-tools .side-foot .actions{display:grid;gap:8px;margin-top:10px}
+.side-tools .side-foot button,.side-tools .side-foot input{width:100%;min-width:0;margin:0;font-size:12px;line-height:1.4;padding:9px 7px;min-height:42px}
+.side-tools #claim[data-owned="true"]{background:#e6f1ec;border-color:#89ab99;color:#23634d;opacity:1}
+.side-tools #connection{font-size:11px;line-height:1.5}
+.safety-help{display:flex;flex-direction:column;align-items:center;padding:16px 10px 14px;gap:7px;background:#f8f9fd;border:1px solid #bdc3d6;border-radius:10px;box-shadow:0 3px 10px #1d205b08}
+.safety-help-button{display:flex;flex-direction:column;align-items:center;gap:9px;border:0;background:transparent;padding:0 7px;min-height:44px;width:100%;font-size:14px;color:var(--blue)}
+.safety-help-button:hover:enabled{background:transparent}
+.safety-symbol{display:grid;place-items:center;width:80px;height:80px;border:4px solid #fff;border-radius:50%;background:#7d879f;box-shadow:0 0 0 1px #8895ac,0 4px 9px #1d205b17;position:relative;transition:background .15s,box-shadow .15s}
+.safety-help-button:hover .safety-symbol{background:#68758f;box-shadow:0 0 0 2px var(--blue),0 5px 12px #1d205b26}
+.safety-triangle{position:absolute;left:50%;top:calc(50% + 5px);transform:translate(-50%,-50%);width:54px;height:48px;isolation:isolate}
+.safety-exclamation{position:absolute;left:50%;top:3px;transform:translateX(-50%);color:#ffd74d;font-size:29px;font-weight:750;line-height:1}
+.safety-triangle:before,.safety-triangle:after{content:"";position:absolute;clip-path:polygon(0 0,100% 0,50% 100%);z-index:-1}
+.safety-triangle:before{inset:0;background:#fff}
+.safety-triangle:after{inset:4px 5px 7px;background:#7d879f}
+.safety-help-button:hover .safety-triangle:after{background:#68758f}
+.safety-info-dialog{top:min(15vh,140px);bottom:auto;margin:0 auto;max-width:min(550px,calc(100vw - 32px));max-height:calc(100vh - 40px);overflow:auto;border:1px solid #98a4bb;border-top:4px solid var(--blue);border-radius:12px;padding:28px;color:var(--text);background:#fff;box-shadow:0 20px 70px #171a3b33}
+.safety-info-dialog::backdrop{background:#171a3b77}
+.safety-info-dialog h2{font-size:23px;line-height:1.3;margin:9px 0 18px}
+.safety-info-dialog p{font-size:15px;line-height:1.6}
+.safety-info-dialog .safety-destination{border-left:3px solid var(--orange);background:#fff6e9;padding:14px 16px;margin:18px 0}
+.safety-info-dialog .safety-destination strong{display:block;color:var(--blue);margin-bottom:6px}
+.safety-info-dialog form{margin:22px 0 0;display:flex;justify-content:flex-end}
+.safety-info-dialog form button{background:var(--blue);border-color:var(--blue);color:#fff;min-width:145px}
+.safety-info-dialog form button:hover:enabled{background:#343975;color:#fff}
+@media(max-width:760px){
+ .side-tools{margin:2px 0 0;grid-template-columns:minmax(0,1fr) 125px;align-items:stretch;gap:10px}
+ .side-tools .side-foot{display:flex;flex-direction:column;gap:0;padding:13px}
+ .side-tools .side-foot>div+div{border-top:1px solid #d9dbe5;margin-top:10px;padding-top:10px}
+ .side-tools .side-foot .owner{grid-row:auto}
+ .side-tools .side-foot .actions{display:grid}
+ .safety-help{padding:13px 7px;justify-content:center}
+ .safety-symbol{width:64px;height:64px;border-width:3px}
+ .safety-triangle{width:44px;height:39px;top:calc(50% + 4px)}
+ .safety-exclamation{top:2px;font-size:24px}
+ .safety-help-button{font-size:13px;gap:7px;padding:0}
+ .safety-info-dialog{padding:22px}
+}
+
+
+.euromap-directions{display:grid;gap:20px;margin:20px 0}
+.euromap-directions>.euromap-direction{margin:0;padding:0;overflow:hidden;border-top:3px solid var(--blue)}
+.euromap-direction>h2{padding:18px 20px;margin:0;background:#f8f9fc;font-size:20px;line-height:1.35;border-bottom:1px solid var(--line)}
+.euromap-direction table{table-layout:fixed}
+.euromap-direction th:first-child{width:37%}
+.euromap-direction th:not(:first-child){width:21%}
+.euromap-direction th,.euromap-direction td{padding:13px 14px}
+.euromap-direction td select{min-width:0;width:100%;padding:9px 8px}
+.euromap-direction .signal-on>.pill.on{background:#30784f;border-color:#286541;color:#fff;font-weight:650}
+.euromap-legacy td{background:#f8f9fc;border-top:1px solid var(--line)}
+.euromap-legacy-hint{font-size:13px;line-height:1.5;color:var(--muted)}
+.euromap-local-heading td{background:#e9eaf2;color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.04em;padding:10px 14px}
+@media(max-width:760px){.euromap-direction>h2{padding:15px 17px;font-size:18px}.euromap-directions{gap:16px}.euromap-direction table{min-width:570px}}
+
+
+select.override-active{background:#fff0d5;border:2px solid #b76b12;color:#7b4105;font-weight:700;box-shadow:0 0 0 2px #f8cc8240}
+select.override-active:disabled{opacity:1}
+.override-state{display:block;width:fit-content;max-width:100%;margin-top:6px;padding:3px 6px;border:1px solid #d89a42;border-radius:4px;background:#ffe3b5;color:#794005;font-size:11px;font-weight:750;line-height:1.35}
+tr.forced>td:first-child{box-shadow:inset 4px 0 #c67815}
+.override-summary{margin-top:15px;padding:12px 15px;border:1px solid #d99a43;border-left:4px solid #c67815;border-radius:5px;background:#fff0d5;color:#794005;font-size:14px;font-weight:700;line-height:1.5}
+
+.io-input-table th:first-child{width:40%}
+.io-input-table th:nth-child(2){width:17%}
+.io-input-table th:nth-child(3){width:17%}
+.io-input-table th:nth-child(4){width:26%}
+.io-reserve>h2{background:#eef0f5;color:#626779;font-size:18px}
+.io-reserve td:first-child{font-weight:500}
+
+.io-reserve>summary{padding:16px 20px;background:#eef0f5;color:#626779;cursor:pointer;display:flex;align-items:center;gap:12px;list-style:none}
+.io-reserve>summary::-webkit-details-marker{display:none}
+.io-reserve>summary:before{content:"+";font-size:22px;font-weight:500;line-height:1;width:18px}
+.io-reserve[open]>summary:before{content:"−"}
+.io-reserve>summary:focus-visible{outline:3px solid var(--orange);outline-offset:-3px}
+.io-reserve>summary h2{margin:0;font-size:18px;color:inherit}
+.io-reserve-count{margin-left:auto;font-size:12px;font-weight:500;white-space:nowrap}
+
+.io-programming-note{margin:0;padding:7px 20px;border-bottom:1px solid #d8cce5;background:#f7f3fb;color:#74568e;font-size:12px}
+.io-simulation-binding{border-color:#b6a1cc}
+.io-input-use{font-size:11px;color:var(--muted);margin-top:4px}
+
+
+#modeControls{display:grid;grid-template-columns:minmax(0,1fr) 164px;align-items:start;gap:26px;padding:13px 16px}
+.mode-main{min-width:0;display:flex;flex-direction:column;gap:7px}
+#modeControls #globalActions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:100%;justify-content:initial}
+#modeControls #globalActions button{width:100%;min-height:54px;padding:9px 6px;font-size:13px;line-height:1.35;white-space:normal}
+.mode-caption{display:flex;align-items:center;gap:9px;min-width:0;color:var(--muted);font-size:12px;line-height:1.5}
+.mode-caption strong{font-size:12px;font-weight:650;color:var(--blue)}
+#modeControls .mode-caption small{font-size:12px;display:inline}
+.fault-ack-widget{border-left:1px solid var(--line);padding-left:22px;display:flex;flex-direction:column;align-items:stretch;gap:7px;min-width:0}
+#globalFaultAck{width:100%;min-height:54px;padding:9px 7px;font-size:13px;line-height:1.35}
+#globalFaultAck:disabled{opacity:1;background:#eceef3;border-color:#b4bdce;color:#9197a7;cursor:default}
+.fault-ack-status{font-size:12px;line-height:1.5;text-align:center;font-weight:500;color:#4b856c}
+.fault-ack-status.unknown{color:var(--muted)}
+.fault-ack-status.attention{color:#986019}
+.fault-ack-widget.attention #globalFaultAck{color:#764407;border-color:#bf7d21;background:#ffd38b;animation:fault-ack-prompt 1.4s ease-in-out infinite}
+@keyframes fault-ack-prompt{0%,100%{background:#fff0d4;box-shadow:0 0 0 0 #e0a33d00}50%{background:#ffc36a;box-shadow:0 0 0 3px #e0a33d30}}
+.brand strong{font-size:clamp(24px,2.1vw,32px)}
+.brand .product-id{display:flex;flex-direction:column;align-items:flex-end;gap:2px;line-height:1.2;flex:none}
+.brand .product-id small{display:block;font-size:12px;font-weight:500;color:var(--muted)}
+.brand .product-id strong{font-size:25px;line-height:1.2;letter-spacing:-.02em}
+@media(max-width:760px){
+ #modeControls{grid-template-columns:minmax(0,1fr);gap:13px;padding:14px}
+ #modeControls #globalActions{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #modeControls #globalActions button{min-height:52px;font-size:14px}
+ .fault-ack-widget{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:12px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:center}
+ .brand img{width:220px}
+ .brand strong{font-size:23px}
+ .brand .product-id strong{font-size:22px}
+ .brand .product-id small{font-size:11px}
+}
+@media(max-width:380px){.brand img{width:200px}}
+@media(prefers-reduced-motion:reduce){.fault-ack-widget.attention #globalFaultAck{animation:none;background:#ffd38b}}
+
+
+.page-heading{display:flex;align-items:end;justify-content:space-between;gap:18px;margin:4px 0 18px}.page-heading h1{margin-bottom:0}.page-context{font-size:12px;color:var(--muted);text-align:right}.section-caption{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--muted)}.section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 14px}.section-title h2{margin:0}.quiet-tag{font-size:11px;color:var(--muted);line-height:1.4;text-align:right}.compact-note{font-size:12px;line-height:1.5;color:var(--muted);margin:12px 0 0}.auto-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}.setup-shortcut{display:flex;align-items:center;gap:11px;padding:11px 15px;background:var(--blue);color:#fff;border-color:var(--blue);min-height:48px}.setup-shortcut>span:first-child{font-size:28px;line-height:1}.setup-shortcut>span:last-child{margin-left:12px;font-weight:400}.setup-shortcut:hover:enabled{background:#343975;color:#fff}.tip-tools{display:flex;gap:8px;align-items:center}.tip-tools #tip{font-size:12px;min-height:38px;padding:7px 11px;color:var(--muted);background:transparent}.tip-tools #tip.active{color:var(--blue);background:#e6e7f1;border-color:#929bb5}.tip-tools #next{font-size:12px;min-height:38px;padding:7px 11px}.tip-hint{font-size:12px;margin:0 0 14px;text-align:right}.process{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0 16px}.node{min-height:135px;padding:16px 14px;border-top-width:3px}.node strong{font-size:18px;line-height:1.25;margin:10px 0 9px}.node>span{font-size:12px;line-height:1.5;display:block}.node.current{background:#f7f5ed;border-top-color:var(--orange)}.node small{font-size:9px;letter-spacing:.04em}.band-check{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;margin:16px 0 20px;padding:17px 20px}.band-check-count{padding-left:22px;border-left:1px solid var(--line)}.band-check-count .metrics{font-size:28px;margin:9px 0 3px;line-height:1.25}.band-check-count #holeText{font-size:12px;display:block}:is(.band-check,.plant-overview) .band-indicator{display:inline-flex;align-items:center;justify-content:flex-start;gap:8px;min-height:36px;width:auto;max-width:100%;height:auto;aspect-ratio:auto;padding:5px 10px;margin:8px 0 5px;border:1px solid #8ca794;border-radius:5px;background:#eaf3ed;color:#286140;font-size:15px;font-weight:700;line-height:1.4}:is(.band-check,.plant-overview) .band-indicator:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}:is(.band-check,.plant-overview) .is-no-hole{background:#faeeee;border-color:#c4949e;color:#a02b3c}:is(.band-check,.plant-overview) .is-invalid,:is(.band-check,.plant-overview) .is-offline{background:#eceef3;border-color:#a4adbd;color:#657080}.sensor-meta #bandSource,.sensor-meta #bandValidity{display:inline;font-size:10px;line-height:1.4;margin:0}.sensor-meta #bandValidity:before{content:" · "}.action-card{padding:19px 20px}.two-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.two-actions button{font-size:13px;min-height:43px;padding:9px 8px}.eject-card .two-actions button{font-size:14px}.eject-card .short-state{margin-top:11px;padding:9px 12px;font-size:12px}.production-corrections{grid-template-columns:1.35fr 1fr;gap:15px;margin:16px 0}.production-corrections h2{font-size:16px}.production-corrections .loop-state,.production-corrections .skip-state{font-size:12px;line-height:1.5;margin-top:12px;padding:10px 12px}.production-corrections .skipButton{width:100%;margin:0;min-height:43px;font-size:13px;padding:9px 10px}.quiet-action{border:0;background:transparent;color:var(--muted);font-size:11px;min-height:30px;padding:5px 0;margin-top:5px}.quiet-action:hover:enabled{background:transparent;text-decoration:underline}.setup-global-banner{display:flex;align-items:center;justify-content:space-between;gap:15px;background:#fff1df;border:1px solid #dcb47c;border-left:3px solid var(--orange);border-radius:5px;padding:12px 15px;margin:0 0 20px}.setup-global-banner strong{display:block;font-size:13px;color:#80521a}.setup-global-banner span{display:block;font-size:11px;color:#825d2e;margin-top:2px}.setup-global-banner button{font-size:12px;min-height:36px;padding:7px 10px;background:#fffbf6}.setup-global-banner button span{display:inline;font-size:inherit}.setup-session{margin:0 0 18px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;padding:19px 20px;border-top:3px solid var(--blue)}.setup-state-label{font-weight:750;font-size:16px;color:var(--blue)}.setup-session-copy p{font-size:12px;line-height:1.5;color:var(--muted);margin:6px 0 0}.setup-session.is-active{border-top-color:#b87722;background:#fffdf9}.setup-session.is-waiting{border-top-color:var(--orange)}.setup-session-actions{display:flex;align-items:center;gap:8px}.setup-session-actions button{font-size:12px;padding:10px 12px;max-width:190px}.primary-action{background:var(--blue);color:#fff;border-color:var(--blue)}.primary-action:hover:enabled{background:#343975;color:#fff}.setup-progress{grid-column:1/-1;border-top:1px solid var(--line);padding-top:12px;font-size:12px;display:flex;align-items:center;gap:15px}.setup-progress progress{width:160px;height:7px;accent-color:var(--orange);margin-left:auto}.setup-workbench>.panel{margin:16px 0}.fixture-list{display:grid;gap:0}.fixture-row{display:grid;grid-template-columns:minmax(115px,1.2fr) 90px minmax(95px,1fr) 90px;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #e8e9ef}.fixture-row:last-child{border:0;padding-bottom:0}.fixture-label small{display:block;font-size:10px;color:var(--muted)}.fixture-label strong{font-size:14px;font-weight:650}.fixture-row>button{font-size:12px;min-height:39px;padding:7px}.fixture-status{font-size:11px;text-align:center;color:var(--muted);line-height:1.4}.fixture-status.is-changing{color:#9c661e}.fixture-status.is-closed{color:#286140}#setupCycleHoles{grid-column:2;justify-self:center;color:var(--ink,#191c46);font-size:12px;font-weight:650;font-variant-numeric:tabular-nums;line-height:1.25;white-space:nowrap}
+.three-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.three-actions>button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:51px;font-size:12px;padding:9px 8px}.three-actions .action-icon{font-size:19px;font-weight:500}.manual-list{display:grid;gap:12px;margin:18px 0}.manual-list .panel{margin:0;padding:16px 18px;display:grid;grid-template-columns:minmax(120px,1fr) minmax(130px,1fr) minmax(170px,1.2fr);align-items:center;column-gap:15px}.manual-list .manual-title h2{margin:0;font-size:16px}.manual-list .manual-title small{font-size:10px}.manual-list .metrics{font-size:13px;margin:0}.manual-list .manual-state .muted{font-size:10px;margin-top:3px}.manual-list .progress{margin:6px 0 0;height:3px}.manual-list .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.manual-list .actions button{font-size:12px;min-height:40px;padding:8px}.hand-intro{margin:0}.nav-setup{margin-left:9px;min-height:52px;font-size:12px;border-left:3px solid #a6adc5}.nav-setup .nav-icon{font-size:22px}.proof-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px}.proof-grid .row{font-size:12px;border-bottom:1px solid #eee;padding-bottom:7px}.offline #setupState,.offline .fixture-status{color:#657080}
+@media(min-width:761px){aside{position:sticky;top:0;align-self:start;min-height:calc(100vh - 126px)}nav{gap:7px}.side-warnings{margin-top:8px}.side-tools{margin-top:18px}}
+@media(max-width:1100px){.production-corrections{grid-template-columns:1.2fr 1fr}.fixture-row{grid-template-columns:minmax(100px,1fr) 78px minmax(90px,1fr) 78px;gap:8px}.manual-list .panel{grid-template-columns:1fr 1fr}.manual-list .actions{grid-column:1/-1;margin-top:11px}.manual-list .actions button{min-height:38px}}
+@media(max-width:760px){.page-heading{margin-top:0;align-items:start}.page-context{font-size:10px;max-width:115px}.auto-tools{align-items:start;gap:10px}.setup-shortcut{font-size:13px;padding:9px 12px;min-height:44px}.setup-shortcut>span:last-child{margin-left:0}.tip-tools{flex-direction:column;align-items:stretch;gap:5px}.tip-tools #tip,.tip-tools #next{font-size:10px;min-height:33px;padding:6px 8px}.tip-hint{text-align:left;font-size:11px}.process{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.node{padding:11px 9px;min-height:130px}.node small{font-size:8px;line-height:1.35;display:block;letter-spacing:0}.node strong{font-size:13px;line-height:1.3;margin:8px 0}.node>span{font-size:10px;line-height:1.4}.band-check{grid-template-columns:1.12fr 1fr;gap:10px;padding:14px;margin:13px 0}.band-check-count{padding-left:12px}.band-check .section-caption{font-size:9px;letter-spacing:.03em}:is(.band-check,.plant-overview) .band-indicator{font-size:12px;padding:5px 7px;min-height:32px;gap:6px}:is(.band-check,.plant-overview) .band-indicator:before{width:6px;height:6px}.sensor-meta #bandSource,.sensor-meta #bandValidity{font-size:9px}.band-check-count .metrics{font-size:23px}.band-check-count #holeText{font-size:10px}.section-title{gap:8px}.section-title h2{font-size:16px}.quiet-tag{font-size:9px}.action-card{padding:15px}.production-corrections{grid-template-columns:1fr;gap:12px}.production-corrections .two-actions{display:grid;grid-template-columns:1fr 1fr}.production-corrections .quiet-action{width:auto;min-height:32px}.setup-global-banner{padding:10px 12px;gap:8px}.setup-global-banner strong{font-size:12px}.setup-global-banner button{font-size:10px;min-width:100px}.setup-session{grid-template-columns:1fr;padding:16px;gap:13px}.setup-session-actions button{max-width:none;width:100%;min-height:43px}.setup-session-actions{display:block}.setup-progress{align-items:start;flex-direction:column;gap:8px}.setup-progress progress{width:100%;margin:0}.fixture-row{grid-template-columns:minmax(0,1fr) 70px 76px;gap:7px;padding:12px 0}.fixture-label{grid-column:1/-1;display:flex;gap:7px;align-items:baseline}.fixture-label small{font-size:10px}.fixture-label strong{font-size:13px}.fixture-row>button{min-height:40px;font-size:11px}.fixture-status{font-size:10px}.fixture-row>button:first-of-type{grid-column:1}.three-actions{gap:7px}.three-actions>button{flex-direction:column;gap:4px;min-height:64px;font-size:10px;padding:8px 4px}.three-actions .action-icon{font-size:20px}.manual-list .panel{padding:14px 16px;gap:8px}.manual-list .manual-title h2{font-size:14px}.manual-list .metrics{font-size:12px}.manual-list .actions{margin-top:7px}.manual-list .actions button{font-size:12px;min-height:42px}.nav-setup{margin-left:0;min-height:67px;border-left:1px solid #8190ac}.nav-setup .nav-icon{font-size:23px}.proof-grid{grid-template-columns:1fr}.compact-note{font-size:11px}}
+@media(prefers-reduced-motion:reduce){progress{transition:none}}
+
+
+
+
+:root{--line:#b4bdd1;--muted:#566078;--text:#222843;--hmi-view-top:0px;--hmi-view-height:100dvh;--hmi-pinned-header:0px}
+body{font-weight:450}h1{font-weight:700}h2,h3{font-weight:700}button{font-weight:650;border-color:#8190ac}.kicker,.section-caption{font-weight:750;color:#535e79}.panel{border-color:#98a4bb;box-shadow:0 2px 7px #1d205b06}aside{background:#c3c9dc;border-color:#929fb8}nav button{border-color:#8190ac;background:#f8f9fe;font-weight:650}.nav-heading{color:#4d5874;font-weight:750}.side-tools .side-foot,.safety-help{border-color:#8997b0}.node{border-color:#98a4bb}.node.current{border-color:var(--orange)}th{color:#4f5a74;background:#e5e8f1;font-weight:700}.compact-note{font-weight:450}.fixture-status{font-weight:500}.config-subheading{font-size:15px;margin:20px 0 9px}.config-subform{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}.config-subform h2{font-size:16px}.confirmOverlay{z-index:200}#toast{z-index:220}.profile-card{border-top:3px solid var(--blue);background:#fafbff}.profile-card h2{font-size:21px}.profile-card>label{display:block;font-size:12px;font-weight:650;margin-bottom:7px}.profile-card #profile{width:360px;max-width:100%;min-height:48px;font-weight:650}.profile-status{font-size:11px;font-weight:700;color:#254f42;background:#e7eee9;border:1px solid #88a393;border-radius:5px;padding:5px 9px;white-space:nowrap}.profile-status.is-standalone{color:#855319;background:#fff1df;border-color:#c18e4f}
+@media(min-width:761px){aside{position:sticky;top:calc(var(--hmi-view-top) + var(--hmi-pinned-header));height:calc(var(--hmi-view-height) - var(--hmi-pinned-header));min-height:0;max-height:calc(var(--hmi-view-height) - var(--hmi-pinned-header));align-self:start;overflow-y:auto;scrollbar-width:thin;overscroll-behavior:contain}}
+@media(min-width:820px) and (min-height:1000px) and (orientation:portrait){body>header{position:sticky;top:var(--hmi-view-top);z-index:50;background:#fff;box-shadow:0 3px 10px #1d205b0b}main{min-height:calc(100dvh - var(--hmi-pinned-header))}#operatingDock{position:sticky;top:calc(var(--hmi-view-top) + var(--hmi-pinned-header));z-index:40;background:var(--bg);padding-bottom:12px;margin:0 0 18px;box-shadow:0 8px 12px #1d205b0c}#operatingDock #modeControls{margin:0 0 10px}#operatingDock .system-strip{margin:0}#operatingDock>.standalone,#operatingDock>.setup-global-banner{margin:10px 0 0}}
+
+
+.diagnosis-top-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:0 0 16px}.diagnosis-top-grid>.panel{margin:0}.diagnosis-now{border-top:3px solid var(--blue)}.diagnosis-wait{border-top:3px solid #bc8130}.diagnosis-headline{font-size:16px;font-weight:650;line-height:1.5;color:var(--blue)}.diagnosis-pairs{margin:14px 0 0;display:grid;grid-template-columns:1fr 1.3fr;column-gap:15px;row-gap:8px;font-size:12px}.diagnosis-pairs dt{color:var(--muted);margin:0}.diagnosis-pairs dd{font-weight:550;margin:0;overflow-wrap:anywhere}.diagnosis-reasons{margin:11px 0 0;padding-left:17px;font-size:12px;line-height:1.6;color:#65512f}.diagnosis-reasons li+li{margin-top:6px}.diagnosis-readiness{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;row-gap:0}.diagnosis-readiness .diag-row{display:flex;justify-content:space-between;align-items:center;gap:14px;border-top:1px solid #e3e6ef;padding:10px 0;font-size:12px}.diag-value{font-weight:650;text-align:right}.diag-value.is-good{color:#2f6e4b}.diag-value.is-warn{color:#98601f}.diag-value.is-bad{color:#ae2e40}.diag-value.is-neutral{color:var(--muted)}.diagnosis-details{padding:0;overflow:hidden;margin:15px 0}.diagnosis-details>summary{display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none;padding:17px 20px;font-size:16px;font-weight:700;background:#f8f9fd;color:var(--blue)}.diagnosis-details>summary::-webkit-details-marker{display:none}.diagnosis-details>summary:before{content:"+";font-size:22px;line-height:1;width:17px;font-weight:400;flex:none}.diagnosis-details[open]>summary:before{content:"−"}.diagnosis-details>summary:focus-visible{outline:3px solid var(--orange);outline-offset:-3px}.diagnosis-summary-note{font-size:11px;line-height:1.45;font-weight:500;color:var(--muted);margin-left:auto;text-align:right}.diagnosis-detail-body{padding:18px 20px;border-top:1px solid var(--line)}.diagnosis-detail-body>h3{margin:19px 0 10px}.diagnosis-detail-body>h3:first-child{margin-top:0}.diagnosis-details table{font-size:12px}.diagnosis-details th{font-size:11px;padding:10px}.diagnosis-details td{padding:10px;overflow-wrap:anywhere}.diagnosis-details td small{font-size:10px}.diagnosis-signals .pill{font-size:11px;padding:3px 7px}.diagnosis-signals .pill.on{background:#30784f;border-color:#286541;color:#fff}.diagnosis-signals .diag-unknown{font-size:11px;color:var(--muted)}.diagnosis-fault.is-unacknowledged{border-color:#c77882}.diagnosis-fault.is-unacknowledged>summary{background:#fff0f1;color:#9d3140}.log-tools{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:12px}.log-tools label{font-size:11px;color:var(--muted);display:flex;flex-direction:column;gap:6px}.log-tools select{min-height:38px;padding:7px 10px;font-size:12px}.log-tools>button,.log-footer>button{min-height:38px;font-size:12px;padding:7px 11px}.log-footer{display:flex;align-items:center;justify-content:space-between;gap:12px}.log-footer .compact-note{margin:0}.diagnosis-log .logs{max-height:420px;font-size:12px;margin-top:12px}.diagnosis-log .logs time{font-size:10px}.diagnosis-log .logs:empty{display:none}
+@media(max-width:1000px){.diagnosis-top-grid{grid-template-columns:1fr}.diagnosis-readiness{column-gap:18px}}
+@media(max-width:760px){.diagnosis-top-grid{gap:12px}.diagnosis-top-grid .panel{padding:16px}.diagnosis-headline{font-size:14px}.diagnosis-readiness{grid-template-columns:1fr}.diagnosis-pairs{font-size:11px;grid-template-columns:.85fr 1.2fr;gap:7px 12px}.diagnosis-details>summary{padding:15px;font-size:14px;gap:8px}.diagnosis-summary-note{font-size:9px;max-width:100px}.diagnosis-detail-body{padding:15px}.diagnosis-details table{min-width:500px}.diagnosis-reasons{font-size:11px}.log-tools{gap:8px}.log-tools select{font-size:11px;min-width:0;max-width:100%}.log-tools>button,.log-footer>button{font-size:11px;flex:none}.log-footer{align-items:start}.log-footer .compact-note{font-size:10px;max-width:150px}}
+
+
+@media(min-width:761px){aside>nav,aside>.side-warnings{flex-shrink:0}aside>.side-tools{margin-top:auto;flex:0 0 auto;width:100%}}
+
+
+.profile-standalone-warning{margin:14px 0 10px;padding:10px 12px;border:1px solid #d68d72;border-left:4px solid #ce542f;border-radius:5px;background:#fff0e7;color:#9f3120;font-size:14px;font-weight:650;line-height:1.4}
+
+
+.process.plant-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:1fr;gap:12px;margin:12px 0 20px}
+.process.plant-overview>.overview-cell{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 56px minmax(min-content,1fr);row-gap:5px;align-items:center;min-width:0;min-height:142px;margin:0;padding:15px 16px;border:1px solid #98a4bb;border-radius:7px;background:#fff}
+.process.plant-overview>.node.current{border-color:var(--orange);box-shadow:inset 3px 0 var(--orange)}
+.plant-overview .overview-cell>small,.plant-overview .overview-cell>.section-caption{display:flex;align-items:center;gap:7px;min-height:18px;margin:0;color:#505d77;font-size:10.5px;font-weight:700;letter-spacing:.055em;line-height:1.35}
+.plant-overview .station-index{display:inline-grid;place-items:center;flex:0 0 auto;min-width:22px;min-height:19px;border-radius:4px;background:#edf0f6;color:#535f78;font-size:10px;font-variant-numeric:tabular-nums;letter-spacing:0}
+.plant-overview .node.current .station-index{background:#ffebd3;color:#744313}
+.plant-overview .node strong{margin:0;color:var(--blue);font-size:19px;font-weight:700;line-height:1.2}
+.plant-overview .band-check-count .metrics{margin:0;font-size:28px;font-variant-numeric:tabular-nums;line-height:1.15}
+.plant-overview .overview-cell>span[id^="overview"],.plant-overview #holeText,.plant-overview .setup-scope{align-self:end;margin:0;color:#4b5771;font-size:13px;line-height:1.4}
+.plant-overview .sensor-meta{align-self:end;margin:0;font-size:11px;line-height:1.45}
+.plant-overview .sensor-meta :is(#bandSource,#bandValidity){font-size:11px;color:#4b5771}
+.plant-overview .setup-shortcut{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin:0;padding:6px 10px;border:1px solid #7b8aa6;border-radius:7px;background:#eef1f9;color:var(--blue);font-size:16px;font-weight:650;line-height:1.25;text-align:left;white-space:normal}
+.plant-overview .setup-shortcut>[hidden]{display:none}
+.plant-overview .setup-shortcut>span:last-child{display:block;flex:none;width:8px;height:8px;margin:0 2px 0 0;border:solid currentColor;border-width:2px 2px 0 0;transform:rotate(45deg)}
+.plant-overview .setup-shortcut:hover:enabled{background:#e0e6f4;border-color:#65789d;color:var(--blue)}
+.plant-overview .setup-shortcut:active:enabled{background:#d3dcef}
+.plant-overview .setup-shortcut:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.auto-tools .tip-tools{margin-left:auto}
+.side-tools .side-foot{padding:10px 9px}
+.side-tools .owner-caption{font-size:9px;margin-bottom:5px}
+.side-tools #ownerLabel{font-size:12px;line-height:1.4}
+.side-tools .side-foot .actions{margin-top:7px;gap:6px}
+.side-tools .side-foot button,.side-tools .side-foot input{font-size:11px;line-height:1.3;min-height:36px;padding:6px 5px}
+.side-tools #connection{font-size:10px;line-height:1.4}
+@media(max-width:760px){
+ .process.plant-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .process.plant-overview>.overview-cell{min-height:142px;padding:12px 10px;row-gap:4px}
+ .plant-overview .overview-cell>small,.plant-overview .overview-cell>.section-caption{font-size:9px;gap:5px;letter-spacing:.025em}
+ .plant-overview .station-index{min-width:17px;min-height:16px;font-size:9px}
+ .plant-overview .node strong{font-size:16px}
+ .plant-overview .overview-cell>span[id^="overview"],.plant-overview #holeText,.plant-overview .setup-scope{font-size:12px}
+ .plant-overview .setup-shortcut{font-size:14px;gap:7px;padding:4px 6px}
+ .plant-overview .sensor-meta :is(#bandSource,#bandValidity){font-size:11px}
+ .side-tools .side-foot{padding:10px 9px}
+ .side-tools .side-foot>div+div{margin-top:7px;padding-top:7px}
+}
+
+
+#global.status-summary{width:100%;min-height:0;border:0;border-left:3px solid var(--blue);border-radius:0;color:var(--text);font-family:inherit;font-size:13px;font-weight:450;line-height:1.5;text-align:left;cursor:pointer;box-shadow:none}
+#global.status-summary:hover{background:#dce1ee;color:var(--text)}
+#global.status-summary:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+
+
+@media(min-width:820px) and (min-height:1000px) and (orientation:portrait){section[data-page="Status"]{padding-top:var(--hmi-view-top)}}
+
+
+#bandMetric.band-indicator{display:flex;align-items:center;justify-content:center;aspect-ratio:auto;padding:4px 8px;gap:0;border:1px solid #909f96;border-radius:7px;background:#d9ecd4;color:#28513a;font-size:16px;font-weight:600;line-height:1.25;text-align:center;white-space:pre-line;box-shadow:inset 0 1px 0 #ffffff70}
+#bandMetric.band-indicator:before{display:none}
+#bandMetric.is-hole{background:#d9ecd4;border-color:#789e70;color:#28513a}
+#bandMetric.is-no-hole{background:#f5d2bf;border-color:#c08f72;color:#73452f}
+#bandMetric.is-invalid,#bandMetric.is-offline{background:#eceef3;border-color:#a0aabb;color:#5d687b;font-size:16px}
+@media(max-width:760px){#bandMetric.band-indicator{font-size:14px;padding:4px 6px}#bandMetric.is-invalid,#bandMetric.is-offline{font-size:14px}}
+
+
+.production-corrections>.action-card{display:flex;flex-direction:column;min-width:0}
+.production-corrections .quiet-action{align-self:flex-start;margin-bottom:12px}
+.production-corrections .skipButton{margin-bottom:12px}
+.production-corrections .loop-state,.production-corrections .skip-state{margin-top:auto;min-height:38px;display:flex;align-items:center;border-radius:4px}
+
+.plant-overview #bandMetric,.plant-overview #setup-open{box-sizing:border-box;justify-self:start;align-self:center;width:min(176px,100%);height:50px;min-height:50px;margin:0}
+
+
+.safety-help{padding-top:10px;padding-bottom:8px}
+@media(max-width:760px){.safety-help{padding-top:8px;padding-bottom:8px}}
+
+
+section[data-page="Automatik"]>.page-heading{margin:0 0 10px;align-items:center;gap:14px}
+.auto-heading-tools{display:flex;flex-direction:column;align-items:flex-end;gap:5px;min-width:0;max-width:55%}
+.auto-heading-tools .auto-tools{margin:0;gap:8px}
+.auto-heading-tools .tip-tools{margin:0;justify-content:flex-end}
+@media(max-width:760px){.auto-heading-tools{max-width:52%;gap:4px}.auto-heading-tools .tip-tools{align-items:stretch}}
+@media(max-width:360px){#bandMetric.band-indicator{font-size:13px;padding-left:5px;padding-right:5px}}
+.system-strip.waiting-sgm{border-left-color:#b4690b;background:#fff0d6}.system-strip.waiting-sgm #activity{color:#653700;font-weight:700}.confirmCard{max-height:calc(100vh - 40px);overflow:auto;overscroll-behavior:contain}
+
+@media (orientation:portrait) and (min-width:900px) and (min-height:1200px){
+ main{padding-top:0}
+ #operatingDock{padding-top:26.5px}
+ #modeControls{row-gap:7px}
+ #modeControls .mode-main,#modeControls .fault-ack-widget{display:grid;grid-template-rows:subgrid;grid-row:span 2;align-self:stretch;row-gap:7px}
+ #modeControls #globalActions button,#globalFaultAck{min-height:58px;padding-block:11px}
+ #navigation button{min-height:74px;font-size:clamp(15px,1.38vw,16px)}
+}
+@media (orientation:portrait) and (width>1100px) and (min-height:1200px){#operatingDock{padding-top:30.5px}}
+#autoBrief{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:76px;margin:0;padding:12px 16px;background:var(--card);border:1px solid #98a4bb;border-radius:6px;color:var(--text);text-align:left;font-family:inherit;white-space:normal}
+#autoBrief[hidden]{display:none}
+#autoBrief:hover{border-color:#969eb9;background:#fafbfe}
+#autoBrief:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.brief-copy{min-width:0;display:grid;gap:3px}
+.brief-label{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11px;font-weight:650;line-height:1.2;letter-spacing:.07em;text-transform:uppercase}
+.brief-label::before{content:"";width:8px;height:8px;border-radius:50%;background:#65728d}
+#autoBrief[data-tone="running"] .brief-label::before{background:#347247}
+#autoBrief[data-tone="wait"] .brief-label::before{background:#ac6b19}
+#autoBrief[data-tone="fault"] .brief-label::before{background:var(--red)}
+#autoBrief[data-tone="fault"] .brief-head{color:#942335}
+.brief-head{font-size:17px;font-weight:680;line-height:1.26;color:var(--blue)}
+.brief-detail{font-weight:450;font-size:13px;line-height:1.35;color:#4c5366}
+.brief-link{display:inline-flex;align-items:center;gap:7px;flex:none;font-size:13px;font-weight:650;color:var(--blue)}
+@media(max-width:600px){#autoBrief{gap:9px;padding:12px}.brief-head{font-size:15px}.brief-link{font-size:12px}}
+
+.bandguide-pair { container-type:inline-size; margin:16px 0; }
+.bandguide-layout { display:grid; grid-template-areas:"sensor" "controls"; gap:10px; align-items:stretch; reading-flow:grid-rows; }
+.bandguide-layout>.panel { margin:0; min-width:0; }
+.bandguide-actuators { grid-area:controls; }
+.bandguide-indicator {
+  grid-area:sensor; display:flex; align-items:center; justify-content:space-between;
+  gap:12px; padding:13px 16px;
+}
+.bandguide-label { margin:0; color:var(--blue); font-size:16px; line-height:1.25; font-weight:700; }
+.bandguide-open {
+  display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:nowrap; min-height:50px;
+  border:1px solid; border-radius:6px; padding:10px 12px;
+  font-family:inherit; font-size:15px; font-weight:650; line-height:1.25;
+  text-decoration:none; text-align:center; cursor:zoom-in;
+}
+.bandguide-open::after { content:"⛶"; flex:none; font:16px/1 "Segoe UI Symbol",sans-serif; }
+.bandguide-open:hover { box-shadow:inset 0 0 0 1px currentColor; }
+.bandguide-open:focus-visible,.bandguide-close:focus-visible { outline:3px solid var(--orange); outline-offset:3px; }
+.bandguide-open,.bandguide-open:visited { color:#4d576a; background:#edf0f5; border-color:#9aa5b6; }
+.bandguide-open[data-band-state="in"] { color:#245636; background:#dceedd; border-color:#749e7f; }
+.bandguide-open[data-band-state="out"] { color:#903636; background:#f8e0dd; border-color:#b8837e; }
+.bandguide-actuators .fixture-row {
+  grid-template-areas:"name name" "open close"; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px 10px; align-items:center; padding:12px 0;
+}
+.bandguide-actuators .fixture-row:last-child { padding-bottom:0; }
+.bandguide-actuators .fixture-label { grid-area:name; min-width:0; display:block; }
+
+.bandguide-actuators .fixture-label strong { display:block; font-size:15px; line-height:1.3; }
+.bandguide-actuators .fixture-row>button {
+  min-width:0; min-height:47px; width:100%; padding:8px 5px; touch-action:manipulation;
+  font-size:14px; line-height:1.2;
+}
+.bandguide-actuators .fixture-row>button:first-of-type { grid-area:open; }
+.bandguide-actuators .fixture-row>button:last-of-type { grid-area:close; }
+.bandguide-actuators .fixture-status {
+  display:block; width:fit-content; margin-top:4px; color:#5e667b; font-size:12px; line-height:1.3;
+  font-weight:500; text-align:left;
+}
+.bandguide-actuators .fixture-status[hidden] { display:none; }
+.bandguide-actuators .fixture-row>button {
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+}
+.bandguide-actuators .fixture-row>button[aria-pressed="true"],
+#manualCards .actions>button[aria-pressed="true"] {
+  background:#323f79; border-color:#323f79; color:#fff; font-weight:700;
+}
+.bandguide-actuators .fixture-row>button[aria-pressed="true"]::before,
+#manualCards .actions>button[aria-pressed="true"]::before {
+  content:""; width:5px; height:10px; box-sizing:content-box; flex:none;
+  border:solid currentColor; border-width:0 2px 2px 0; transform:translateY(-1px) rotate(42deg);
+}
+.bandguide-actuators .fixture-row>button[aria-pressed="true"]:disabled,
+#manualCards .actions>button[aria-pressed="true"]:disabled {
+  background:#e0e5f3; border-color:#7684a6; color:#3c486d; opacity:1;
+}
+.bandguide-actuators .fixture-row>button:focus-visible {
+  outline:3px solid var(--orange); outline-offset:2px;
+}
+
+
+@container (min-width:630px) {
+  .bandguide-layout { grid-template-areas:"controls sensor"; grid-template-columns:minmax(0,1fr) clamp(155px,24%,240px); gap:clamp(12px,2cqi,18px); }
+  .bandguide-indicator { flex-direction:column; justify-content:center; align-items:stretch; gap:12px; padding:clamp(12px,1.8cqi,19px); }
+  .bandguide-open { min-height:68px; padding:10px 7px; }
+  .bandguide-actuators .fixture-row {
+    grid-template-areas:"name open close";
+    grid-template-columns:minmax(104px,1.4fr) repeat(2,minmax(85px,1fr));
+    gap:clamp(5px,1.1cqi,12px); padding:12px 0;
+  }
+  .bandguide-actuators .fixture-row>button { min-height:44px; font-size:13px; }
+}
+@container (max-width:629px) {
+  .bandguide-actuators { padding:14px 16px; }
+  .bandguide-actuators .section-title { margin-bottom:2px; }
+  .bandguide-open { flex:0 1 57%; }
+}
+#setupBandDialog {
+  box-sizing:border-box; position:fixed; inset:0; margin:auto;
+  width:min(96vw,calc(100dvh - 88px)); max-width:96vw;
+  padding:clamp(10px,1.7vmin,22px);border:1px solid #98a4bb;border-radius:9px;
+  color:var(--text);background:var(--card);box-shadow:0 14px 55px #171c3840;
+}
+#setupBandDialog::backdrop { background:#10162cc2; }
+.bandguide-dialog-head { display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px; }
+.bandguide-dialog-head h2 { margin:0;font-size:clamp(17px,2.4vmin,28px);color:var(--blue); }
+.bandguide-close {
+  display:inline-flex;min-height:40px;align-items:center;justify-content:center;
+  padding:5px 12px;box-sizing:border-box;border:1px solid #8190ac;border-radius:5px;
+  background:white;color:var(--blue);font-weight:650;text-decoration:none;
+}
+.bandguide-square {
+  width:100%; aspect-ratio:1; display:grid; place-items:center; border-radius:4px;
+  background:#636e7f;color:white; text-align:center; font-size:clamp(24px,6.3vmin,88px);
+  font-weight:700; line-height:1.15; padding:5%; box-sizing:border-box; text-wrap:balance;
+}
+.bandguide-square[data-band-state="in"] { background:#157845; }
+.bandguide-square[data-band-state="out"] { background:#bc3038; }
+
+@media (max-width: 520px) {
+  section[data-page="Bandeinrichtung"] .three-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  section[data-page="Bandeinrichtung"] .three-actions > button {
+    min-width: 0;
+    min-height: 56px;
+    padding: 8px;
+    font-size: 14px;
+    line-height: 1.2;
+    gap: 3px;
+    white-space: normal;
+  }
+  section[data-page="Bandeinrichtung"] .three-actions > button:nth-of-type(3) {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 7px;
+    min-height: 48px;
+  }
+  section[data-page="Bandeinrichtung"] #setupCycleHoles {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 13px;
+    line-height: 1.25;
+  }
+  section[data-page="Bandeinrichtung"] .setup-session-actions button,
+  section[data-page="Bandeinrichtung"] .setup-eject-card .two-actions > button {
+    min-height: 48px;
+    font-size: 14px;
+    line-height: 1.25;
+    white-space: normal;
+  }
+}
+.eject-card .quiet-tag { flex: none; white-space: nowrap; }
+.eject-card .two-actions button, .setup-without-sgm-card .two-actions button { min-height: 44px; }
+#mouldOpenUnavailable:disabled { color: #575d66; background: #eceef0; border-color: #b7bbc1; opacity: 1; }
+#mouldOpenUnavailable small { display: block; font-size: .78em; font-weight: normal; line-height: 1.2; }
+.setup-without-sgm-card .compact-note { margin: 9px 0 0; }
+.setup-without-sgm-card { min-inline-size: 0; margin-inline: 0; }
+.setup-without-sgm-card button[aria-pressed="true"] { opacity: 1; color: #3f454b; background: #e8eaec; border-color: #8b939c; }
+.setup-without-sgm-card button[data-setup-action="setup-without-sgm-on"] { display: inline-flex; align-items: center; justify-content: center; gap: .4em; }
+.setup-without-sgm-card .temp-release-warning { --warning-fill: #ffedc8; color: #84541e; display: inline-flex; inline-size: clamp(18px, 1.4em, 23px); aspect-ratio: 1; flex: none; }
+.temp-release-warning svg { display: block; width: 100%; height: 100%; pointer-events: none; }
+.setup-without-sgm-card button:disabled .temp-release-warning { --warning-fill: #e9ebef; color: #596375; }
+@media (forced-colors: active) { .setup-without-sgm-card .temp-release-warning { --warning-fill: ButtonFace; color: ButtonText; } .setup-without-sgm-card button:disabled .temp-release-warning { color: GrayText; } }
+.setup-without-sgm-card:disabled { background: #f5f6f9; border-color: #b1bacb; }
+.setup-without-sgm-card:disabled h2 { color: #585f75; }
+.setup-without-sgm-card:disabled .compact-note { color: #535a70; }
+.setup-without-sgm-card button[data-setup-action$="-on"][aria-pressed="true"] { color: #823a1d; background: #fff0df; border-color: #c68143; }
+@media (max-width: 600px) { .setup-without-sgm-card .two-actions button { min-height: 48px; } }
+@media (max-width: 390px), (orientation: landscape) and (max-height: 390px) and (max-width: 950px) {
+  .side-tools .safety-help { display: none; }
+  .side-tools { grid-template-columns: minmax(0, 1fr); }
+}
+#nodeSgm .sgm-station-reading {
+  align-self: stretch;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto minmax(min-content, 1fr);
+  min-width: 0;
+}
+#nodeSgm .sgm-station-reading > strong { grid-row: 2; }
+#sgmCycleTime {
+  grid-row: 3;
+  align-self: start;
+  color: #4b5771;
+  font-size: clamp(12px, 1.25vw, 14px);
+  font-weight: 550;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+}
+.hand-workhead { display:grid; grid-template-columns:minmax(0,1fr) clamp(220px,29%,285px); gap:clamp(12px,2vw,22px); align-items:center; }
+.hand-heading-copy { min-width:0; }
+.hand-heading-copy .page-heading { margin:0 0 6px; }
+.hand-band.panel { display:grid; gap:7px; align-content:center; min-width:0; margin:0; padding:12px 14px; }
+.hand-band-heading { display:flex; align-items:center; justify-content:space-between; gap:5px; flex-wrap:wrap; }
+#handBandSource { font-size:11px; font-weight:650; color:#774619; }
+.hand-band .bandguide-open { min-height:46px; padding:7px 10px; }
+@media(max-width:760px){
+ .hand-workhead { grid-template-columns:minmax(0,1fr); gap:12px; }
+ .hand-band.panel { grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); align-items:center; gap:8px; padding:9px 12px; }
+ .hand-band-heading { display:grid; justify-content:start; gap:2px; }
+ .hand-band .bandguide-open { min-height:48px; }
+}
+#manualCards .actions button { display: inline-flex; justify-content: center; align-items: center; gap: 7px; }
+#manualCards .actions button[aria-pressed="false"] { background: #fff; }
+#manualCards .manual-state .muted { font-size: 12px; line-height: 1.35; font-variant-numeric: tabular-nums; }
+#manualCards .manual-state .progress { height: 4px; }
+
+.brand>div{border:0;padding-left:0}
+</style></head><body>
+<header><div class="brand"><div><strong>Automation Demo</strong></div><span class="id product-id"><small>Offline-Demo</small><strong>Bandautomation</strong></span></div>
+</header><div class="layout"><aside><nav aria-label="Hauptauswahl" id="navigation"></nav><div id="sidebarWarnings" class="side-warnings" aria-live="polite" hidden=""><div id="standaloneWarning" class="side-warning" hidden=""><strong><span class="alarm" aria-hidden="true">!</span><span>Ohne SGM</span></strong><p id="standaloneWarningText">Achtung: Euromap komplett freigegeben</p></div><div id="simulationWarning" class="side-warning" hidden=""><strong><span class="alarm" aria-hidden="true">!</span><span>Bandpositionssensor simuliert</span></strong></div><div id="euromapForceWarning" class="side-warning" hidden=""><strong><span class="alarm" aria-hidden="true">!</span><span>Force EUROMAP aktiv</span></strong></div><div id="ioForceWarning" class="side-warning" hidden=""><strong><span class="alarm" aria-hidden="true">!</span><span>Force E/A aktiv</span></strong></div></div><div class="side-tools"><div class="side-foot"><div class="owner-caption">Bedienplatz</div><div class="owner"><div id="ownerLabel">Beobachtung</div><div class="actions"><input id="sessionName" maxlength="32" aria-label="Name der Bedienung"><button id="claim" disabled="">Bedienung übernehmen</button></div></div>
+<div id="connection" role="status">Verbindung wird aufgebaut …</div><div id="notices"></div></div><section class="safety-help" aria-label="Safety Reset · Hinweis">
+<button type="button" id="safetyInfoOpen" data-local-info="" class="safety-help-button" aria-haspopup="dialog" aria-controls="safetyInfoDialog"><span class="safety-symbol" aria-hidden="true"><span class="safety-triangle"><span class="safety-exclamation">!</span></span></span><span>Safety Reset</span></button>
+</section></div></aside>
+<main>
+<div id="operatingDock"><div class="operation panel" id="modeControls"><div class="mode-main"><div id="globalActions"><button data-cmd="hand" disabled="">Hand wählen</button><button data-cmd="auto" disabled="">Automatik wählen</button><button data-cmd="start" disabled="">Start / Fortsetzen</button><button data-cmd="stop" disabled="">Stoppen</button></div><div class="mode-caption"><strong>Betriebsart</strong><small id="modeSelection">Zustand wird gelesen</small></div></div><div id="globalFaultWidget" class="fault-ack-widget" aria-label="Fehlerquittierung"><button type="button" id="globalFaultAck" data-cmd="ack" aria-describedby="globalFaultStatus" disabled="">Fehler quittieren</button><small id="globalFaultStatus" class="fault-ack-status unknown" role="status">Status wird gelesen</small></div></div><button type="button" id="global" class="system-strip status-summary" aria-live="polite" title="Diagnose öffnen" data-nav="Status" data-local-info=""><span id="modeBadge">Zustand wird gelesen</span><span id="activity">Warte auf Steuerung</span></button><div id="standaloneBanner" class="standalone" hidden="">Ohne SGM · Hand-Einzelbewegungen und gezielte Takte in der Bandeinrichtung</div><div id="setup-global-banner" class="setup-global-banner" hidden="" role="status"><div><strong id="setupGlobalState">Bandeinrichtung aktiv</strong><span id="setupGlobalReason"></span></div><button data-setup-nav="" data-local-info="" data-nav="Bandeinrichtung">Zur Bandeinrichtung <span aria-hidden="true">↗</span></button></div></div>
+
+
+<section data-page="Hand" hidden=""><div class="hand-workhead"><div class="hand-heading-copy"><div class="page-heading"><div><span class="kicker">EINZELANSTEUERUNG</span><h1>Handbetrieb</h1></div><span class="page-context">Ventile &amp; Bewegungen</span></div><p id="handHelp" class="compact-note hand-intro">Hand bewusst starten. Jede Taste steuert genau eine Funktion.</p></div><div class="panel hand-band">
+<div class="hand-band-heading"><h2 class="bandguide-label" id="handBandTitle">Bandposition</h2><span id="handBandSource" hidden></span></div>
+<a class="bandguide-open" id="handBandOpen" href="#setupBandDialog" role="button" aria-haspopup="dialog" aria-controls="setupBandDialog" aria-labelledby="handBandTitle handBandText handBandSource handBandHint" title="Bandposition vergrößern"><span id="handBandText">Wert wird gelesen</span><span id="handBandHint" hidden>Großansicht öffnen</span></a>
+</div></div><div class="manual-list" id="manualCards"></div></section><section data-page="Automatik" hidden=""><div class="page-heading"><div><span class="kicker">PRODUKTION</span><h1>Automatik</h1></div><div class="auto-heading-tools"><span class="page-context" id="autoContext">Automatikablauf</span><div class="auto-tools"><div class="tip-tools"><button id="tip">Tippbetrieb einschalten</button><button id="next">Schritt weiter</button></div></div></div></div><p id="tipText" class="tip-hint muted" hidden=""></p><div class="section-caption">ANLAGENÜBERSICHT</div><div class="process plant-overview"><div class="node overview-cell" id="node1"><small><span class="station-index">01</span> BANDZUFÜHRUNG</small><strong>Vorschub 1</strong><span id="overview1"></span></div><div class="node overview-cell" id="node2"><small><span class="station-index">02</span> WERKZEUGEINLAUF</small><strong>Vorschub 2 (SGM)</strong><span id="overview2"></span></div><div class="node overview-cell" id="nodeSgm"><small><span class="station-index">03</span> SPRITZGUSSMASCHINE</small><div class="sgm-station-reading"><strong>SGM / Werkzeug</strong><span id="sgmCycleTime" hidden></span></div><span id="overviewSgm"></span></div><div class="band-check-reading overview-cell band-position-card"><span class="section-caption">BANDPOSITION</span><div class="band-indicator is-invalid" id="bandMetric" role="status" aria-live="polite">Wert wird gelesen</div><div class="sensor-meta"><span id="bandSource" class="muted"></span><span id="bandValidity" class="muted"></span></div></div><div class="band-check-count overview-cell hole-count-card"><span class="section-caption">LOCHPRÜFUNG · VORSCHUB 2</span><div class="metrics" id="holeMetric">–</div><span id="holeText" class="muted"></span></div><div class="overview-cell setup-entry-card"><span class="section-caption">BEDIENUNG</span><button id="setup-open" class="setup-shortcut" data-local-info="" data-nav="Bandeinrichtung"><span hidden aria-hidden="true"></span><span>Band einrichten</span><span aria-hidden="true"></span></button><span class="setup-scope">Zangen, Grundstellung, Einzeltakt</span></div></div><div class="panel action-card eject-card"><div class="section-title"><h2>SGM: Auswerfer kurz freigeben</h2><span class="quiet-tag">je 8 Sekunden</span></div><div class="two-actions"><button data-cmd="eject-rear"><span aria-hidden="true">←</span> Auswerfer zurück</button><button data-cmd="eject-front">Auswerfer vor <span aria-hidden="true">→</span></button></div><div class="short-state" data-short-state="eject">Keine Kurzfreigabe aktiv</div></div><div class="quick-grid production-corrections"><div class="panel action-card"><h2>Bandschlaufe korrigieren</h2><div class="two-actions"><button data-cmd="loop,1">＋ Schlaufe größer</button><button data-cmd="loop,2">− Schlaufe kleiner</button></div><button data-cmd="loop,0" class="quiet-action">Vormerkung löschen</button><div class="loop-state" data-loop-state="">Keine Korrektur vorgemerkt</div></div><div class="panel action-card"><h2>Vorschub einmal aussetzen</h2><button data-cmd="skip" class="skipButton">Ⅱ Vorschubtakt 1× aussetzen</button><div class="skip-state" data-skip-state="">Aussetzen deaktiviert</div></div></div></section><section data-page="Bandeinrichtung" hidden=""><div class="page-heading"><div><span class="kicker">BAND FÜHREN UND EINRICHTEN</span><h1>Bandeinrichtung</h1></div><span hidden=""></span></div><div class="panel setup-session"><div class="setup-session-copy"><span class="setup-state-label" id="setupState" role="status">Nicht aktiv</span><p id="setupReason">Zum Bandeinrichten bewusst aktivieren.</p></div><div class="setup-session-actions"><button id="setupEnter" class="primary-action">Bandeinrichtung aktivieren</button><button id="setupExit" hidden="">Einrichtung beenden</button></div><div id="setupProgress" class="setup-progress" hidden=""><span id="setupActionLabel">Auftrag läuft</span><progress id="setupActionProgress" max="100" value="0"></progress></div></div><div class="setup-workbench"><div class="bandguide-pair"><div class="bandguide-layout"><div class="panel action-card bandguide-actuators"><div class="section-title"><h2>Bandführung</h2><span class="quiet-tag">Öffnen · Einlegen · Fixieren</span></div><div class="fixture-list"><div class="fixture-row"><div class="fixture-label"><strong>Vorschub 1 - Bandklemme</strong><span class="fixture-status" id="setup-pos2" role="status">Status unbekannt</span></div><button aria-pressed="false" data-setup-action="manual,4" aria-label="Vorschub 1 - Bandklemme öffnen" aria-describedby="setupBlockedReason1">Öffnen</button><button aria-pressed="false" data-setup-action="manual,5" aria-label="Vorschub 1 - Bandklemme schließen" aria-describedby="setupBlockedReason1">Schließen</button></div><div class="fixture-row"><div class="fixture-label"><strong>Vorschub 1 - Zange</strong><span class="fixture-status" id="setup-pos1" role="status">Status unbekannt</span></div><button aria-pressed="false" data-setup-action="manual,2" aria-label="Vorschub 1 - Zange öffnen" aria-describedby="setupBlockedReason1">Öffnen</button><button aria-pressed="false" data-setup-action="manual,3" aria-label="Vorschub 1 - Zange schließen" aria-describedby="setupBlockedReason1">Schließen</button></div><div class="fixture-row"><div class="fixture-label"><strong>Vorschub 2 - Zange (SGM)</strong><span class="fixture-status" id="setup-pos4" role="status">Status unbekannt</span></div><button aria-pressed="false" data-setup-action="manual,8" aria-label="Vorschub 2 - Zange (SGM) öffnen" aria-describedby="setupBlockedReason1">Öffnen</button><button aria-pressed="false" data-setup-action="manual,9" aria-label="Vorschub 2 - Zange (SGM) schließen" aria-describedby="setupBlockedReason1">Schließen</button></div></div><p id="setupBlockedReason1" class="compact-note setup-blocked-hint" hidden="" role="status" data-setup-guard=""></p></div><div class="panel action-card bandguide-indicator">
+  <h2 class="bandguide-label" id="setupBandLabel">Bandposition</h2>
+  <a class="bandguide-open" id="setupBandOpen" href="#setupBandDialog" role="button" aria-haspopup="dialog" aria-controls="setupBandDialog" aria-labelledby="setupBandText setupBandOpenHint" title="Bandposition vergrößern"><span id="setupBandText">Wert wird gelesen</span><span id="setupBandOpenHint" hidden>Großansicht öffnen</span></a>
+</div></div></div><div class="panel action-card"><div class="section-title"><h2>Grundstellung</h2><span class="quiet-tag" id="setupHomeState">Status wird gelesen</span></div><div class="three-actions"><button data-setup-action="home,1" aria-describedby="setupBlockedReason2"><span class="action-icon" aria-hidden="true">⌂</span><span>Vorschub 1</span></button><button data-setup-action="home,2" aria-describedby="setupBlockedReason2"><span class="action-icon" aria-hidden="true">⌂</span><span>Vorschub 2 (SGM)</span></button><button data-setup-action="home,3" aria-describedby="setupBlockedReason2"><span class="action-icon" aria-hidden="true">⌂</span><span>Beide Vorschübe</span></button></div><p id="setupBlockedReason2" class="compact-note setup-blocked-hint" hidden="" role="status" data-setup-guard=""></p></div><div class="panel action-card"><div class="section-title"><h2>Vorschubtakt manuell auslösen</h2><span hidden=""></span></div><div class="three-actions"><button data-setup-action="feed1" aria-describedby="setupBlockedReason3"><span class="action-icon" aria-hidden="true">▷¹</span><span>Vorschub 1</span></button><button id="setupFeed2Cycle" data-setup-action="feed2" aria-describedby="setupBlockedReason3"><span class="action-icon" aria-hidden="true">▷²</span><span>Vorschub 2 (SGM)</span></button><button data-setup-action="both" aria-describedby="setupBlockedReason3"><span class="action-icon" aria-hidden="true">▷¹·²</span><span>Beide Vorschübe</span></button><output id="setupCycleHoles" for="setupFeed2Cycle" aria-label="Lochzählung Vorschub 2" aria-live="off" hidden=""></output></div><p hidden="" id="setupCycleHint"></p><p id="setupBlockedReason3" class="compact-note setup-blocked-hint" hidden="" role="status" data-setup-guard=""></p></div></div><div class="panel action-card eject-card setup-eject-card"><div class="section-title"><h2>SGM: Auswerfer kurz freigeben</h2><span class="quiet-tag">je 8 Sekunden</span></div><div class="two-actions"><button data-setup-action="eject-rear"><span aria-hidden="true">←</span> Auswerfer zurück</button><button data-setup-action="eject-front">Auswerfer vor <span aria-hidden="true">→</span></button></div><div class="short-state" data-short-state="eject">Keine Kurzfreigabe aktiv</div></div><div class="panel action-card eject-card setup-eject-card setup-mould-card"><div class="section-title"><h2>SGM: Öffnen / Schließen kurz freigeben</h2><span class="quiet-tag">je 8 Sekunden</span></div><div class="two-actions"><button type="button" disabled data-setup-action="mould-close"><span aria-hidden="true">←</span> Form schließen</button><button type="button" id="mouldOpenUnavailable" disabled>Form öffnen <span aria-hidden="true">→</span> <small>(nicht verfügbar)</small></button></div><div class="short-state" data-short-state="mould">Status wird gelesen</div><small data-setup-guard hidden></small></div><fieldset class="panel action-card setup-without-sgm-card" id="tempEuromapCard" aria-labelledby="tempEuromapTitle" aria-describedby="setupWithoutSgmHint" disabled><div class="section-title"><h2 id="tempEuromapTitle">SGM: EUROMAP temporär freigeben</h2></div><div class="two-actions"><button type="button" disabled aria-pressed="false" data-setup-action="setup-without-sgm-off">Inaktiv</button><button type="button" disabled aria-pressed="false" data-setup-action="setup-without-sgm-on"><span class="temp-release-warning" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10.34 4.12a1.9 1.9 0 0 1 3.32 0l8.46 14.92A1.9 1.9 0 0 1 20.46 22H3.54a1.9 1.9 0 0 1-1.66-2.96Z" fill="var(--warning-fill)" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round"/><path d="M12 8.9v5.6m0 3.2v.15" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg></span>Aktiv</button></div><p id="setupWithoutSgmHint" class="compact-note" role="status">Gibt B3, A6, B4 und B2 für diese Einrichtsitzung frei.</p></fieldset></section>
+<section data-page="Setup" hidden=""><span class="kicker">PARAMETER UND TESTBETRIEB</span><h1>Setup</h1><div class="panel profile-card"><div class="section-title"><h2>Mit SGM / Ohne SGM</h2><span id="profileState" class="profile-status" role="status">Status wird gelesen</span></div><label for="profile">Betriebsprofil</label> <select id="profile" aria-describedby="profileState profileStandaloneWarning"><option value="0">Mit SGM</option><option value="1">Ohne SGM · Standalone</option></select><p id="profileStandaloneWarning" class="profile-standalone-warning" hidden="" role="note">Achtung: Euromap komplett freigegeben</p><p class="muted">Profilwechsel bestätigen; danach Betriebsart starten.</p>
+</div><div class="panel automation-config"><h2>Automatikfunktionen</h2><div class="formgrid"><label for="autoTargets">Aktive Vorschübe<select id="autoTargets"><option value="3">Beide Vorschübe</option><option value="1">Nur Vorschub 1</option><option value="2">Nur Vorschub 2 (SGM)</option></select></label></div><p class="compact-note">Änderungen bei angehaltenem Ablauf.</p><h2 class="config-subheading">Bandposition · Signalquelle</h2><select id="sim"><option value="0">Realer Sensor</option><option value="1">Simulation · 4 Löcher</option></select><p class="warn">Bei Simulation bleiben Bewegungen real.</p><form id="skipForm" class="config-subform"><h2>Vorschubtakt aussetzen</h2><div class="formgrid"><label>Freigabe<select id="skipMode"><option value="0">Deaktivieren</option><option value="1">Manuell möglich</option><option value="2">Manuell + Zeitüberwachung mit Bestätigung</option></select></label><label>Zeitgrenze des ganzen Zyklus (s)<input id="skipSeconds" type="number" min="5" max="60" step="1" value="30" required=""></label></div><p class="muted">Zeitmessung: Form offen → Form offen. Überschreitung: Ja/Nein vor dem Vorschub.</p><button type="submit">Aussetzfunktion speichern</button><p id="skipSetupState" class="muted"></p></form></div>
+
+
+<form id="timingForm" class="panel"><h2>Wartezeiten</h2><p class="muted">Bewegungszeiten in ms; SGM-Frist 0 = unbegrenzt.</p><div id="timeInputs" class="formgrid"></div><button type="submit" class="space">Zeiten speichern</button></form>
+<form id="inputsForm" class="panel"><h2>Nachrüstung und Überwachung</h2><p class="muted">Nur tatsächlich angeschlossene Bedienkontakte aktivieren.</p><p><label><input type="checkbox" id="buttonInstalled"> Zange-2-Taster an EXT2_IN2 aktiv</label></p><p><label><input type="checkbox" id="pauseInstalled"> Abwickel-Pausenschalter an EXT2_IN3 aktiv</label></p><p><label><input type="checkbox" id="bandEnd"> Bandende-Überwachung an EXT2_IN4 aktiv</label></p><button type="submit">Auswahl speichern</button></form>
+<form id="networkForm" class="panel"><h2>Netzwerk</h2><p>LAN: <b>192.0.2.10</b> · Steuerung-WLAN: <b>192.0.2.11</b></p><p id="networkState" class="muted"></p><button type="button" id="netread">Netzwerkdaten anzeigen / laden</button><div class="formgrid space"><label>Steuerung-WLAN<select id="wifiEnabled"><option value="1">EIN</option><option value="0">AUS</option></select></label><label>SSID<input id="ssid" maxlength="32" autocomplete="off"></label><label>WLAN-Passwort<input id="password" type="password" minlength="8" maxlength="63" autocomplete="new-password"></label></div><div class="actions space"><button type="button" id="showPassword">Passwort anzeigen</button><button type="submit">Netzwerk speichern und übernehmen</button></div><p class="warn">WLAN-Änderung trennt WLAN. LAN bleibt erreichbar.</p></form></section>
+<section data-page="Euromap" hidden=""><span class="kicker">SGM-SCHNITTSTELLE</span><h1>EUROMAP</h1><div class="panel"><div class="actions"><button class="forceUnlock danger">Force / Simulation freischalten …</button><button data-cmd="normal" class="danger">Alle auf Normal</button></div><div id="euromapOverrideState" class="override-summary" role="status" hidden=""></div><p class="muted">Ausgänge forcen, Eingänge simulieren. Auswahl bleibt bis „Normal“. Reale Werte bleiben sichtbar.</p><p class="muted bmk-note" hidden="">Beispielkennzeichnung: DEMO-Steuerung · EUROMAP-Stecker DEMO-EM-SGM. Kennzeichen sind Dokumentbezüge; angebrachte Beschriftung ist nicht bestätigt.</p><div class="forcebox" id="a6Confirm" hidden=""><strong>! A6 „Form schließen“ auf 1 forcen</strong><p>A6 bleibt auf 1. Normale Freigaben werden übersteuert.</p><button id="a6Yes" class="danger">! Force 1 zusätzlich bestätigen</button><button id="a6Cancel">Abbrechen</button></div></div>
+<div class="euromap-directions">
+<section class="panel euromap-direction" aria-labelledby="emOutTitle">
+<h2 id="emOutTitle">Automation → SGM</h2>
+<div class="tablewrap"><table><thead><tr><th>Signal / Anschluss</th><th>Rohwert / Normal</th><th>Wirksam / Befehl</th><th>Force</th></tr></thead><tbody id="euromapRows"><tr class="euromap-legacy"><td class="signal">Werkzeugbereich frei<small>A3 / C3</small></td><td colspan="3" class="euromap-legacy-hint">Dieses Signal wird von der Beispielautomation gesendet</td></tr><tr class="euromap-legacy"><td class="signal">Form vollständig öffnen<small>A7</small></td><td colspan="3" class="euromap-legacy-hint">Nicht verdrahtet, wird nicht verwendet.</td></tr></tbody></table></div></section>
+<section class="panel euromap-direction" aria-labelledby="emInTitle">
+<h2 id="emInTitle">SGM → Automation</h2>
+<div class="tablewrap"><table><thead><tr><th>Signal / Anschluss</th><th>Rohwert / Normal</th><th>Wirksam / Befehl</th><th>Simulation</th></tr></thead><tbody id="euromapInputRows"></tbody></table></div>
+</section></div></section>
+<section data-page="EA-Monitor" hidden=""><span class="kicker">ERWEITERUNGEN UND VENTILINSEL</span><h1>E/A-Monitor</h1><div class="panel"><p class="muted bmk-note" hidden="">Beispielkennzeichnung: DEMO-EXT1 / DEMO-EXT2, Ventilinsel DEMO-VI1. Ventilplätze V1–V8 sind von den Vorschüben 1/2 zu unterscheiden.</p><div class="actions"><button class="forceUnlock danger">Force freischalten …</button><button data-cmd="normal" class="danger">Alle auf Normal</button></div><div id="ioMonitorOverrideState" class="override-summary" role="status" hidden=""></div><p class="muted">Ausgänge forcen, Eingänge simulieren. Auswahl bleibt bis „Normal“. Reale Werte bleiben sichtbar.</p></div><div class="euromap-directions io-monitor-groups"><div class="panel euromap-direction io-input-block"><h2>Eingänge</h2><p id="ioSimulationNewBadge" hidden="" class="io-programming-note">Einzelsimulation · neue Programmanbindung offen</p><div class="tablewrap"><table class="io-input-table"><thead><tr><th>Signal / Anschluss</th><th>Rohwert</th><th>Wirksam</th><th>Simulation</th></tr></thead><tbody id="extensionInputs"></tbody></table></div></div><section class="panel euromap-direction" aria-labelledby="ioOutputTitle"><h2 id="ioOutputTitle">Ausgänge</h2><div class="tablewrap"><table><thead><tr><th>Signal / Anschluss</th><th>Normal</th><th>Ausgegeben</th><th>Force</th></tr></thead><tbody id="valveRows"></tbody></table></div></section><details class="panel euromap-direction io-reserve" aria-labelledby="ioReserveInputTitle"><summary><h2 id="ioReserveInputTitle">Eingänge · Reserve</h2><span class="io-reserve-count">28 Kanäle</span></summary><div class="tablewrap"><table class="io-input-table"><thead><tr><th>Signal / Anschluss</th><th>Rohwert</th><th>Wirksam</th><th>Simulation</th></tr></thead><tbody id="extensionReserveInputs"></tbody></table></div></details><details class="panel euromap-direction io-reserve" aria-labelledby="ioReserveOutputTitle"><summary><h2 id="ioReserveOutputTitle">Ausgänge · Reserve</h2><span class="io-reserve-count">4 Kanäle</span></summary><div class="tablewrap"><table><thead><tr><th>Signal / Anschluss</th><th>Normal</th><th>Ausgegeben</th><th>Verwendung</th></tr></thead><tbody id="outputReserveRows"></tbody></table></div></details></div></section>
+<section data-page="Status" hidden=""><div class="page-heading"><div><span class="kicker">DIAGNOSE UND VERLAUF</span><h1>Diagnose</h1></div><span id="diagnosisConnection" class="page-context">Status wird gelesen</span></div>
+<div class="diagnosis-top-grid"><section class="panel diagnosis-now" id="diagnosisNow"><h2>Aktueller Ablauf</h2><div id="detailState" class="diagnosis-headline"></div><dl id="diagnosisCurrentRows" class="diagnosis-pairs"></dl></section><section class="panel diagnosis-wait" id="diagnosisWait"><h2>Worauf wartet die Anlage?</h2><strong id="diagnosisWaitTitle" class="diagnosis-headline">Status wird gelesen</strong><ul id="diagnosisWaitList" class="diagnosis-reasons"></ul></section></div>
+<section class="panel" id="diagnosisReadiness"><div class="section-title"><h2>Grundfreigaben</h2><span class="quiet-tag">Aktueller Zustand</span></div><div id="diagnosisReadinessRows" class="diagnosis-readiness"></div></section>
+<details class="panel diagnosis-details" id="diagnosisSignals"><summary><span>Signale · Rohwert und wirksam</span><span class="diagnosis-summary-note" id="diagnosisSignalSummary"></span></summary><div class="diagnosis-detail-body"><h3>Band und Bedienkontakte</h3><div class="tablewrap"><table class="diagnosis-signals"><thead><tr><th>Signal</th><th>Rohwert</th><th>Wirksam</th><th>Quelle / Verwendung</th></tr></thead><tbody id="diagnosticExtensionRows"></tbody></table></div><h3>SGM → Automation</h3><div class="tablewrap"><table class="diagnosis-signals"><thead><tr><th>Signal</th><th>Rohwert</th><th>Wirksam</th><th>Quelle / Verwendung</th></tr></thead><tbody id="diagnosticInputRows"></tbody></table></div><h3>Automation → SGM</h3><div class="tablewrap"><table class="diagnosis-signals"><thead><tr><th>Anforderung</th><th>Normal</th><th>Befehl</th><th>Eingriff</th></tr></thead><tbody id="diagnosticOutputRows"></tbody></table></div></div></details>
+<details class="panel diagnosis-details" id="diagnosisActuators"><summary><span>Ventile und Bewegungsannahmen</span><span class="diagnosis-summary-note">Fünf Funktionen</span></summary><div class="diagnosis-detail-body"><div class="tablewrap"><table><thead><tr><th>Funktion</th><th>Letzter Befehl</th><th>Zeitannahme</th></tr></thead><tbody id="diagnosticValveRows"></tbody></table></div></div></details>
+<details class="panel diagnosis-details" id="diagnosisProofDetails"><summary><span>Prozessnachweise und Einmalaufträge</span><span class="diagnosis-summary-note">Aktuelle Merker</span></summary><div class="diagnosis-detail-body"><div id="proofs" class="proof-grid"></div><dl class="diagnosis-pairs" id="diagnosticRequests"></dl></div></details>
+<details class="panel diagnosis-details diagnosis-fault" id="diagnosisFault"><summary><span>Letzter gespeicherter Fehler</span><span id="diagnosisFaultSummary" class="diagnosis-summary-note">Status wird gelesen</span></summary><div class="diagnosis-detail-body"><div id="faultState" class="diagnosis-headline"></div><dl id="diagnosisFaultSnapshot" class="diagnosis-pairs"></dl><p id="diagnosisFaultHint" class="compact-note"></p><button data-cmd="ack" class="space">Fehler quittieren</button></div></details>
+<section class="panel diagnosis-log"><div class="section-title"><h2>Meldungsverlauf</h2><span class="quiet-tag" id="diagnosticLogCount"></span></div><div class="log-tools"><label for="logFilter">Anzeigen<select id="logFilter" data-local-info=""><option value="all">Alle Meldungen</option><option value="fault">Störungen &amp; Probleme</option><option value="setup">Bandeinrichtung</option><option value="process">Ablauf / Haltegründe</option><option value="actions">Bedienung / Eingriffe</option></select></label><button id="refreshLog">Aktualisieren</button></div><ul id="logs" class="logs"></ul><p id="diagnosticLogEmpty" class="compact-note" hidden="">Keine passenden Meldungen geladen.</p><div class="log-footer"><span class="compact-note">Nur im RAM · max. 50 Meldungen · die letzten 10 Störungen/Probleme geschützt</span><button id="older">Ältere Meldungen</button></div></section></section>
+<footer class="muted space"><small id="version">DEMO</small></footer>
+<button type="button" id="autoBrief" class="panel" data-nav="Status" data-local-info="" aria-labelledby="briefLabel briefHead briefLink" aria-describedby="briefDetail" hidden><span class="brief-copy"><span id="briefLabel" class="brief-label">Anlagenstatus</span><strong id="briefHead" class="brief-head">Status wird gelesen</strong><span id="briefDetail" class="brief-detail" hidden></span></span><span id="briefLink" class="brief-link">Diagnose <span aria-hidden="true">›</span></span></button>
+</main></div><dialog id="setupBandDialog" aria-labelledby="setupBandDialogHeading">
+ <div class="bandguide-dialog-head"><h2 id="setupBandDialogHeading">Bandposition</h2><a class="bandguide-close" id="setupBandClose" href="#setupBandOpen" role="button" autofocus>Schließen</a></div>
+ <div class="bandguide-square" id="setupBandSquare" role="status" aria-live="polite">Wert wird gelesen</div>
+</dialog>
+<div id="toast" hidden="" role="status"></div>
+<div id="confirmDialog" class="confirmOverlay" hidden=""><div class="confirmCard" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmText"><h2 id="confirmTitle">⚠️ Aktion bestätigen</h2><p id="confirmText"></p><div class="actions"><button id="confirmCancel">Abbrechen</button><button id="confirmYes" class="danger" disabled="">Bewusst bestätigen</button></div></div></div>
+<div id="skipDialog" class="confirmOverlay" hidden=""><div class="confirmCard" role="alertdialog" aria-modal="true" aria-labelledby="skipTitle" aria-describedby="skipText"><h2 id="skipTitle">Zeitüberschreitung Zyklus</h2><p id="skipText">Vorschubtakt einmal aussetzen?</p><p class="muted">Ja: beide Vorschübe einmal aussetzen. Zangen und EUROMAP bleiben aktiv.</p><div class="actions"><button id="skipNo">Nein</button><button id="skipYes">Ja</button></div></div></div>
+<script>
+'use strict';
+const el=id=>document.getElementById(id);
+const pages=['Hand','Automatik','Bandeinrichtung','Setup','Euromap','EA-Monitor','Status'];
+const pageLabels={Hand:'Hand',Automatik:'Automatik',Bandeinrichtung:'Einrichten',Status:'Diagnose'};
+const moves=['Vorschub 1 zurück','Vorschub 1 vor','Zange 1 öffnen','Zange 1 schließen','Feste Klemme öffnen','Feste Klemme schließen','Vorschub 2 zurück','Vorschub 2 vor','Zange 2 öffnen','Zange 2 schließen'];
+const steps=['Bereit','Grundstellung vorbereiten','Band halten','Sucherübergabe / Auswerfer hinten','Zangen öffnen','Grundstellung zurückfahren','Zange 2 wieder schließen','Bandhaltung vorbereiten','Handbewegung','Zangen schließen','Klemme 1 öffnen','Auswerfer vor freigeben','Vorschub vor / Lochprüfung','Klemme 1 schließen','Auswerfer zurück / Sucher übernehmen','Zange öffnen / Endposition prüfen','Form schließen und Vorschub zurück','Zange 2 wieder schließen','Ersten Formschluss freigeben','Auswerfer zurück vor erstem Formschluss','Aussetzzyklus: Band halten','Aussetzzyklus: Auswerfer vor freigeben','Aussetzzyklus: Auswerfer zurück / Sucher übernehmen','Aussetzzyklus: Zange 2 öffnen','Aussetzzyklus: Zange 2 wieder schließen'];
+const jobs=['Bereit','Handbewegung','Grundstellung','Vorschub 1','Vorschub 2','Beide Vorschübe','Aussetzzyklus ohne Bandvorschub','SGM-Zyklus mit Vorschub 1','SGM-Zyklus ohne Transport'];
+const faults=['Kein gespeicherter Fehler','E/A-Kommunikation','Bandposition vor Vorschub','Lochzahl abweichend','Endposition nicht 1','Bandposition nach Vorfahrt verloren','Positionssensor ungültig','Auswerfermeldungen widersprüchlich','Auswerfer hinten verloren','SGM-Wartefrist überschritten','Form offen während Vorschub oder Auswerferfreigabe verloren'];
+const results=['Keine Aktion','Angenommen','Ablauf beschäftigt / Änderung erst bei Ruhe','Nur im gestarteten Handbetrieb','Grundstellung / Einrichtung erforderlich','Fehler zuerst quittieren','E/A nicht betriebsbereit','Bandposition muss 1 sein','Ungültiger Auftrag','Bedienung zuerst übernehmen / Eingriffe freischalten','Auftrag veraltet – Zustand neu lesen','Speichern fehlgeschlagen','Nur im Automatikbetrieb','Schritt nicht mehr aktuell','Positionssensor ungültig','Betriebsart zuerst bewusst starten','Prozessbedingung nicht erfüllt','Ohne SGM ist Automatik gesperrt','A6 benötigt die zusätzliche Bestätigung','Haltegrund zuerst aufheben / bewusst fortsetzen','Änderung gesondert bestätigen'];
+const emInputs=[['ZB2 · SGM Automatik','BASIS_IN1'],['ZA7 · Form offen','BASIS_IN2'],['ZA6 · Form geschlossen','BASIS_IN3'],['ZB4 · Auswerfer vorne','BASIS_IN4'],['ZB3 · Auswerfer hinten','BASIS_IN5'],['ZA5 · Ausschuss','BASIS_IN6']];
+const emOutputs=[['B3 · Auswerfer zurück','BASIS_OUT1'],['A6 · Form schließen','BASIS_OUT2'],['B4 · Auswerfer vor','BASIS_OUT3'],['B2 · Roboter AUS','BASIS_OUT4']];
+const extLabels=['Loch-/Bandpositionssensor','Zange-2-Einrichttaster','Automatikpause','Bandende'];
+// Own extension identifiers from E03; no original-machine details are embedded.
+const moveBmk=["DEMO-V5-12","DEMO-V5-14","DEMO-V4-14","DEMO-V4-12","DEMO-V3-14","DEMO-V3-12","DEMO-V2-12","DEMO-V2-14","DEMO-V1-14","DEMO-V1-12"];
+const moduleBmk=['DEMO-EXT1','DEMO-EXT2'];
+// v03-transport: one HTTP operation per browser, including status, commands and logs.
+let state=null,online=false,degraded=false,pageName='Automatik',sending=false,timesDirty=false,inputsDirty=false,skipConfigDirty=false,netLoaded=false,logCursor=0;
+let setupExitReturn=null;
+let skipAnswerPendingToken=0,lastSkipQuestionToken=0;
+let lastStatusAt=0,httpBusy=false,pollPending=false;
+const observationGapMs=6000,autoPageDelayMs=300000;
+let autoObservedSince=null,lastAutoObservation=null,networkDirty=false;
+const httpQueue=[];
+let session=Number(sessionStorage.getItem('demo-automation-session'))||crypto.getRandomValues(new Uint32Array(1))[0]||1;
+let sequence=Number(sessionStorage.getItem('demo-automation-sequence'))||0;
+sessionStorage.setItem('demo-automation-session',String(session));
+el('sessionName').value=sessionStorage.getItem('demo-automation-name')||(location.hostname==='192.0.2.10'?'RJ45-Haupt-HMI':innerWidth<768?'Mobile HMI':'Bedienplatz');
+let toastTimer;
+const bit=(word,n)=>(word>>>n)&1;
+function euromapValue(id,value){
+ const cell=el(id);
+ cell.innerHTML=pill(value);
+ cell.classList.toggle('signal-on',!!value);
+}
+function faultDescription(record){
+ const name=faults[record[0]]||'Fehlercode '+record[0];
+ if(record[0]===3)return name+' · '+record[4]+' von 4 Löchern';
+ if(record[0]===9){
+  const step=record[2];
+  const target=[11,21].includes(step)?'Auswerfer vorne':[3,14,19,22].includes(step)?'Auswerfer hinten':'Form geschlossen';
+  return name+' · Warten auf „'+target+'“';
+ }
+ return name;
+}
+function currentFaultCondition(s){
+ if(!s.io)return 'E/A-Verbindung fehlt';
+ const code=s.fault[0];
+ if([2,4,5,6].includes(code)&&!s.bandValid)return 'Bandpositionssensor aktuell ungültig';
+ if([2,4,5].includes(code)&&!s.band)return 'Band aktuell außerhalb der Lochposition';
+ if(!s.standalone&&code===7&&bit(s.effectiveBase,3)&&bit(s.effectiveBase,4))return 'Beide Auswerfermeldungen liegen weiter an';
+ if(!s.standalone&&code===8&&!bit(s.effectiveBase,4))return 'Rückmeldung „Auswerfer hinten“ fehlt';
+ if(!s.standalone&&code===10){
+  if(bit(s.effectiveBase,1)&&bit(s.effectiveBase,2))return 'Formmeldungen widersprüchlich · „Form offen“ und „Form geschlossen“ gleichzeitig';
+  if(!bit(s.effectiveBase,1))return 'Rückmeldung „Form offen“ fehlt';
+ }
+ return '';
+}
+function faultIdentity(s){
+ if(!s||s.ack||!s.fault?.[0]||!Number.isInteger(s.boot)||s.boot<=0||s.boot>0xffffffff||
+    !Number.isInteger(s.faultSerial)||s.faultSerial<=0||s.faultSerial>0xffffffff)return '';
+ return s.boot+':'+s.faultSerial;
+}
+function renderFaultAcknowledge(s){
+ const widget=el('globalFaultWidget'),button=el('globalFaultAck'),label=el('globalFaultStatus');
+ const record=s?s.fault:state&&state.fault;
+ const fault=!!(record&&record[0]),pending=!!(s&&fault&&!s.ack);
+ widget.classList.toggle('attention',pending);
+ button.dataset.faultIdentity=faultIdentity(s);
+ button.disabled=!button.dataset.faultIdentity||!me()||!s.io||sending;
+ let text,kind;
+ if(!s){
+  text=(fault?'Zuletzt gemeldet: '+faultDescription(record)+'. ':'')+'Steuerung-Verbindung zur Quittierung wiederherstellen.';
+  kind='unknown';
+ }else if(pending){
+  const instruction=!s.io?'E/A-Verbindung wiederherstellen.':!me()?'Zur Quittierung Bedienung übernehmen.':
+    !button.dataset.faultIdentity?'Aktuelle Fehlerkennung abwarten.':'Quittierung erforderlich.';
+  const formCondition=record[0]===10&&s.io?currentFaultCondition(s):'';
+  text=[faultDescription(record),formCondition,instruction].filter(Boolean).join(' · ');
+  kind='attention';
+ }else if(fault){
+  const reason=currentFaultCondition(s)||(!s.faultHome?'Grundstellung erforderlich':'');
+  text='Quittiert · '+faultDescription(record)+(reason?' · '+reason:' (letzter Fehler)');
+  kind=reason?'attention':'good';
+ }else{
+  text=s.io?'Kein Fehler':'E/A-Verbindung fehlt';
+  kind=s.io?'good':'attention';
+ }
+ if(label.textContent!==text)label.textContent=text;
+ label.className='fault-ack-status '+kind;
+}
+const pill=value=>'<span class="pill '+(value?'on':'')+'">'+(value?'1 · EIN':'0 · AUS')+'</span>';
+const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hex=s=>Array.from(new TextEncoder().encode(s),b=>b.toString(16).padStart(2,'0')).join('');
+function sessionLabel(){let value='';for(const c of el('sessionName').value.trim()){if(new TextEncoder().encode(value+c).length>32)break;value+=c;}return value||'Bedienplatz';}
+const selected=s=>s.selectedAuto===undefined?!!s.auto:!!s.selectedAuto;
+function toast(text,bad=false){el('toast').textContent=text;el('toast').classList.toggle('bad',bad);el('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el('toast').hidden=true,4500);}
+function me(){return online&&!degraded&&state&&state.owner===session;}
+function enqueueHttp(work,priority=false){
+ return new Promise((resolve,reject)=>{const item={work,resolve,reject};if(priority)httpQueue.unshift(item);else httpQueue.push(item);drainHttp();});
+}
+async function drainHttp(){
+ if(httpBusy)return;httpBusy=true;
+ try{while(httpQueue.length){const item=httpQueue.shift();try{item.resolve(await item.work());}catch(error){item.reject(error);}}}
+ finally{httpBusy=false;}
+}
+async function fetchJson(url,options={}){
+ const response=await fetch(url,{cache:'no-store',...options,signal:AbortSignal.timeout(4000)});
+ const value=await response.json();if(!response.ok&&value.result===undefined)throw Error('HTTP '+response.status);return value;
+}
+async function readStatus(){
+ const boot=state?state.boot:0,name=hex(sessionLabel());
+ const value=await fetchJson('/api/status?sid='+session+'&boot='+boot+'&name='+name,{headers:{'X-Opta-Control':'1'}});
+ lastStatusAt=Date.now();degraded=false;render(value);return value;
+}
+function failedRead(){
+ hideSgmCycleTime();
+ observeHandValves(null);
+ degraded=true;const age=lastStatusAt?Date.now()-lastStatusAt:Infinity;
+ if(age>=observationGapMs){setupExitReturn=null;autoObservedSince=lastAutoObservation=null;online=false;document.body.classList.add('offline');el('connection').textContent='● Verbindung unterbrochen · Daten veraltet';el('connection').className='bad';}
+ else{el('connection').textContent='● Antwort verzögert · letzte Daten vor '+(age/1000).toFixed(1)+' s';el('connection').className='warn';}
+ el('ownerLabel').textContent=state&&state.owner?'Bedienhoheit bleibt bei '+(state.ownerName||'zuletzt bekanntem Bedienplatz')+'.':'Bedienstelle noch nicht ermittelt.';
+ document.querySelectorAll('button:not([data-local-info]),select,input').forEach(x=>{if(!x.hasAttribute('data-nav'))x.disabled=true;});
+ el('global').classList.remove('waiting-sgm');el('modeBadge').textContent='Status unbekannt';el('activity').textContent=online?'Antwort verzögert':'Verbindung unterbrochen';
+ closeConfirmation(false);el('skipDialog').hidden=true;renderBand(state);renderFaultAcknowledge(null);renderSetup(null);renderShortReleases(null);renderDiagnosis(null);
+}
+async function request(command,quiet=false,onSend=null){
+ if(!state||!online||degraded)return null;
+ if(sending)return null;sending=true;
+ try{
+  return await enqueueHttp(async()=>{
+   if(Date.now()-lastStatusAt>1000)await readStatus();
+   if(!state||!online||degraded)return null;
+   if(onSend&&onSend()===false)return null;
+   sequence=(sequence+1)>>>0;if(!sequence)sequence=1;
+   sessionStorage.setItem('demo-automation-sequence',String(sequence));
+   const stamp=(state.stamp+Math.max(0,Date.now()-lastStatusAt))>>>0;
+   const response=await fetchJson('/api/cmd',{method:'POST',headers:{'X-Opta-Control':'1','Content-Type':'text/plain'},body:[state.boot,session,sequence,stamp,command].join(',')});
+   if(response.result===20&&response.settingChallenge)showConfirmation('setting',response.settingChallenge,'⚠️ Einstellung ändern',response.settingText||'Änderung am laufenden Ablauf bewusst übernehmen?',command);
+   else if(!quiet){
+    const reason=typeof response.detail==='string'&&response.detail;
+    toast(reason||results[response.result]||'Unbekannte Rückmeldung',response.result!==1&&response.result!==18);
+   }
+   if(response.result===18)el('a6Confirm').hidden=false;
+   return response;
+  },true);
+ }catch(_){if(!quiet)toast('Antwort fehlt. Zustand neu lesen; Auftrag wird nicht automatisch wiederholt.',true);failedRead();return null;}
+ finally{sending=false;}
+}
+function holdsText(s){
+ const a=[];if(s.holds&1&&(s.active||s.setup&&s.setup.state!=='inactive'))a.push('Betrieb angehalten');if(s.holds&2)a.push('Abwickelpause – Pausenschalter aktiv');
+ if(s.holds&4)a.push('Bandende · Band zurücklegen und bewusst starten');
+ if(s.holds&8)a.push('Force beendet · reale Zustände prüfen und bewusst starten');
+ if(s.holds&16&&!s.ack)a.push('Störung · gezielte Korrektur und Quittierung erforderlich');
+ return a;
+}
+function activity(s){
+ if(!s.ack&&s.fault&&s.fault[0])return 'Störung · '+faultDescription(s.fault);
+ if(!s.io)return 'Wartet auf gültige E/A-Verbindung';
+ if(s.setup&&s.setup.state!=='inactive')return s.setup.state==='requested'?'Bandeinrichtung wird vorbereitet · '+s.setup.reason:s.setup.busy?'Bandeinrichtung · '+setupActionName(s.setup.action):'Einrichten aktiv · Ablauf angehalten';
+ if(s.toHand)return 'Stoppübergang · begonnene Einzelbewegung beenden';
+ if(!s.ack)return 'Störung: '+(faults[s.fault[0]]||'Fehlerbild prüfen')+' · gezielte Korrektur möglich';
+ if(s.holds&2)return 'Abwickelpause – Pausenschalter aktiv';
+ if(s.skip&&s.skip.question)return 'Zeitüberschreitung Zyklus · vor dem Vorschub auf Ja/Nein warten';
+ if(s.autoWaitingSgm)return bit(s.effectiveBase,0)?s.startCondition||'Startbedingungen prüfen':'Warte auf Spritzgussautomatik';
+ if(s.queuedHome)return 'Grundstellung angefordert · nach bewusster Freigabe';
+ if(s.pending)return 'Nächster Schritt: '+(steps[s.pending]||s.pending)+(s.auto&&!bit(s.effectiveBase,0)?' · SGM-Bereitschaft fehlt':s.tip?' · Schritt weiter':s.holds?' · Haltegrund prüfen':'');
+ if(s.job){
+  if(s.step===11)return 'Wartet auf Auswerfer vorne bei offener Form und SGM-Bereitschaft';
+  if(s.step===3||s.step===14||s.step===19)return 'Wartet auf Auswerfer hinten · Zange 2 hält';
+  return (jobs[s.job]||'Ablauf')+' · '+(steps[s.step]||s.step);
+ }
+ if(s.proofs[4])return bit(s.normal,1)?'Wartet auf Form geschlossen':'Formschluss wartet auf gültige Bandposition';
+ if(!s.active)return selected(s)&&s.startCondition?s.startCondition:(selected(s)?'Automatik':'Hand')+' ausgewählt · bewusst starten';
+ if(s.holds)return holdsText(s).join(' · ')||'Haltegrund prüfen';
+ if(s.auto)return s.proofs[5]?'Maschinenperiode bereit':'Wartet auf neue Öffnungsperiode';
+ return 'Bereit für einzelne Handbewegungen';
+}
+function showPage(name){
+ if(name!==pageName)setupExitReturn=null;
+ if(name!==pageName&&el('setupBandDialog').open)el('setupBandDialog').close();
+ if(name!==pageName&&autoObservedSince!==null)autoObservedSince=performance.now();
+ pageName=name;
+ drawHandValves();
+ el('autoBrief').hidden=name!=='Automatik';
+ document.querySelectorAll('[data-page]').forEach(x=>x.hidden=x.dataset.page!==name);
+ document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('current',x.dataset.nav===name));
+ if(name==='Status')loadLog();
+ const heading=document.querySelector('[data-page="'+name+'"] h1');if(heading)heading.setAttribute('tabindex','-1');
+}
+let sgmCycleTimer, sgmCycleExpiresAt = 0;
+function isCoupledAutomaticRun(s) {
+    return s.boot && s.io && s.ack && s.active && s.auto && !s.standalone && bit(s.effectiveBase, 0)
+      && !s.autoWaitingSgm && !s.toHand && !s.holds && !s.tip && !s.queuedHome && s.job !== 1 && s.job !== 2
+      && s.setup && s.setup.state === 'inactive' && !(s.skip && s.skip.question);
+  }
+function hideSgmCycleTime() {
+    clearTimeout(sgmCycleTimer);
+    sgmCycleExpiresAt = 0;
+    const line = el('sgmCycleTime');
+    line.hidden = true;
+    if (line.textContent) line.textContent = '';
+  }
+function expireSgmCycleTime() {
+    if (!sgmCycleExpiresAt) return;
+    clearTimeout(sgmCycleTimer);
+    const remainingMs = sgmCycleExpiresAt - performance.now();
+    if (remainingMs <= 0) hideSgmCycleTime();
+    else sgmCycleTimer = setTimeout(expireSgmCycleTime, Math.ceil(remainingMs));
+  }
+function renderSgmCycleTime(s) {
+    const cycle = s && s.automaticCycle;
+    if (!cycle || !isCoupledAutomaticRun(s)
+      || !Number.isSafeInteger(cycle.durationMs) || cycle.durationMs <= 0
+      || !Number.isSafeInteger(cycle.ageMs) || cycle.ageMs < 0 || cycle.ageMs > 30000) {
+      hideSgmCycleTime();
+      return;
+    }
+    const line = el('sgmCycleTime');
+    const time = (Math.round(cycle.durationMs / 100) / 10).toFixed(1).replace('.', ',');
+    const label = 'Zykluszeit: ' + time + ' s';
+    if (line.textContent !== label) line.textContent = label;
+    line.hidden = false;
+    sgmCycleExpiresAt = performance.now() + Math.min(observationGapMs, 30001 - cycle.ageMs);
+    expireSgmCycleTime();
+  }
+window.addEventListener('pageshow', expireSgmCycleTime);
+document.addEventListener('visibilitychange', expireSgmCycleTime);
+function observeAutoPage(s,changedBoot){
+ const running=isCoupledAutomaticRun(s);
+ if(changedBoot||!running)autoObservedSince=lastAutoObservation=null;
+ if(!running||document.visibilityState==='hidden')return;
+ const now=performance.now();
+ if(lastAutoObservation===null||now-lastAutoObservation>=observationGapMs)autoObservedSince=now;
+ lastAutoObservation=now;
+ if(pageName==='Automatik'||now-autoObservedSince<autoPageDelayMs)return;
+ const editing=pageName==='Setup'&&(timesDirty||inputsDirty||skipConfigDirty||networkDirty);
+ const field=document.activeElement;
+ if(editing||(field&&field.matches('input:not(:disabled),select:not(:disabled),textarea,[contenteditable="true"]'))||
+    sending||confirmationOpening||pendingConfirm||!el('confirmDialog').hidden||!el('skipDialog').hidden||
+    document.querySelector('dialog[open]')||(pageName==='Euromap'&&!el('a6Confirm').hidden))return;
+ showPage('Automatik');window.scrollTo({top:0,behavior:'instant'});
+}
+pages.forEach(name=>{
+ const index=pages.indexOf(name);if(index===0||index===3||index===4){const group=document.createElement('span');group.className='nav-heading';group.textContent=index===0?'Betrieb':index===3?'Einstellungen':'Diagnose';el('navigation').append(group);}
+ const b=document.createElement('button');b.innerHTML='<span class="nav-icon" aria-hidden="true">'+['✋','▶','<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="26" height="1em" viewBox="0 0 26 24" style="display:block;margin-inline:auto"><path d="M2.5 7 12.75 17 13.25 7 23.5 17" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>','⚙','⇄','⇄','▤'][index]+'</span><span>'+(pageLabels[name]||name)+'</span>';b.dataset.nav=name;
+ b.onclick=()=>showPage(name);el('navigation').append(b);
+});
+const valveNames=['Vorschub 1','Vorschub 1 · Zange','Vorschub 1 · feste Bandklemme','Vorschub 2 (SGM)','Vorschub 2 (SGM) · Zange'];
+for(let v=0;v<5;v++){
+ const card=document.createElement('div');card.className='panel';
+ card.innerHTML='<div class="manual-title"><h2>'+valveNames[v]+'</h2><small>'+(v===0||v===3?'Vorschubbewegung':'Öffnen / Schließen')+'</small></div><div class="manual-state"><div id="pos'+v+'" class="metrics">Status unbekannt</div><div class="muted" id="wait'+v+'" hidden></div><div class="progress" hidden aria-hidden="true"><div id="bar'+v+'"></div></div></div><div class="actions"><button data-cmd="manual,'+(v*2)+'" aria-pressed="false" aria-describedby="pos'+v+' wait'+v+'">'+(v===0||v===3?'Zurück':'Öffnen')+'</button><button data-cmd="manual,'+(v*2+1)+'" aria-pressed="false" aria-describedby="pos'+v+' wait'+v+'">'+(v===0||v===3?'Vor':'Schließen')+'</button></div>';
+ el('manualCards').append(card);
+}
+const handValveNodes = [...el("manualCards").children].map((card, i) => ({
+  buttons:[...card.querySelectorAll('button[data-cmd]')],status:el('pos'+i),wait:el('wait'+i),bar:el('bar'+i)
+}));
+let handValveSnapshot = null, handValveTick;
+function valveDirection(s, index) {
+    if (!s || !s.io || !online || degraded || !Array.isArray(s.positions)) return -1;
+    const coil = 4 + 2 * index;
+    if (s.forceOut && (s.forceOut[coil] >= 0 || s.forceOut[coil + 1] >= 0)) return -1;
+    const value = s.positions[index];
+    return value === 0 || value === 1 ? value : -1;
+  }
+function observeHandValves(s) {
+    const now = performance.now();
+    const prior = handValveSnapshot;
+    if (!s || !s.io || !online || degraded) {
+      handValveSnapshot = null;
+    } else {
+      const sameBoot = prior && prior.boot === s.boot;
+      const sameSample = sameBoot && (s === prior.source || (s.stamp !== undefined && s.stamp === prior.stamp));
+      const rows = handValveNodes.map((_, i) => {
+        const direction = valveDirection(s, i);
+        const remaining = s.waiting && s.waiting[i];
+        const raw = Number.isFinite(remaining) && remaining >= 0 ? remaining : null;
+        const old = sameBoot && prior.rows[i];
+        const sameAction = old && prior.jobNumber === s.jobNumber && old.direction === direction && old.raw > 0 && raw > 0;
+        const config = s.times && s.times[2 * i + direction];
+        const total = sameAction ? old.total : Number.isFinite(config) && direction >= 0 ? Math.max(100, config, raw || 0) : 0;
+        // Only the controller's remaining time establishes a deadline. Redraws of
+        // the same value never restart it, including after leaving and returning.
+        const until = sameAction && raw === old.raw ? old.until : now + (raw || 0);
+        return {direction,raw,total,until};
+      });
+      handValveSnapshot = {source:s,boot:s.boot,stamp:s.stamp,jobNumber:s.jobNumber,at:sameSample?prior.at:now,rows};
+    }
+    drawHandValves();
+  }
+function drawHandValves() {
+    clearTimeout(handValveTick);
+    const now = performance.now();
+    const snap = handValveSnapshot;
+    const fresh = snap && now - snap.at < observationGapMs;
+    let next = fresh ? Math.ceil(observationGapMs - (now - snap.at)) : 0;
+    for (const [i, node] of handValveNodes.entries()) {
+      const row = fresh ? snap.rows[i] : null;
+      const known = row && row.direction >= 0;
+      const ms = known && row.raw > 0 ? Math.max(0, row.until - now) : 0;
+      const status = !known ? 'Status unbekannt' : row.raw === null ? 'Richtung angesteuert'
+        : row.raw === 0 ? 'Zeitlich angenommen' : ms > 0 ? 'Stellzeit läuft' : 'Aktuellen Status abwarten';
+      const wait = ms > 0 ? 'Noch ' + (Math.ceil(ms / 100) / 10).toFixed(1).replace('.', ',') + ' s' : '';
+      if (node.status.textContent !== status) node.status.textContent = status;
+      if (node.wait.textContent !== wait) node.wait.textContent = wait;
+      node.wait.hidden = !wait;
+      for (const [direction, button] of node.buttons.entries()) {
+        const pressed = String(Boolean(known && row.direction === direction));
+        if (button.getAttribute('aria-pressed') !== pressed) button.setAttribute('aria-pressed', pressed);
+      }
+      node.bar.parentElement.hidden = !(ms > 0 && row.total > 0);
+      node.bar.style.width = ms > 0 && row.total > 0 ? Math.min(100, 100 * ms / row.total).toFixed(1) + '%' : '0%';
+      if (ms > 0) next = Math.min(next, 100, Math.ceil(ms));
+    }
+    if (next > 0 && pageName === 'Hand' && !document.hidden) handValveTick = setTimeout(drawHandValves, next);
+  }
+document.addEventListener('visibilitychange', drawHandValves);
+const limits=['SGM Auswerfer vor · 0 = unbegrenzt','SGM Auswerfer zurück · 0 = unbegrenzt','SGM Form schließen · 0 = unbegrenzt'];
+moves.concat(limits).forEach((name,i)=>{
+ const l=document.createElement('label');l.textContent=name+' (ms)';
+ const input=document.createElement('input');input.type='number';input.id='time'+i;input.min=i<10?20:0;input.max=i<10?30000:3600000;input.required=true;input.oninput=()=>timesDirty=true;l.append(input);el('timeInputs').append(l);
+});
+function expansionInputRow(s,module,index){
+ const slot=module*16+index;
+ const name=module===1&&index<4?extLabels[index]:'Reserve';
+ const channel='EXT'+(module+1)+'_IN'+(index+1);
+ return '<tr id="ioInput'+module+'-'+index+'"><td class="signal">'+channel+'<small>'+name+' · '+moduleBmk[module]+':I'+(index+1)+'</small><small class="io-input-use" id="ioUse'+module+'-'+index+'"></small></td><td id="ioRaw'+module+'-'+index+'">–</td><td id="ioEffective'+module+'-'+index+'">–</td><td><select data-sim-ext="'+slot+'" class="io-simulation-binding" aria-label="Simulation '+channel+'"><option value="-1">Normal</option><option value="0">Sim - 0</option><option value="1">Sim - 1</option></select><span class="override-state" hidden>Simulation aktiv</span></td></tr>';
+}
+function renderExpansionInputs(s){
+ if(!el('extensionInputs').children.length)el('extensionInputs').innerHTML=Array.from({length:4},(_,index)=>expansionInputRow(s,1,index)).join('');
+ if(!el('extensionReserveInputs').children.length)el('extensionReserveInputs').innerHTML=Array.from({length:32},(_,i)=>({module:i<16?0:1,index:i%16})).filter(({module,index})=>module!==1||index>=4).map(({module,index})=>expansionInputRow(s,module,index)).join('');
+ const bindingAvailable=Array.isArray(s.forceExt)&&Array.isArray(s.effectiveExt);
+ for(let module=0;module<2;module++)for(let index=0;index<16;index++){
+  const slot=module*16+index;
+  const value=bindingAvailable?s.forceExt[slot]:-1;
+  const active=value>=0;
+  const raw=bit(s.rawExt[module],index);
+  const effective=bindingAvailable?bit(s.effectiveExt[module],index):raw;
+  const row=el('ioInput'+module+'-'+index),select=row.querySelector('[data-sim-ext]');
+  if(s.io)euromapValue('ioRaw'+module+'-'+index,raw);else{el('ioRaw'+module+'-'+index).textContent='Unbekannt';el('ioRaw'+module+'-'+index).classList.remove('signal-on');}
+  if(s.io||active)euromapValue('ioEffective'+module+'-'+index,effective);else{el('ioEffective'+module+'-'+index).textContent='Unbekannt';el('ioEffective'+module+'-'+index).classList.remove('signal-on');}
+  select.disabled=!me()||!s.unlocked||sending||!bindingAvailable;
+  if(document.activeElement!==select||select.disabled)select.value=value;
+  select.classList.toggle('override-active',active);row.classList.toggle('forced',active);select.nextElementSibling.hidden=!active;
+  let use='Reserve';
+  if(module===1&&index===0)use=active?'Einzelsimulation wirksam':s.sim?'Bandpositionssimulation · Rohwert real':'Realer Positionssensor';
+  else if(module===1&&index<4)use=s.installed[index-1]?'Software aktiviert':'Vorbereitet · nicht aktiviert';
+  const useLabel=el('ioUse'+module+'-'+index);if(useLabel.textContent!==use)useLabel.textContent=use;
+ }
+}
+document.addEventListener('change',event=>{
+ const select=event.target.closest('select[data-sim-ext]');if(!select||select.disabled)return;
+ const slot=Number(select.dataset.simExt);
+ request('simext,'+Math.floor(slot/16)+','+(slot%16)+','+(Number(select.value)+1));
+});
+function forceSelect(kind,index){
+ const label=kind==='in'?'Simulation':'Force';
+ const prefix=kind==='in'?'Sim - ':'Force ';
+ return '<select data-force="'+kind+'" data-index="'+index+'" aria-label="'+label+' '+kind+' '+index+'"><option value="-1">Normal</option><option value="0">'+prefix+'0</option><option value="1">'+prefix+'1</option></select><span class="override-state" hidden>'+label+' aktiv</span>';
+}
+emInputs.forEach((row,i)=>el('euromapInputRows').insertAdjacentHTML('beforeend','<tr id="ei'+i+'"><td class="signal">'+row[0]+'<small>'+row[1]+' · DEMO-Steuerung:I'+(i+1)+'</small></td><td id="eir'+i+'">–</td><td id="eie'+i+'">–</td><td>'+forceSelect('in',i)+'</td></tr>'));
+emOutputs.forEach((row,i)=>el('euromapRows').querySelector('.euromap-legacy').insertAdjacentHTML('beforebegin','<tr id="eo'+i+'"><td class="signal">'+row[0]+'<small>'+row[1]+' · DEMO-Steuerung:'+(i+1)+'</small></td><td id="eon'+i+'">–</td><td id="eoa'+i+'">–</td><td>'+forceSelect('out',i)+'</td></tr>'));
+el('euromapInputRows').insertAdjacentHTML('beforeend','<tr class="euromap-local-heading"><td colspan="4">Lokale Basis-Eingänge</td></tr><tr><td>BASIS_IN7 · S1 MIT<small>Physische EUROMAP-Anbindung · DEMO-Steuerung:I7</small></td><td id="reserveBase6">–</td><td>Ungeforcter Rohwert</td><td>Nur Anzeige</td></tr><tr><td>BASIS_IN8<small>EUROMAP-Reserve · DEMO-Steuerung:I8</small></td><td id="reserveBase7">–</td><td>Keine Funktion</td><td>Reserve</td></tr>');
+moves.forEach((name,i)=>{
+ const channel=i<6?'EXT1_OUT'+(i+3):'EXT2_OUT'+(i-3);
+ el('valveRows').insertAdjacentHTML('beforeend','<tr><td class="signal">'+name+'<small>'+channel+' · '+moveBmk[i]+'</small></td><td id="vn'+i+'">–</td><td id="va'+i+'">–</td><td>'+forceSelect('out',i+4)+'</td></tr>');
+});
+el('valveRows').insertAdjacentHTML('beforeend','<tr id="ioV6Out7"><td class="signal">Ventilreserve V6<small>EXT2_OUT7 · DEMO-V6-14</small></td><td>'+pill(0)+'</td><td class="io-reserve-command">'+pill(0)+'</td><td>Vorbereitet</td></tr><tr id="ioV6Out8"><td class="signal">Ventilreserve V6<small>EXT2_OUT8 · DEMO-V6-12</small></td><td>'+pill(0)+'</td><td class="io-reserve-command">'+pill(0)+'</td><td>Vorbereitet</td></tr>');
+for(let m=1;m<=2;m++)for(let i=1;i<=2;i++)el('outputReserveRows').insertAdjacentHTML('beforeend','<tr id="ioReserveOut'+m+'-'+i+'"><td>EXT'+m+'_OUT'+i+'<small>'+moduleBmk[m-1]+':'+i+'</small></td><td>'+pill(0)+'</td><td class="io-reserve-command">'+pill(0)+'</td><td>Reserve</td></tr>');
+document.querySelectorAll('[data-cmd]:not([data-cmd="ack"])').forEach(b=>b.onclick=()=>{
+ if(!state)return;if(b.dataset.cmd==='hand'&&!selected(state)||b.dataset.cmd==='auto'&&selected(state))return;
+ const result=request(b.dataset.cmd);
+ if(b.dataset.cmd.startsWith('manual,'))result.then(response=>{
+  if(response && response.result===1)refreshSetupStatus();
+ });
+});
+const ackButton=el('globalFaultAck');
+let pressedFault=null;
+ackButton.addEventListener('pointerdown',()=>{pressedFault=ackButton.dataset.faultIdentity;});
+ackButton.onkeydown=e=>{
+ if(!e.repeat&&(e.key==='Enter'||e.key===' '))pressedFault=ackButton.dataset.faultIdentity;
+};
+ackButton.addEventListener('pointercancel',()=>{pressedFault=null;});
+ackButton.addEventListener('blur',()=>{pressedFault=null;});
+ackButton.onclick=async()=>{
+ const identity=pressedFault??ackButton.dataset.faultIdentity;
+ pressedFault=null;
+ if(!identity)return;
+ const stillCurrent=()=>{
+  if(faultIdentity(state)===identity&&me()&&state.io)return true;
+  toast('Fehlerstand geändert. Aktuelle Meldung prüfen und erneut quittieren.',true);
+  return false;
+ };
+ if(!stillCurrent())return;
+ await request('ack,'+state.faultSerial,false,stillCurrent);
+ await refreshSetupStatus();
+};
+document.querySelectorAll('[data-force]').forEach(select=>select.onchange=()=>request('force'+select.dataset.force+','+select.dataset.index+','+(Number(select.value)+1)));
+el('claim').onclick=()=>{const name=sessionLabel();el('sessionName').value=name;sessionStorage.setItem('demo-automation-name',name);request('claim,'+hex(name));};
+el('profile').onchange=()=>request('profile,'+el('profile').value);
+el('sim').onchange=()=>request('sim,'+el('sim').value);
+el('tip').onclick=()=>request('tip,'+(state.tip?0:1));
+el('autoTargets').onchange=()=>request('targets,'+el('autoTargets').value);
+el('next').onclick=()=>request('next,'+state.stepToken);
+el('a6Yes').onclick=()=>request('confirmA6,'+state.a6Challenge);
+el('a6Cancel').onclick=()=>request('cancelA6');
+el('timingForm').onsubmit=async e=>{
+ e.preventDefault();const r=await request('save,'+Array.from({length:13},(_,i)=>el('time'+i).value).join(','));if(r&&r.result===1)timesDirty=false;
+};
+['skipMode','skipSeconds'].forEach(id=>{el(id).oninput=el(id).onchange=()=>skipConfigDirty=true;});
+el('skipForm').onsubmit=async e=>{
+ e.preventDefault();const mode=Number(el('skipMode').value),seconds=Number(el('skipSeconds').value);
+ if(!Number.isInteger(mode)||mode<0||mode>2||!Number.isInteger(seconds)||seconds<5||seconds>60){toast('Modus und Zeitgrenze von 5 bis 60 Sekunden prüfen.',true);return;}
+ const r=await request('skip-config,'+mode+','+seconds);if(r&&r.result===1)skipConfigDirty=false;
+};
+['buttonInstalled','pauseInstalled','bandEnd'].forEach(id=>el(id).onchange=()=>inputsDirty=true);
+el('inputsForm').onsubmit=async e=>{
+ e.preventDefault();const r=await request('inputs,'+['buttonInstalled','pauseInstalled','bandEnd'].map(id=>el(id).checked?1:0).join(','));if(r&&r.result===1)inputsDirty=false;
+};
+el('netread').onclick=async()=>{
+ const r=await request('netread');if(r&&r.network){el('ssid').value=r.network.ssid;el('password').value=r.network.password;el('wifiEnabled').value=r.network.wifi;netLoaded=true;networkDirty=false;}
+};
+el('networkForm').oninput=el('networkForm').onchange=()=>{networkDirty=true;};
+el('showPassword').onclick=()=>{el('password').type=el('password').type==='password'?'text':'password';el('showPassword').textContent=el('password').type==='password'?'Passwort anzeigen':'Passwort verdecken';};
+el('networkForm').onsubmit=async e=>{
+ e.preventDefault();if(!netLoaded){toast('Netzwerkdaten zuerst laden.',true);return;}
+ const r=await request('network,'+el('wifiEnabled').value+','+hex(el('ssid').value)+','+hex(el('password').value));
+ if(r&&r.result===1){networkDirty=false;toast('Netzwerk gespeichert. Bei WLAN-Änderung neu verbinden; LAN bleibt 192.0.2.10.');}
+};
+let pendingConfirm=null,confirmTimer,confirmationOpening=false;
+function closeConfirmation(cancelled=true){
+ const previous=pendingConfirm;pendingConfirm=null;clearTimeout(confirmTimer);el('confirmDialog').hidden=true;el('confirmYes').disabled=true;
+ if(cancelled&&previous&&me()&&state.boot===previous.boot&&previous.kind!=='setup')request(previous.kind==='setting'?'setting-cancel':'force-cancel',true);
+}
+
+
+function updatePinnedLayout(){
+ const root=document.documentElement,portrait=innerWidth>=820&&innerHeight>=1000&&innerHeight>innerWidth,header=document.querySelector('body>header');
+ const values={'--hmi-view-top':'0px','--hmi-view-height':innerHeight+'px','--hmi-pinned-header':(portrait&&header?Math.ceil(header.offsetHeight):0)+'px'};
+ for(const [key,value]of Object.entries(values))if(root.style.getPropertyValue(key)!==value)root.style.setProperty(key,value);
+}
+let pinnedLayoutPending=false;
+function schedulePinnedLayout(){if(pinnedLayoutPending)return;pinnedLayoutPending=true;requestAnimationFrame(()=>{pinnedLayoutPending=false;updatePinnedLayout();});}
+window.addEventListener('resize',schedulePinnedLayout,{passive:true});
+if(typeof ResizeObserver!=='undefined'){const observer=new ResizeObserver(schedulePinnedLayout);observer.observe(document.querySelector('body>header'));observer.observe(el('operatingDock'));}
+updatePinnedLayout();
+
+
+function showConfirmation(kind,token,title,text,command=''){
+ if(pendingConfirm)closeConfirmation(false);
+ const item={kind,boot:state.boot,token,command,ready:false};pendingConfirm=item;
+ el('confirmTitle').textContent=title;el('confirmText').textContent=text;
+ el('confirmDialog').hidden=false;el('confirmCancel').disabled=false;el('confirmYes').disabled=true;el('confirmCancel').focus({preventScroll:true});
+ confirmTimer=setTimeout(()=>{if(pendingConfirm===item&&me()){item.ready=true;el('confirmYes').disabled=false;}},500);
+}
+document.querySelectorAll('.forceUnlock').forEach(button=>button.onclick=async()=>{
+ if(pendingConfirm||confirmationOpening||!me())return;
+ confirmationOpening=true;const r=await request('force-arm',true);confirmationOpening=false;
+ if(!r||r.result!==1||!r.armToken||!me())return;
+ showConfirmation('force',r.armToken,'⚠️ Force / Simulation freischalten','Ausgänge forcen / Eingänge simulieren? Bis „Normal“ aktiv.');
+});
+el('confirmYes').onclick=async e=>{
+ const item=pendingConfirm;if(!item||!item.ready||e.detail>1||!me()||state.boot!==item.boot)return;
+ closeConfirmation(false);
+ if(item.kind==='setup'&&item.command&&!(state.setup&&state.setup.state==='active'&&Array.isArray(state.setup.allowed)&&state.setup.allowed.includes('setup-without-sgm-on')))return;
+ const r=await request(item.kind==='setup'?(item.command||'setup-enter'):(item.kind==='setting'?'setting-confirm,':'force-unlock,')+item.token);
+ if(item.kind==='setup'){await refreshSetupStatus();return;}
+ if(r&&r.result===1&&item.kind==='setting'){
+  if(item.command.startsWith('save,'))timesDirty=false;
+  if(item.command.startsWith('inputs,'))inputsDirty=false;
+  if(item.command.startsWith('skip-config,'))skipConfigDirty=false;
+  if(item.command.startsWith('network,')){networkDirty=false;toast('Netzwerk übernommen. Bei WLAN-Änderung neu verbinden. RJ45 bleibt 192.0.2.10.');}
+ }
+};
+el('confirmCancel').onclick=()=>closeConfirmation();
+el('confirmDialog').onclick=e=>{if(e.target===el('confirmDialog'))closeConfirmation();};
+document.addEventListener('keydown',e=>{
+ if(!el('skipDialog').hidden){
+  if(e.key==='Escape'){e.preventDefault();return;}
+  if(e.key==='Tab'){const first=el('skipNo'),last=el('skipYes');if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}
+  return;
+ }
+ if(!pendingConfirm)return;
+ if(e.key==='Escape'){e.preventDefault();closeConfirmation();}
+ if(e.key==='Tab'){
+  const first=el('confirmCancel'),last=el('confirmYes').disabled?first:el('confirmYes');
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+ }
+});
+
+function setupActionName(command){const names={'manual,2':'Zange Vorschub 1 öffnen','manual,3':'Zange Vorschub 1 schließen','manual,4':'Feste Bandklemme öffnen','manual,5':'Feste Bandklemme schließen','manual,8':'Zange Vorschub 2 öffnen','manual,9':'Zange Vorschub 2 schließen','home,1':'Grundstellung Vorschub 1','home,2':'Grundstellung Vorschub 2','home,3':'Grundstellung beider Vorschübe',feed1:'Ein Takt · Vorschub 1',feed2:'Ein Takt · Vorschub 2',both:'Ein Takt · beide Vorschübe','eject-rear':'Auswerfer zurück freigeben','eject-front':'Auswerfer vor freigeben','mould-close':'Formschließung freigeben','setup-without-sgm-on':'Temporäre EUROMAP-Freigabe aktivieren','setup-without-sgm-off':'Temporäre EUROMAP-Freigabe beenden'};return names[command]||command||'';}
+async function refreshSetupStatus(){try{await enqueueHttp(()=>readStatus());}catch(_){failedRead();}}
+function openSetupPage(){showPage('Bandeinrichtung');const section=document.querySelector('[data-page="Bandeinrichtung"]');if(section)section.scrollIntoView({block:'start',behavior:'smooth'});}
+el('global').onclick=el('autoBrief').onclick=()=>{showPage('Status');window.scrollTo({top:0,behavior:'smooth'});const heading=document.querySelector('[data-page="Status"] h1');if(heading)heading.focus({preventScroll:true});};
+el('setup-open').onclick=openSetupPage;document.querySelectorAll('[data-setup-nav]').forEach(b=>b.onclick=openSetupPage);
+el('setupEnter').onclick=()=>{
+ if(!me()||!state.setup||!state.setup.canEnter||sending)return;
+ const message=state.standalone?
+   'Ohne SGM: Beim Aktivieren werden B3, A6, B4 und B2 freigegeben. Bandeinrichtung aktivieren?':
+   'Ablauf geordnet anhalten und Bandeinrichtung aktivieren? Anschließend Automatik bewusst starten.';
+ showConfirmation('setup',0,'⚠️ Bandeinrichtung aktivieren',message);
+};
+function sameSetupOwner(ticket,s){
+ return s&&s.boot===ticket.boot&&s.logBoot===ticket.logBoot&&s.owner===session&&
+   (s.ownerConnected===undefined||Boolean(s.ownerConnected));
+}
+function observeSetupExit(s){
+ const ticket=setupExitReturn;
+ if(!ticket)return;
+ const newFault=!s.ack&&(!ticket.faultWasActive||s.fault?.[0]!==ticket.faultCode||s.fault?.[7]!==ticket.faultAt);
+ if(pageName!=='Bandeinrichtung'||!sameSetupOwner(ticket,s)||!s.io||newFault||!s.setup||
+    (ticket.accepted&&performance.now()-ticket.acceptedAt>2*observationGapMs)){
+   setupExitReturn=null;return;
+ }
+ // A queued read can describe the previous scan. Never use an older snapshot as completion proof.
+ if(((s.stamp-ticket.stamp)|0)<0)return;
+ if(s.setup.state==='requested'||(!ticket.sent&&s.setup.state!=='active')){setupExitReturn=null;return;}
+ if(!ticket.accepted||s.setup.state!=='inactive')return;
+ setupExitReturn=null;
+ if(s.active||s.autoWaitingSgm)return;
+ window.showPage('Automatik');
+ if(pageName==='Automatik')window.scrollTo({top:0,behavior:'instant'});
+}
+el('setupExit').onclick=async()=>{
+ if(!me()||sending||!state.setup||!state.setup.canExit)return;
+ const origin=state.setup.state,ticket={boot:state.boot,logBoot:state.logBoot,stamp:state.stamp,
+   faultWasActive:!state.ack,faultCode:state.fault?.[0],faultAt:state.fault?.[7],sent:false,accepted:false};
+ if(origin==='active'&&pageName==='Bandeinrichtung'&&state.io)setupExitReturn=ticket;
+ const result=await request('setup-exit',false,()=>{
+   if(setupExitReturn!==ticket)return;
+   if(!me()||!sameSetupOwner(ticket,state)||!state.setup||state.setup.state!==origin||!state.setup.canExit){setupExitReturn=null;return;}
+   ticket.stamp=state.stamp;ticket.sent=true;
+ });
+ if(setupExitReturn===ticket){
+   if(result&&result.result===1){ticket.accepted=true;ticket.acceptedAt=performance.now();}
+   else setupExitReturn=null;
+ }
+ await refreshSetupStatus();
+};
+document.querySelectorAll('[data-setup-action]').forEach(b=>b.onclick=async()=>{
+ if(!me()||sending||b.disabled)return;
+ if(b.dataset.setupAction==='setup-without-sgm-on'){
+  showConfirmation('setup',0,'⚠️ SGM: EUROMAP temporär freigeben?','Die vier betrieblichen EUROMAP-Freigaben B3, A6, B4 und B2 gelten bis zum Ausschalten oder Beenden der Bandeinrichtung.','setup-action,setup-without-sgm-on');
+  return;
+ }
+ await request('setup-action,'+b.dataset.setupAction);await refreshSetupStatus();
+});
+function withoutSgm(s) {
+    return Boolean(s && (s.standalone || (s.setup && s.setup.state === 'active' && s.setup.effectiveWithoutSgm)));
+  }
+function renderSetupSgm(s) {
+    const card = el('tempEuromapCard');
+    const hint = el('setupWithoutSgmHint');
+    const known = Boolean(s && s.setup);
+    const permanent = Boolean(s && s.standalone);
+    const temporary = Boolean(known && s.setup.state === 'active' && s.setup.withoutSgm);
+    card.disabled = !known || permanent;
+    const message = permanent ? 'Ohne SGM im Setup angewählt'
+      : known ? 'Gibt B3, A6, B4 und B2 für diese Einrichtsitzung frei.'
+      : 'Status unbekannt';
+    if (hint.textContent !== message) hint.textContent = message;
+    for (const button of card.querySelectorAll('[data-setup-action]')) {
+      const chosen = known && !permanent && (temporary === (button.dataset.setupAction === 'setup-without-sgm-on'));
+      button.setAttribute('aria-pressed',String(chosen));
+    }
+  }
+function shortReleaseLabel(group, release) {
+    if (!release || !(release.remainingMs > 0)) return '';
+    if (group === 'mould') {
+      if (release.direction === 2) return 'Formschließung freigegeben';
+    } else {
+      if (release.direction === 1) return 'Auswerfer vor freigegeben';
+      if (release.direction === 2) return 'Auswerfer zurück freigegeben';
+    }
+    return '';
+  }
+function renderShortReleases(s) {
+    for (const node of document.querySelectorAll('[data-short-state]')) {
+      const group = node.dataset.shortState;
+      const release = s && (group === 'mould' ? s.mouldRelease : s.shortRelease);
+      const label = shortReleaseLabel(group, release);
+      let message = withoutSgm(s) && s.setup && s.setup.state === 'active'
+        ? 'Ohne SGM · betriebliche Freigaben bereits aktiv'
+        : release ? 'Keine Kurzfreigabe aktiv' : 'Status unbekannt';
+      if (label) {
+        const seconds = (Math.ceil(release.remainingMs / 100) / 10).toFixed(1).replace('.', ',');
+        message = label + ' · ' + seconds + ' s verbleiben';
+      }
+      if (node.textContent !== message) node.textContent = message;
+      node.classList.toggle('on', Boolean(label));
+    }
+  }
+function renderSetup(s){
+ renderSetupSgm(s);
+ const available=!!(s&&s.setup),setup=available?s.setup:{state:'inactive',canEnter:0,canExit:0,allowed:[],blocked:{}},own=!!(s&&me()),on=setup.state!=='inactive';
+ const label=!s?'Status unbekannt':!available?'Bandeinrichtung nicht verfügbar':setup.state==='requested'?'Einrichtung wird vorbereitet':setup.state==='active'?(setup.busy?'Einrichtauftrag läuft':'Bandeinrichtung aktiv'):'Bandeinrichtung nicht aktiv';
+ el('setupState').textContent=label;
+ el('setupReason').textContent=!s?'Verbindung wiederherstellen.':!available?'Status der Einrichtfunktion ist noch nicht verfügbar.':!own?'Beobachtung · Bedienung zuerst übernehmen.':setup.state==='active'?(withoutSgm(s)?'Ohne SGM · gezielte Einrichtfunktionen wählen.':setup.reason||'Regulärer Ablauf angehalten. Funktion wählen.'):setup.state==='requested'?(setup.reason||'Wartet auf einen zulässigen Haltepunkt.'):setup.enterReason||setup.last||'Zum Bandeinrichten bewusst aktivieren.';
+ el('setupEnter').hidden=on;el('setupEnter').disabled=!own||!available||!setup.canEnter||sending;
+ el('setupExit').hidden=!on;el('setupExit').disabled=!own||!setup.canExit||sending;
+ el('setupExit').title=setup.exitReason||'';
+ el('setupEnter').closest('.setup-session').classList.toggle('is-active',setup.state==='active');el('setupEnter').closest('.setup-session').classList.toggle('is-waiting',setup.state==='requested');
+ el('setupProgress').hidden=!setup.busy;el('setupActionLabel').textContent=setupActionName(setup.action)||'Einrichtauftrag läuft';el('setupActionProgress').value=Math.max(0,Math.min(100,Number(setup.progress)||0));
+ el('setup-global-banner').hidden=!on;el('setupGlobalState').textContent=setup.state==='requested'?'Bandeinrichtung angefordert':withoutSgm(s)?'Einrichten aktiv · Ohne SGM':'Einrichten aktiv · Automatik und EUROMAP angehalten';el('setupGlobalReason').textContent=withoutSgm(s)&&setup.state==='active'?'Betriebliche EUROMAP-Freigaben aktiv':setup.reason||setupActionName(setup.action)||'Gezielte Aktionen auf der Bandeinrichtseite';
+ document.querySelectorAll('[data-setup-action]').forEach(b=>{const command=b.dataset.setupAction,allowed=Array.isArray(setup.allowed)&&setup.allowed.includes(command);b.disabled=!own||!available||!allowed||sending;b.title=setup.blocked&&setup.blocked[command]||(!own?'Bedienung zuerst übernehmen':on?'': 'Bandeinrichtung zuerst aktivieren');});
+ document.querySelectorAll('[data-force="out"]').forEach(select=>{if(Number(select.dataset.index)>=4)return;if(on&&!s.standalone)select.disabled=true;select.title=on&&!s.standalone?'Einrichten aktiv · automatische EUROMAP-Anforderungen angehalten':'';});
+ if(on&&!s.standalone)el('a6Yes').disabled=true;
+ document.querySelectorAll('[data-setup-guard]').forEach(hint=>{const buttons=[...hint.parentElement.querySelectorAll('[data-setup-action]')],reasons=[...new Set(buttons.map(b=>setup.blocked&&setup.blocked[b.dataset.setupAction]).filter(Boolean))];hint.hidden=!on||!!setup.busy||!reasons.length;hint.textContent=reasons.slice(0,2).join(' · ');});
+ for(const i of [1,2,4]){
+  const hint=el('setup-pos'+i),row=hint.closest('.fixture-row');
+  const direction=valveDirection(s,i);
+  const known=direction===0||direction===1;
+  hint.hidden=known;
+  const buttons=row.querySelectorAll('button[data-setup-action]');
+  for(const button of buttons){
+   const closed=button.dataset.setupAction==='manual,'+(2*i+1);
+   const pressed=String(known&&closed===(direction===1));
+   if(button.getAttribute('aria-pressed')!==pressed)button.setAttribute('aria-pressed',pressed);
+  }
+ }
+ el('setupHomeState').textContent=!s?'Status unbekannt':(s.homeMask&3)===3?'Beide grundgestellt':!(s.homeMask&3)?'Grundstellung fehlt':s.homeMask&1?'V2 benötigt Grundstellung':'V1 benötigt Grundstellung';
+ const cycleHoles=el('setupCycleHoles'),count=setup.feed2Holes;
+ const showCycleHoles=available&&on&&Number.isInteger(count)&&count>=0;
+ cycleHoles.hidden=!showCycleHoles;
+ cycleHoles.textContent=showCycleHoles?'Loch '+count+'/4':'';
+ el('autoContext').textContent=withoutSgm(s)?'Ohne SGM':s&&s.autoTargets===1?'Vorschub 1':s&&s.autoTargets===2?'Vorschub 2 (SGM)':'Beide Vorschübe';
+ if(on){el('modeBadge').textContent=setup.state==='requested'?'Einrichtung wird vorbereitet':'Bandeinrichtung · aktiv';document.querySelectorAll('#globalActions [data-cmd="start"],#globalActions [data-cmd="hand"],#globalActions [data-cmd="auto"]').forEach(b=>b.disabled=true);document.querySelectorAll('[data-cmd^="eject-"],[data-cmd^="loop,"],[data-cmd="skip"]').forEach(b=>b.disabled=true);}
+}
+
+const bandReaders=[
+ {button:el('setupBandOpen'),caption:el('setupBandText')},
+ {button:el('handBandOpen'),caption:el('handBandText')}
+];
+function renderBandReaders(text,kind,s){
+ const value=kind==='is-hole'?'in':kind==='is-no-hole'?'out':'unknown';
+ const label=text.replace(/\s+/g,' ');
+ for(const {button,caption} of bandReaders){
+  if(button.dataset.bandState!==value)button.dataset.bandState=value;
+  if(caption.textContent!==label)caption.textContent=label;
+ }
+ const square=el('setupBandSquare');
+ if(square.dataset.bandState!==value)square.dataset.bandState=value;
+ if(square.textContent!==label)square.textContent=label;
+ const source=el('handBandSource');
+ const simulated=s&&online&&!degraded&&(s.sim||(s.forceExt&&s.forceExt[16]>=0));
+ const sourceLabel=simulated?'Simulation':'';
+ if(source.textContent!==sourceLabel){source.textContent=sourceLabel;source.hidden=!simulated;}
+}
+function setupBandViewer(){
+ const dialog=el('setupBandDialog'),close=el('setupBandClose');
+ let opener=null;
+ for(const {button} of bandReaders)button.addEventListener('click',event=>{
+  event.preventDefault();
+  if(!dialog.open){opener=button;dialog.showModal();}
+ });
+ close.addEventListener('click',event=>{event.preventDefault();dialog.close();});
+ for(const control of [...bandReaders.map(reader=>reader.button),close])control.addEventListener('keydown',event=>{
+  if(event.key===' '){event.preventDefault();if(!event.repeat)control.click();}
+ });
+ dialog.addEventListener('click',event=>{
+  if(event.target!==dialog)return;
+  const r=dialog.getBoundingClientRect();
+  if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();
+ });
+ dialog.addEventListener('close',()=>{
+  if(opener&&!opener.closest('[data-page]').hidden)opener.focus({preventScroll:true});
+  opener=null;
+ });
+}
+setupBandViewer();
+function renderBand(s){
+ const indicator=el('bandMetric');let text='Wert wird gelesen',kind='is-invalid',validity='Wert noch nicht verfügbar';
+ if(s){
+  if(!online){text='Keine Verbindung';kind='is-offline';validity='Offline · Daten veraltet';}
+  else if(degraded){text='Wert veraltet';kind='is-offline';validity='Antwort verzögert · aktueller Wert nicht bestätigt';}
+  else if(!s.io||!s.bandValid){text='Sensor ungültig';validity='Kein gültiger Bandpositionswert';}
+  else{text=s.band?'Band in Position':'Band nicht\nin Position';kind=s.band?'is-hole':'is-no-hole';validity='Gültiger Sensorzustand';}
+ }
+ renderBandReaders(text,kind,s);
+ if(indicator.textContent!==text)indicator.textContent=text;
+ indicator.className='band-indicator '+kind;
+ el('bandSource').textContent=s?(s.forceExt&&s.forceExt[16]>=0?'Quelle: Eingangssimulation':s.sim?'Quelle: Simulation 4 Löcher':'Quelle: realer EXT2_IN1'):'Quelle noch nicht bekannt';
+ el('bandValidity').textContent=validity;
+}
+function skipState(s){return Object.assign({mode:0,seconds:30,requested:0,active:0,question:0,source:0,token:0,serial:0,last:0,elapsedMs:0,pending:0,stored:0,storageError:0,generation:0},s&&s.skip||{});}
+function renderSkip(s){
+ const skip=skipState(s),own=me();
+ let text='Keine Aussetzung vorgemerkt';
+ if(skip.active)text='Aktiv · '+(skip.source===2?'Zeitüberschreitung bestätigt':'manuell')+' · beide Vorschübe stehen ohne Vor- oder Rückfahrt';
+ else if(skip.question)text='Zeitüberschreitung · Bestätigung offen · vor dem Vorschub auf Ja/Nein warten';
+ else if(skip.requested)text=skip.source===2?'Zeitüberschreitung bestätigt · vorgemerkt · erneutes Drücken storniert':'Manuell vorgemerkt · erneutes Drücken storniert';
+ else if(skip.mode===0)text='Aussetzen deaktiviert';
+ else if(skip.last===1)text='Einmalauftrag erledigt · wieder normaler Bandvorschub';
+ else if(skip.last===2)text='Vormerkung storniert';
+ else if(skip.mode===2)text='Manuell möglich · Zeitüberwachung '+skip.seconds+' s mit Bestätigung';
+ else text='Manuell möglich · kein Auftrag vorgemerkt';
+ const marked=!!(skip.requested||skip.active||skip.question);
+ document.querySelectorAll('[data-cmd="skip"]').forEach(button=>{button.classList.toggle('skip-active',marked);button.setAttribute('aria-pressed',marked?'true':'false');button.disabled=!own||!selected(s)||s.standalone||!skip.mode||!!skip.active||!!s.toHand||sending;});
+ document.querySelectorAll('[data-skip-state]').forEach(x=>{x.textContent=text;x.classList.toggle('on',marked);});
+ if(!skipConfigDirty){el('skipMode').value=String(skip.mode);el('skipSeconds').value=skip.seconds;}
+ el('skipMode').disabled=el('skipSeconds').disabled=!own||sending||!s.skip;
+ el('skipForm').querySelector('button').disabled=!own||sending||!s.skip;
+ const storage=skip.storageError?'Speichern fehlgeschlagen':skip.pending?'Speichern vorgemerkt':skip.stored?'Gespeichert':'Standardwerte · noch nicht gespeichert';
+ el('skipSetupState').textContent=storage;
+ el('skipSetupState').className=skip.storageError?'bad':skip.pending?'warn':'muted';
+ const dialog=el('skipDialog'),wasHidden=dialog.hidden;
+ const show=own&&skip.question&&skip.token&&!pendingConfirm&&!confirmationOpening;
+ dialog.hidden=!show;
+ if(!skip.question||skip.token!==skipAnswerPendingToken)skipAnswerPendingToken=0;
+ el('skipYes').disabled=el('skipNo').disabled=!show||sending||skipAnswerPendingToken===skip.token;
+
+ if(show&&(wasHidden||lastSkipQuestionToken!==skip.token))el('skipNo').focus({preventScroll:true});
+ lastSkipQuestionToken=skip.token;
+}
+async function answerSkip(yes){
+ const skip=skipState(state);if(!me()||!skip.question||!skip.token||sending||skipAnswerPendingToken===skip.token)return;
+ const token=skip.token;skipAnswerPendingToken=token;el('skipYes').disabled=el('skipNo').disabled=true;
+ const r=await request('skip-answer,'+token+','+(yes?1:0));
+ if(!r||r.result!==1)skipAnswerPendingToken=0;
+ if(state)renderSkip(state);
+}
+el('skipYes').onclick=()=>answerSkip(true);el('skipNo').onclick=()=>answerSkip(false);
+function render(s){
+ const changedBoot=state&&state.boot!==s.boot;
+ lastStatusAt=Date.now();degraded=false;
+ if(changedBoot){netLoaded=false;networkDirty=false;timesDirty=false;inputsDirty=false;skipConfigDirty=false;skipAnswerPendingToken=lastSkipQuestionToken=0;toast('Steuerung neu gestartet. Betriebsart bewusst starten.');}
+ state=s;online=true;document.body.classList.remove('offline');
+ const own=me(),chosen=selected(s);
+ if(pendingConfirm&&(!own||changedBoot||(pendingConfirm.command==='setup-action,setup-without-sgm-on'&&!(s.setup&&s.setup.state==='active'&&Array.isArray(s.setup.allowed)&&s.setup.allowed.includes('setup-without-sgm-on')))))closeConfirmation(false);
+ const hand=own&&!s.auto&&!s.toHand&&s.active&&!(s.holds&9)&&s.io;
+ const act=activity(s),reasons=holdsText(s);
+ const inputSimulation=s.forceIn.some(value=>value>=0),outputForce=s.forceOut.some(value=>value>=0);
+ const extensionSimulation=(s.forceExt||[]).some(value=>value>=0);
+ el('claim').disabled=sending||!s.boot||own;el('claim').textContent=own?'✓ Bedienung aktiv':'Bedienung übernehmen';el('claim').dataset.owned=String(own);
+ el('sessionName').hidden=own;el('ownerLabel').textContent=(s.ownerName||'Frei')+(own?' · dieser Browser':s.owner?(s.ownerConnected?' · verbunden':' · offline'):' · Beobachtung');
+ el('connection').textContent='● Verbunden · '+(s.clientNetwork||'Steuerung');el('connection').className='good';
+ el('modeSelection').textContent=(chosen?'Automatik':'Hand')+' gewählt'+(withoutSgm(s)?' · Ohne SGM':'');
+ el('modeBadge').textContent=s.toHand?'Einzelbewegung endet · danach inaktiv':(s.active?(s.auto?'Automatik':'Hand')+(s.holds&2?' · Abwickelpause':s.holds?' · angehalten':' aktiv'):(chosen?'Automatik':'Hand')+' inaktiv · Start erforderlich');
+ el('activity').textContent=act;
+ el('global').classList.toggle('waiting-sgm',!!s.autoWaitingSgm&&!withoutSgm(s));
+ const notices=[];
+ if(s.forcing)notices.push('! '+[outputForce?'Force':'',(inputSimulation||extensionSimulation)?'Simulation':''].filter(Boolean).join(' / ')+' aktiv');
+ if(!s.io)notices.push('E/A ungültig');
+ if(s.storageError)notices.push('Speicherfehler · Einstellungen noch nicht dauerhaft gesichert');
+ else if(s.configPending)notices.push('Parameter übernommen · dauerhafte Speicherung vorgemerkt');
+ if(s.profilePending)notices.push('Profilwechsel nach Ende der Einzelbewegung');
+ notices.push(...reasons.filter(reason=>!act.includes(reason)));
+ el('notices').textContent=notices.join(' | ');
+ const effectiveWithoutSgm=withoutSgm(s);
+ el('standaloneBanner').hidden=!effectiveWithoutSgm;
+ el('standaloneBanner').textContent=s.standalone?'Ohne SGM · Hand-Einzelbewegungen und gezielte Takte in der Bandeinrichtung':'Ohne SGM · für diese Bandeinrichtung';
+ const euromapOutputForced=s.forceOut.slice(0,4).some(value=>value>=0);
+ const euromapForced=inputSimulation||euromapOutputForced;
+ const forcedOutputs=s.forceOut.slice(0,4).filter(value=>value>=0).length;
+ const simulatedInputs=s.forceIn.filter(value=>value>=0).length;
+ const overrideSummary=el('euromapOverrideState');
+ overrideSummary.hidden=!euromapForced;
+ const overrideText=[forcedOutputs?'Force aktiv · '+forcedOutputs+' '+(forcedOutputs===1?'Ausgang':'Ausgänge'):'',simulatedInputs?'Simulation aktiv · '+simulatedInputs+' '+(simulatedInputs===1?'Eingang':'Eingänge'):''].filter(Boolean).join(' / ');
+ if(overrideSummary.textContent!==overrideText)overrideSummary.textContent=overrideText;
+ const ioForced=s.forceOut.slice(4).some(value=>value>=0);
+ el('sidebarWarnings').hidden=!effectiveWithoutSgm&&!s.sim&&!euromapForced&&!ioForced&&!extensionSimulation;
+ el('standaloneWarning').hidden=!effectiveWithoutSgm;
+ el('profileStandaloneWarning').hidden=!s.standalone;
+ const standaloneWarningText=s.setup&&s.setup.withoutSgm?'Einrichten · EUROMAP temporär freigegeben':s.released?'EUROMAP-Prozesssignale freigegeben':'EUROMAP-Freigabe nach Betriebsstart';
+ if(el('standaloneWarningText').textContent!==standaloneWarningText)el('standaloneWarningText').textContent=standaloneWarningText;
+ el('simulationWarning').hidden=!s.sim&&!(s.forceExt&&s.forceExt[16]>=0);
+ el('euromapForceWarning').hidden=!euromapForced;
+ if(euromapForced)el('euromapForceWarning').querySelector('strong>span:last-child').textContent=[euromapOutputForced?'Force':'',inputSimulation?'Simulation':''].filter(Boolean).join(' / ')+' EUROMAP aktiv';
+ el('ioForceWarning').hidden=!ioForced&&!extensionSimulation;
+ if(ioForced||extensionSimulation)el('ioForceWarning').querySelector('strong>span:last-child').textContent=[ioForced?'Force':'',extensionSimulation?'Simulation':''].filter(Boolean).join(' / ')+' E/A aktiv';
+ const ioOverrideState=el('ioMonitorOverrideState');
+ ioOverrideState.hidden=!ioForced&&!s.sim&&!extensionSimulation;
+ const ioCount=s.forceOut.slice(4).filter(value=>value>=0).length;
+ const ioSimCount=(s.forceExt||[]).filter(value=>value>=0).length;
+ const ioOverrideText=[ioForced?'Force aktiv · '+ioCount+' '+(ioCount===1?'Ausgang':'Ausgänge'):'',ioSimCount?'Simulation aktiv · '+ioSimCount+' '+(ioSimCount===1?'Eingang':'Eingänge'):'',s.sim?'Simulation Bandposition aktiv':''].filter(Boolean).join(' / ');
+ if(ioOverrideState.textContent!==ioOverrideText)ioOverrideState.textContent=ioOverrideText;
+
+ document.querySelectorAll('nav button').forEach(b=>b.disabled=false);
+ el('sessionName').disabled=false;
+ document.querySelectorAll('[data-cmd]').forEach(b=>{
+  const cmd=b.dataset.cmd;
+  let allowed=own;
+  if(cmd.startsWith('manual,'))allowed=hand&&!s.job&&(!s.setup||s.setup.state==='inactive');
+
+  if(cmd==='feed1'||cmd==='feed2'||cmd==='both')allowed=own&&s.active&&!s.holds&&!s.job&&(s.standalone?!s.auto:!!s.auto);
+  if(cmd==='normal')allowed=own&&(s.unlocked||s.forcing);
+  if(cmd==='hand')allowed=own&&chosen&&!s.toHand&&(!s.setup||s.setup.state==='inactive');
+  if(cmd==='auto')allowed=own&&!chosen&&!s.toHand&&!s.standalone&&(!s.setup||s.setup.state==='inactive');
+  if(cmd==='start'){
+   allowed=own&&s.io&&!s.toHand&&!s.networkPending&&!s.profilePending&&(!chosen||s.ack)&&(!s.active||!!s.holds)&&(!s.setup||s.setup.state==='inactive');
+   b.textContent=chosen?'Automatik starten':'Hand starten';
+   b.title=chosen&&!s.ack?'Fehler zuerst quittieren':!s.io?'E/A-Verbindung wiederherstellen':'';
+  }
+  if(cmd==='stop')allowed=own&&(s.active||!!s.job||s.toHand||s.setup?.withoutSgm||!!(s.shortRelease&&s.shortRelease.direction)||!!(s.mouldRelease&&s.mouldRelease.direction));
+  if(cmd.startsWith('eject-'))allowed=own&&s.io&&!effectiveWithoutSgm&&!s.toHand&&!s.profilePending&&!s.networkPending&&s.forceOut[0]<0&&s.forceOut[2]<0;
+  if(cmd.startsWith('loop,'))allowed=own&&chosen&&!s.standalone&&!s.toHand;
+  if(cmd==='skip')allowed=own&&chosen&&!s.standalone&&!!s.skip&&s.skip.mode>0&&!s.skip.active&&!s.toHand;
+  b.disabled=!allowed||sending;
+  if(cmd==='hand'||cmd==='auto')b.classList.toggle('active',cmd===(chosen?'auto':'hand'));
+ });
+ renderFaultAcknowledge(s);
+ document.querySelectorAll('.forceUnlock').forEach(b=>{
+  b.disabled=!own||s.unlocked||sending;
+  const label='Force / Simulation';
+  b.textContent=label+(s.unlocked?' freigeschaltet':' freischalten …');
+ });
+ document.querySelectorAll('[data-force]').forEach(x=>{
+  x.disabled=!own||!s.unlocked||sending;
+  const value=(x.dataset.force==='in'?s.forceIn:s.forceOut)[Number(x.dataset.index)];
+  if(document.activeElement!==x)x.value=value;
+  const active=value>=0;
+  x.classList.toggle('override-active',active);
+  x.closest('tr').classList.toggle('forced',active);
+  x.nextElementSibling.hidden=!active;
+ });
+ el('a6Confirm').hidden=!s.a6Challenge;el('a6Yes').disabled=!own||sending;el('a6Cancel').disabled=!own||sending;
+ for(let i=0;i<6;i++){
+  euromapValue('eir'+i,bit(s.rawBase,i));euromapValue('eie'+i,bit(s.effectiveBase,i));
+  el('ei'+i).classList.toggle('forced',s.forceIn[i]>=0);
+ }
+ for(let i=6;i<8;i++)euromapValue('reserveBase'+i,bit(s.rawBase,i));
+ for(let i=0;i<4;i++){
+  euromapValue('eon'+i,bit(s.normal,i));euromapValue('eoa'+i,bit(s.issued,i));
+  el('eo'+i).classList.toggle('forced',s.forceOut[i]>=0);
+ }
+ for(let i=0;i<10;i++){euromapValue('vn'+i,bit(s.normal,i+4));if(s.io)euromapValue('va'+i,bit(s.issued,i+4));else{el('va'+i).innerHTML='<span class="bad">Ausgabe unbekannt</span>';el('va'+i).classList.remove('signal-on');}}
+ observeHandValves(s);
+ const v1Running=[3,5,7].includes(s.job),v2Running=[4,5].includes(s.job);
+ el('overview1').textContent=v1Running?steps[s.step]:(s.homeMask&1?'Zeitlich grundgestellt':'Grundstellung offen');
+ el('overview2').textContent=v2Running?steps[s.step]:(s.homeMask&2?'Zeitlich grundgestellt':'Grundstellung offen');
+ el('node1').classList.toggle('current',v1Running);el('node2').classList.toggle('current',v2Running);
+ renderSgmCycleTime(s);
+ el('overviewSgm').textContent=effectiveWithoutSgm?'Ohne SGM':bit(s.effectiveBase,2)?'Form geschlossen':bit(s.effectiveBase,1)?'Form offen':'Zwischenstellung / wartet';
+ el('nodeSgm').classList.toggle('current',!effectiveWithoutSgm&&(!!s.proofs[4]||[4,5,6,7,8].includes(s.job)));
+ renderBand(s);
+ el('holeMetric').textContent=s.holes+' / 4';el('holeText').textContent=s.proofs[1]?'Vorschubtakte geprüft':'Zählfenster nur während V2-Vorfahrt';
+ el('handHelp').textContent=hand?'Jede Taste steuert eine Funktion.':'Hand wählen und starten.';
+ el('proofs').className='proof-grid';
+ el('proofs').innerHTML=['Einrichtposition','Vorschubtakte geprüft','Sucherübergabe','Erneute Bereitschaft','Formschluss läuft','Vorschubrecht'].map((name,i)=>'<div class="row"><span>'+name+'</span>'+pill(s.proofs[i])+'</div>').join('');
+ el('tip').textContent=s.tip?'Tippbetrieb ausschalten':'Tippbetrieb einschalten';el('tip').classList.toggle('active',!!s.tip);el('tip').disabled=!own||!chosen||!!s.job||!!s.toHand||sending||!!(s.setup&&s.setup.state!=='inactive');
+ el('autoTargets').disabled=!own||!!s.job||!!s.pending||!!s.toHand||!!s.proofs[4]||(s.auto&&s.active)||sending||!!(s.setup&&s.setup.state!=='inactive');el('autoTargets').value=s.autoTargets||3;
+ el('next').hidden=!s.tip||!s.pending;el('next').disabled=!own||!s.pending||!!s.holds||!s.active||sending;el('tipText').hidden=!s.tip;el('tipText').textContent=s.pending?'Nächster Schritt: '+steps[s.pending]:'Warten auf nächsten Schritt';
+ el('profile').disabled=!own||sending||!!s.profilePending||!!s.networkPending||!!(s.setup&&s.setup.state!=='inactive');el('sim').disabled=!own||sending;el('profileState').textContent=s.standalone?'Ohne SGM · Standalone':'Mit SGM';el('profileState').classList.toggle('is-standalone',!!s.standalone);
+ if(document.activeElement!==el('profile'))el('profile').value=Number(s.standalone);if(document.activeElement!==el('sim'))el('sim').value=Number(s.sim);
+ for(let i=0;i<13;i++){const input=el('time'+i);input.disabled=!own;if(!timesDirty)input.value=i<10?s.times[i]:s.limits[i-10];}
+ ['buttonInstalled','pauseInstalled','bandEnd'].forEach((id,i)=>{el(id).disabled=!own;if(!inputsDirty)el(id).checked=!!s.installed[i];});
+ document.querySelectorAll('#timingForm button,#inputsForm button,#networkForm button,#networkForm input,#networkForm select').forEach(x=>x.disabled=!own||sending);
+ el('networkState').textContent=(s.configPending?'Speicherung vorgemerkt · nächste bewegungsfreie Lücke. ':'')+(s.profilePending?'Profilwechsel wird nach der Einzelbewegung wirksam. ':'')+'LAN '+(s.lan?'bereit':'wartet auf Kabel/Link')+' · WLAN '+(s.wifi?'bereit':s.wifiEnabled?'nicht bereit':'AUS')+(s.networkPending?' · Übernahme angefordert':'');
+ renderExpansionInputs(s);
+ document.querySelectorAll('.io-reserve-command').forEach(cell=>cell.innerHTML=s.io?pill(0):'Unbekannt');
+ el('detailState').textContent=act+(reasons.filter(x=>!act.includes(x)).length?' · '+reasons.filter(x=>!act.includes(x)).join(' · '):'')+' · größter erfasster Zyklusabstand '+s.gapMs+' ms';
+ const f=s.fault;
+ el('faultState').textContent=f[0]?faults[f[0]]+' · '+jobs[f[1]]+' / '+steps[f[2]]+' · Löcher '+f[4]+' · Band '+f[5]+' · bei '+(f[7]/1000).toFixed(1)+' s. '+(!s.ack?'Quittieren erforderlich. ':'Quittiert. ')+(!s.ack?'Bandlage in der Bandeinrichtung gezielt kontrollieren.':'Beim bewussten Automatikstart aktuelle Voraussetzungen prüfen.'):faults[0];
+ el('faultState').classList.toggle('bad',!!f[0]&&(!s.ack));
+ renderShortReleases(s);
+ const loop=s.loop||{requested:0,active:0,remaining:0,completed:0,serial:0};
+ const loopParts=[];
+ if(loop.active)loopParts.push('In Ausführung: '+(loop.active>0?(loop.remaining?'V1 zweimal vollständig · SGM wartet · noch '+loop.remaining+' V1-Takt(e)':'Zwei V1-Takte abgeschlossen · V2 regulär'):'V1 setzt einmal aus · V2 regulär'));
+ if(loop.requested)loopParts.push('Vorgemerkt: '+(loop.requested>0?'zwei volle V1-Takte':'ein V1-Takt entfällt')+' im nächsten geeigneten Zyklus');
+ if(!loop.active&&!loop.requested)loopParts.push(loop.state===4?'Korrektur abgebrochen · keine weitere Einmalwirkung':loop.state===3?'Korrektur erledigt · wieder regulärer Zyklus':'Keine Korrektur vorgemerkt');
+ document.querySelectorAll('[data-loop-state]').forEach(x=>x.textContent=loopParts.join(' · '));
+ renderSkip(s);
+ renderSetup(s);renderDiagnosis(s);
+ el('version').textContent='DEMO · '+s.version+' · Laufzeit '+(s.stamp/1000).toFixed(0)+' s';
+ observeSetupExit(s);
+ observeAutoPage(s,changedBoot);
+}
+
+
+function diagPairs(rows){return rows.map(([label,value])=>'<dt>'+escape(label)+'</dt><dd>'+escape(value)+'</dd>').join('');}
+function diagDigital(value,valid=true){return valid?pill(value):'<span class="diag-unknown">Unbekannt</span>';}
+function diagnosticWaitBase(s){
+ const notes=[];if(!s.io)return {title:'E/A nicht betriebsbereit',notes:['Versorgung und Verbindung der Steuerung-Erweiterungen prüfen.']};
+ if(!s.ack)return {title:'Fehler nicht quittiert',notes:[faults[s.fault&&s.fault[0]]||'Gespeichertes Fehlerbild prüfen.','Bandlage und Prozesszustand vor der Quittierung prüfen.']};
+ if(s.setup&&s.setup.state==='requested')return {title:'Bandeinrichtung wird vorbereitet',notes:[s.setup.reason||'Laufenden Bewegungs- oder Übergabeschritt abschließen.']};
+ if(s.setup&&s.setup.state==='active'&&withoutSgm(s))return {title:'Bandeinrichtung ohne SGM',notes:[s.setup.busy?setupActionName(s.setup.action):'Automatikablauf angehalten.','Vier betriebliche EUROMAP-Freigaben aktiv.']};
+ if(s.setup&&s.setup.state==='active')return {title:s.setup.busy?'Gezielter Einrichtauftrag':'Bandeinrichtung aktiv',notes:[s.setup.busy?setupActionName(s.setup.action):'Fortlaufender Ablauf bleibt angehalten.',s.setup.reason||s.setup.last||'Nächste Einrichtfunktion bewusst wählen.'].filter(Boolean)};
+ if(s.toHand)return {title:'Stoppübergang läuft',notes:['Begonnene Bewegung endet; neue Aufträge sind gesperrt.']};
+ const holdLabels=[[1,'Bewusster HMI-Halt'],[2,'Abwickelpause · Hardware-Pausenschalter'],[4,'Bandende-Halt'],[8,'Force-/Simulationseingriff beendet'],[16,'Fehler-Haltegrund']];
+ holdLabels.forEach(([mask,label])=>{if(s.holds&mask)notes.push(label);});if(notes.length)return {title:'Haltegrund aktiv',notes};
+ if(s.autoWaitingSgm)return {title:activity(s),notes:[bit(s.effectiveBase,0)?'Automatikstart angenommen. Weitere Startbedingungen prüfen.':'Automatikstart angenommen. Die Steuerung wartet auf ZB2 (SGM Automatik).']};
+ if(s.active&&s.auto&&!s.standalone&&s.job!==3&&!bit(s.effectiveBase,0)&&(!s.job||s.pending)){
+  const note='ZB2 · SGM Automatik = 0.';
+  return {title:'Wartet auf SGM-Automatik',notes:[s.pending?note+' Vorbereitet: '+(steps[s.pending]||s.pending):note]};
+ }
+ if(s.tip&&s.pending)return {title:'Schrittfreigabe erforderlich',notes:['Vorbereitet: '+(steps[s.pending]||s.pending),'Mit „Schritt weiter“ bewusst freigeben.']};
+ if(!s.active)return {title:'Betrieb nicht gestartet',notes:[selected(s)&&s.startCondition?s.startCondition:'Betriebsart bewusst starten.']};
+ const remaining=Math.max(0,...(s.waiting||[]));if(remaining>0)return {title:'Bewegungszeit läuft',notes:['Restliche Zeitannahme: '+remaining+' ms','Eine Endlage wird dadurch nicht sensorisch bestätigt.']};
+ const target=s.pending||s.step,coupled=!s.standalone&&[2,4,5,6,7,8].includes(s.job);
+ if(coupled&&(target===11||target===21||s.pending===12)){
+  if(!s.bandValid)notes.push('Bandpositionssensor ungültig.');else if(!s.band)notes.push('Bandposition = 0 · kein Loch erkannt.');
+  if(!bit(s.effectiveBase,0))notes.push('ZB2 · SGM Automatik = 0.');if(!bit(s.effectiveBase,1))notes.push('ZA7 · Form offen = 0.');
+  if(target===12&&!bit(s.effectiveBase,3))notes.push('ZB4 · Auswerfer vorne = 0.');
+  if(notes.length)return {title:'Prozessfreigabe fehlt',notes};
+  if(target===11||target===21)return {title:'Auswerfer vorne',notes:['Schritt erwartet einen gültigen Auswerfer-vorne-Wechsel.','Pegel und Signalwechsel sind getrennte Bedingungen.']};
+ }
+ if(!s.standalone&&[3,14,19,22].includes(target))return {title:'Auswerfer hinten',notes:[bit(s.effectiveBase,4)?'ZB3 · Auswerfer hinten = 1.':'ZB3 · Auswerfer hinten = 0.','Schritt erwartet einen gültigen Auswerfer-hinten-Wechsel.']};
+ if(!s.standalone&&s.proofs&&s.proofs[4]&&!bit(s.effectiveBase,2))return {title:'Formschluss läuft',notes:['ZA6 · Form geschlossen = 0.']};
+ if(target===12&&(s.job===4||s.job===5))return {title:'Bandvorschub und Lochprüfung',notes:['Lochzählung: '+s.holes+' / 4','Endposition und Sensorwert werden im Ablauf geprüft.']};
+ if(s.pending)return {title:'Schritt vorbereitet',notes:[steps[s.pending]||String(s.pending),'Freigaben werden im Ablauf erneut geprüft.']};
+ if(s.job)return {title:'Ablauf in Bearbeitung',notes:[steps[s.step]||String(s.step)]};
+ if(s.auto)return {title:'Automatik wartet auf Ablaufanforderung',notes:[s.proofs&&s.proofs[5]?'Vorschubrecht ist vorhanden.':'Maschinenperiode und SGM-Ablauf prüfen.']};
+ return {title:'Bereit für Einzelbewegungen',notes:['Keine Bewegung angefordert.']};
+}
+function diagnosticWait(s){
+ const result=diagnosticWaitBase(s),labels=[[1,'Bewusster HMI-Halt'],[2,'Abwickelpause · Hardware-Pausenschalter'],[4,'Bandende-Halt'],[8,'Force-/Simulationseingriff beendet'],[16,'Fehler-Haltegrund']];
+ for(const [mask,label]of labels)if((s.holds&mask)&&!result.notes.includes(label))result.notes.push(label);
+ return result;
+}
+function compactStatus(s,wait){
+ if(!s)return ['neutral','Anlagenstatus unbekannt',online?'Steuerung-Antwort verzögert.':'Keine Verbindung zur Steuerung.'];
+ if(!s.io)return ['fault','E/A-Verbindung fehlt','Versorgung und Verbindung der Erweiterungen prüfen.'];
+ if(!s.ack)return ['fault',s.fault[0]?faultDescription(s.fault):'Störung gemeldet',currentFaultCondition(s)||'Fehler prüfen und quittieren.'];
+ const setup=s.setup||{};
+ if(setup.state==='requested')return ['wait','Bandeinrichtung angefordert',setup.reason||'Der laufende Schritt wird beendet.'];
+ const releaseLabel=shortReleaseLabel('mould',s.mouldRelease)||shortReleaseLabel('eject',s.shortRelease);
+ if(setup.state==='active')return ['neutral',withoutSgm(s)?'Bandeinrichtung ohne SGM':'Bandeinrichtung aktiv',releaseLabel||(setup.busy?setupActionName(setup.action):'Der Automatikablauf ist angehalten.')];
+ if(s.toHand)return ['wait','Stopp angefordert','Die begonnene Bewegung wird beendet.'];
+ if(s.holds&4)return ['wait','Halt am Bandende','Band einrichten und bewusst fortsetzen.'];
+ if(s.holds&2)return ['wait','Abwickelpause angefordert',s.job?'Der laufende Schritt wird beendet.':'Pausenschalter ist aktiv.'];
+ if(s.holds&8)return ['wait','Force oder Simulation beendet','Anlagenzustand prüfen und bewusst fortsetzen.'];
+ if(s.skip&&s.skip.question)return ['wait','Entscheidung zum Aussetzen offen','Soll der nächste Vorschubtakt aussetzen?'];
+ if(s.autoWaitingSgm)return ['wait',bit(s.effectiveBase,0)?s.startCondition||'Wartet auf Startfreigabe':'Wartet auf SGM-Automatik','Automatikstart ist bereits angenommen.'];
+ if(s.holds&1&&s.active)return ['wait','Betrieb angehalten',s.job?steps[s.step]||'Laufender Schritt':'Bewusst fortsetzen.'];
+ if(wait.title==='Wartet auf SGM-Automatik')return ['wait',wait.title,wait.notes[0]];
+ if(s.tip&&s.pending)return ['wait','Wartet auf Schrittfreigabe',steps[s.pending]||'Nächsten Schritt freigeben.'];
+ if(s.queuedHome)return ['wait','Grundstellung angefordert','Wartet auf Freigabe.'];
+ if(!s.job&&releaseLabel)return ['running',releaseLabel,'Kurzfreigabe aktiv.'];
+ if(!s.active&&!s.job)return [selected(s)&&s.startCondition?'wait':'neutral',selected(s)?'Automatik vor Start':'Handbetrieb vor Start',selected(s)&&s.startCondition?s.startCondition:'Wartet auf „'+(selected(s)?'Automatik':'Hand')+' starten“.'];
+ if(s.job){
+  if(wait.title==='Prozessfreigabe fehlt')return ['wait',wait.title,wait.notes[0]];
+  if(wait.title==='Auswerfer vorne'||wait.title==='Auswerfer hinten')return ['wait','Wartet auf '+wait.title,jobs[s.job]||''];
+  if(wait.title==='Formschluss läuft')return ['wait','Wartet auf geschlossene Form',jobs[s.job]||''];
+  return ['running',jobs[s.job]||'Ablauf aktiv',steps[s.step]||''];
+ }
+ if(s.proofs&&s.proofs[4])return ['wait',bit(s.normal,1)?'Wartet auf geschlossene Form':'Formschluss wartet auf Bandposition',''];
+ if(s.auto)return [s.proofs[5]?'neutral':'wait',s.proofs[5]?'Automatik bereit':'Wartet auf nächste Formöffnung',''];
+ return ['neutral','Handbetrieb bereit','Wartet auf Einzelbewegung.'];
+}
+function renderCompactStatus(s,wait){
+ const [tone,headline,detail]=compactStatus(s,wait),card=el('autoBrief'),head=el('briefHead'),note=el('briefDetail');
+ if(card.dataset.tone!==tone)card.dataset.tone=tone;
+ if(head.textContent!==headline)head.textContent=headline;
+ const hint=detail===headline?'':detail;
+ if(note.textContent!==hint)note.textContent=hint;
+ note.hidden=!hint;
+}
+let diagnosticFaultKey='';
+function renderDiagnosis(s){
+ const filter=el('logFilter');filter.disabled=false;
+ if(!s){renderCompactStatus(null);el('diagnosisConnection').textContent='Verbindung unterbrochen';el('detailState').textContent='Status unbekannt';el('diagnosisWaitTitle').textContent='Aktuelle Werte fehlen';el('diagnosisWaitList').innerHTML='<li>Verbindung wiederherstellen.</li>';el('diagnosisCurrentRows').textContent='';el('diagnosisReadinessRows').textContent='Status unbekannt';document.querySelectorAll('.diagnosis-signals td[data-diag-value]').forEach(e=>e.innerHTML='<span class="diag-unknown">Unbekannt</span>');el('proofs').textContent='Status unbekannt';el('diagnosticValveRows').innerHTML=valveNames.map((name,i)=>'<tr id="diagnostic-valve-'+i+'"><td>'+escape(name)+'</td><td>Unbekannt</td><td>Unbekannt</td></tr>').join('');el('diagnosticRequests').innerHTML=diagPairs([['Grundstellung vorgemerkt','Unbekannt'],['Schlaufenkorrektur','Unbekannt'],['Vorschub aussetzen','Unbekannt']]);el('diagnosisSignalSummary').textContent='Aktuelle Werte fehlen';el('diagnosisFaultSummary').textContent='Gespeicherter Stand · Verbindung fehlt';return;}
+ const valid=!!s.io,setup=s.setup||{state:'inactive'},fault=s.fault||Array(8).fill(0),wait=diagnosticWait(s);
+ renderCompactStatus(s,wait);
+ el('diagnosisConnection').textContent=valid?'E/A verbunden':'E/A ungültig';
+ el('detailState').textContent=setup.state==='active'?(setup.busy?setupActionName(setup.action):'Bandeinrichtung aktiv'):jobs[s.job]||'Unbekannter Auftrag';
+ const current=[['Betriebsart',selected(s)?'Automatik gewählt':'Hand gewählt'],['Betriebsfreigabe',s.active?'Gestartet':'Angehalten / nicht gestartet'],['Aktueller Schritt',s.job?(steps[s.step]||s.step):'Kein laufender Auftrag'],['Nächster vorbereiteter Schritt',s.pending?(steps[s.pending]||s.pending):'Keiner'],['Vorgang',String(s.jobNumber||0)]];
+ el('diagnosisCurrentRows').innerHTML=diagPairs(current);
+ el('diagnosisWaitTitle').textContent=wait.title;el('diagnosisWaitList').innerHTML=wait.notes.map(t=>'<li>'+escape(t)+'</li>').join('');
+ const targets=Number(s.autoTargets)||3,ready=[
+  ['E/A-Verbindung',valid?'Bereit':'Ungültig',valid?'good':'bad'],
+  ['Bandposition',!valid||!s.bandValid?'Ungültig':s.band?'Loch erkannt':'Kein Loch erkannt',!valid||!s.bandValid?'bad':s.band?'good':'warn'],
+  ['Grundstellung Vorschub 1',valid?(s.homeMask&1?'Zeitlich grundgestellt':'Fehlt'):'Unbekannt',!valid?'neutral':s.homeMask&1?'good':'warn'],
+  ['Grundstellung Vorschub 2',valid?(s.homeMask&2?'Zeitlich grundgestellt':'Fehlt'):'Unbekannt',!valid?'neutral':s.homeMask&2?'good':'warn'],
+
+  ['Fehlerquittierung',s.ack?'Quittiert / keine Anforderung':'Erforderlich',s.ack?'neutral':'bad'],
+  ['SGM-Prozesssignale',withoutSgm(s)?'Ohne SGM · nicht gefordert':'Roh-/Wirksamwerte unten','neutral'],
+  ['Automatik-Taktumfang',targets===1?'Nur Vorschub 1':targets===2?'Nur Vorschub 2':'Beide Vorschübe','neutral']
+ ];
+ el('diagnosisReadinessRows').innerHTML=ready.map(([label,value,kind],i)=>'<div class="diag-row"><span>'+escape(label)+'</span><span class="diag-value is-'+kind+'">'+escape(value)+'</span></div>').join('');
+ const forceIn=s.forceIn||[],forceOut=s.forceOut||[],extForce=s.forceExt||[],rawExt=s.rawExt||[],effectiveExt=s.effectiveExt||rawExt;
+ el('diagnosisSignalSummary').textContent=s.forcing?'Force / Simulation aktiv':s.sim?'Bandsimulation aktiv':withoutSgm(s)?'SGM nicht gefordert':'Aktuelle Signalpegel';
+ const bandSource=extForce[16]>=0?'Simulation '+extForce[16]:s.sim?'Bandsimulation':'Realer EXT2_IN1';
+ let extension='<tr id="diagnostic-band"><td>Bandposition<small>EXT2_IN1</small></td><td data-diag-value>'+diagDigital(bit(rawExt[1]||0,0),valid&&!!s.bandValid)+'</td><td data-diag-value>'+diagDigital(s.band,valid&&!!s.bandValid)+'</td><td>'+bandSource+(valid&&!s.bandValid?' · ungültig':'')+'</td></tr>';
+ ['Zange-2-Einrichttaster','Hardwarepause','Band vorhanden'].forEach((name,i)=>{const index=i+1,override=extForce[16+index];extension+='<tr id="diagnostic-ext-'+index+'" data-signal-index="'+index+'"><td>'+name+'<small>EXT2_IN'+(index+1)+'</small></td><td data-diag-value>'+diagDigital(bit(rawExt[1]||0,index),valid)+'</td><td data-diag-value>'+diagDigital(bit(effectiveExt[1]||0,index),valid)+'</td><td>'+(s.installed&&s.installed[i]?'Aktiviert':'Nicht aktiviert')+(override>=0?' · Simulation '+override:'')+'</td></tr>';});el('diagnosticExtensionRows').innerHTML=extension;
+ el('diagnosticInputRows').innerHTML=emInputs.map(([name,channel],i)=>'<tr id="diagnostic-in-'+i+'" data-signal-index="'+i+'"><td>'+escape(name)+'<small>'+channel+'</small></td><td data-diag-value>'+diagDigital(bit(s.rawBase,i),valid)+'</td><td data-diag-value>'+diagDigital(bit(s.effectiveBase,i),valid)+'</td><td>'+(forceIn[i]>=0?'Simulation '+forceIn[i]:'Realer Eingang')+(withoutSgm(s)?' · nicht gefordert':i===5?' · Statussignal':'')+'</td></tr>').join('');
+ el('diagnosticOutputRows').innerHTML=emOutputs.map(([name,channel],i)=>'<tr id="diagnostic-out-'+i+'"><td>'+escape(name)+'<small>'+channel+'</small></td><td data-diag-value'+(i===1?' id="closeMetric"':'')+'>'+diagDigital(bit(s.normal,i),valid)+'</td><td data-diag-value>'+diagDigital(bit(s.issued,i),valid)+'</td><td>'+(forceOut[i]>=0?'Force '+forceOut[i]:s.standalone?'Ohne SGM · Profilfreigabe':withoutSgm(s)?'Ohne SGM · Einrichtfreigabe':'Normal')+'</td></tr>').join('');
+ const positionLabels=[['Zurück','Vor'],['Öffnen','Schließen'],['Öffnen','Schließen'],['Zurück','Vor'],['Öffnen','Schließen']];
+ el('diagnosticValveRows').innerHTML=valveNames.map((name,i)=>'<tr id="diagnostic-valve-'+i+'"><td>'+escape(name)+'</td><td>'+(!valid?'Unbekannt':!s.positions||s.positions[i]<0?'Unbekannt':positionLabels[i][s.positions[i]]+' befohlen')+'</td><td>'+(!valid?'Unbekannt':!s.positions||s.positions[i]<0?'Keine Stellungsannahme':s.waiting&&s.waiting[i]?s.waiting[i]+' ms verbleiben':'Zeitlich angenommen')+'</td></tr>').join('');
+ const proofNames=['Einrichtposition','Vorschubtakte geprüft','Sucherübergabe','Erneute Bereitschaft','Formschluss läuft','Vorschubrecht'];el('proofs').innerHTML=proofNames.map((name,i)=>'<div class="row"><span>'+name+'</span><span class="diag-value '+(!valid?'is-neutral':s.proofs[i]?'is-good':'is-neutral')+'">'+(!valid?'Unbekannt':s.proofs[i]?'Gesetzt':'Nicht gesetzt')+'</span></div>').join('');
+ const loop=s.loop||{},skip=s.skip||{};el('diagnosticRequests').innerHTML=diagPairs([['Grundstellung vorgemerkt',s.queuedHome===1?'Vorschub 1':s.queuedHome===2?'Vorschub 2':s.queuedHome===3?'Beide Vorschübe':'Keine'],['Schlaufenkorrektur',loop.active?'In Ausführung':loop.requested?'Vorgemerkt':'Keine Vormerkung'],['Vorschub aussetzen',skip.question?'Antwort Ja/Nein offen':skip.active?'Einmalauftrag läuft':skip.requested?'Vorgemerkt':'Keine Vormerkung']]);
+ const hasFault=!!fault[0],pendingFault=hasFault&&!s.ack,key=fault.join('|');el('diagnosisFault').classList.toggle('is-unacknowledged',pendingFault);el('diagnosisFaultSummary').textContent=!hasFault?'Kein Fehler gespeichert':s.ack?'Quittiert · bleibt gespeichert':'Quittierung erforderlich';
+ if(hasFault&&key!==diagnosticFaultKey)el('diagnosisFault').open=true;diagnosticFaultKey=key;
+ el('faultState').textContent=hasFault?(faults[fault[0]]||'Fehler '+fault[0]):'Kein Fehler gespeichert';el('faultState').classList.toggle('bad',pendingFault);
+ el('diagnosisFaultSnapshot').innerHTML=hasFault?diagPairs([['Auftrag beim Fehler',jobs[fault[1]]||String(fault[1])],['Schritt beim Fehler',steps[fault[2]]||String(fault[2])],['Befehlsquelle',['Nicht zugeordnet','HMI','SGM','Hardware'][fault[3]]||String(fault[3])],['Lochzahl beim Fehler',String(fault[4])],['Bandposition beim Fehler',String(fault[5])],['Sensor beim Fehler',fault[6]?'Gültig':'Ungültig'],['Zeit seit Anlagenstart',(fault[7]/1000).toFixed(2)+' s']]):'';
+ const checks=['','E/A-Versorgung und Verbindung prüfen.','Bandlage und wirksames Sensorsignal vor dem Vorschub prüfen.','Lochzählung und gewählte Sensorquelle prüfen.','Bandlage nach dem Vorschub prüfen.','Sensorwert und Bandhaltung im Ablauf prüfen.','E/A-Gültigkeit und Sensorquelle prüfen.','Auswerfermeldungen vorne/hinten abgleichen.','Auswerfer-hinten-Signal bei Zangenöffnung prüfen.','Betroffenen SGM-Schritt und Wartefrist prüfen.','Form-offen-Signal während Vorschub/Übergabe prüfen.'];el('diagnosisFaultHint').textContent=hasFault?'Prüfansatz: '+(checks[fault[0]]||'Gespeicherten Ablaufzustand mit den aktuellen Signalen vergleichen.'):'Aktuelle Signale und gespeichertes Fehlerbild werden getrennt angezeigt.';
+ observeLogStatus(s);
+}
+const logLimit=50;
+let logBoot=null,logWindow=null,logSequence=0,logLoading='',logReadHead=null,problemReadHead=null,moreLogs=false;
+function logRange(data, count) {
+    if (!Number.isInteger(data.logNewest) || !Number.isInteger(data.logFirstNormal) || !Array.isArray(data.logProtected)) return null;
+    return {count, newest:data.logNewest, first:data.logFirstNormal, problems:new Set(data.logProtected), exact:true};
+  }
+function logMember(id) {
+    if (!logWindow) return true;
+    return logWindow.count > 0 && (logWindow.problems.has(id) ||
+      (logWindow.first !== 0 && ((id-logWindow.first)|0) >= 0 && ((logWindow.newest-id)|0) >= 0));
+  }
+function pruneLog() {
+    const list = el('logs');
+    for (const row of Array.from(list.children)) {
+      if (!logMember(Number(row.dataset.logNumber))) row.remove();
+    }
+    while (list.children.length > logLimit) list.lastElementChild.remove();
+  }
+function syncLogButtons() {
+    const problems = el('logFilter').value === 'fault';
+    const newer = logWindow && (problems
+      ? problemReadHead !== null && logWindow.problems.size > 0 && Array.from(logWindow.problems).some(id => !el('logs').querySelector('[data-log-number="'+id+'"]'))
+      : logReadHead !== null && logReadHead !== logWindow.newest);
+    const refresh = el('refreshLog');
+    const title = newer ? 'Neue Meldungen laden' : 'Aktualisieren';
+    if (refresh.textContent !== title) refresh.textContent = title;
+    refresh.disabled = !online || degraded || Boolean(logLoading);
+    el('older').disabled = !online || degraded || Boolean(logLoading) || problems || !moreLogs ||
+      !logCursor || el('logs').children.length >= (logWindow ? logWindow.count : logLimit);
+  }
+function observeLogStatus(s) {
+    const boot = String(s.logBoot ?? s.boot);
+    const count = Math.min(logLimit, Math.max(0, Number(s.logCount) || 0));
+    const switched = boot !== logBoot;
+    if (switched) {
+      ++logSequence;
+      logLoading = ''; logBoot = boot; logWindow = null; logReadHead = problemReadHead = null;
+      logCursor = 0; moreLogs = false; el('logs').replaceChildren();
+    }
+    const retained = logRange(s, count);
+    if (retained && (!logWindow || retained.newest !== logWindow.newest || retained.count !== logWindow.count)) {
+      logWindow = retained;
+      pruneLog();
+      filterDiagnosticLogs();
+    } else if (!retained && !count) {
+      logWindow = null; logCursor = 0; moreLogs = false; el('logs').replaceChildren(); filterDiagnosticLogs();
+    }
+    const countText = count+' / '+logLimit+' gespeichert';
+    if (el('diagnosticLogCount').textContent !== countText) el('diagnosticLogCount').textContent = countText;
+    syncLogButtons();
+    if (switched && pageName === 'Status') loadLog();
+  }
+function filterDiagnosticLogs() {
+    const choice = el('logFilter').value;
+    const groups = {setup:[10,11,12,13,14,17],process:[0,1,2,8,9,18],actions:[4,5,6,7,15,16]};
+    let visible = 0;
+    for (const row of el('logs').children) {
+      const problem = logWindow && logWindow.exact
+        ? logWindow.problems.has(Number(row.dataset.logNumber))
+        : row.dataset.logProblem === 'true';
+      row.hidden = choice !== 'all' && (choice === 'fault' ? !problem || visible >= 10 : !groups[choice]?.includes(Number(row.dataset.logCode)));
+      if (!row.hidden) visible++;
+    }
+    el('diagnosticLogEmpty').hidden = visible > 0;
+  }
+function isProblemEvent(e) {
+    return e[3] === 3 || e[3] === 5 || e[3] === 18 || (e[3] === 6 && e[8] === 11);
+  }
+function makeLogRow(e) {
+    const labels=['Anlagenstart','Ablaufschritt','Haltegründe geändert','Fehler gespeichert','Bedienung übernommen','Force-/Simulationssitzung verloren','Bedienbefehl','Netzwerk übernommen','Schritt vorbereitet','Aussetzfunktion','Einrichten angefordert','Einrichten aktiv','Einrichtaktion gestartet','Einrichtaktion beendet','Einrichten beendet','Fehler quittiert','Eingriffe zurückgesetzt'];
+    const li=document.createElement('li'),time=document.createElement('time');
+    li.dataset.logCode=String(e[3]); li.dataset.logNumber=String(e[0]); li.dataset.logProblem=String(isProblemEvent(e));
+    time.textContent=(e[1]/1000).toFixed(2)+' s · Vorgang '+e[2];li.append(time);
+    let detail='';
+    if(e[3]===9)detail=(['kein Einmalauftrag','vorgemerkt','Zeitbestätigung offen','Aussetzzyklus aktiv','erledigt','storniert'][e[8]&15]||'Status '+(e[8]&15))+' · '+(['ohne Quelle','manuell','Zeitüberschreitung'][e[8]>>>4]||'Quelle '+(e[8]>>>4));
+    else if(e[3]===3&&e[8])detail=faultDescription([e[8],e[5],e[6],0,e[7]]);
+    else if(e[3]===6&&e[8])detail=results[e[8]]||'Rückmeldung '+e[8];
+    const label=e[3]===18?'Bandende-Halt':labels[e[3]]||'Ereignis '+e[3];
+    li.append(document.createTextNode(label+' · '+(jobs[e[5]]||e[5])+' / '+(steps[e[6]]||e[6])+(detail?' · '+detail:'')));
+    return li;
+  }
+function mergeLogRows(entries, reset) {
+    const list=el('logs');
+    const rows=new Map();
+    if(!reset)for(const row of list.children) {
+      const id=Number(row.dataset.logNumber);
+      if(logMember(id))rows.set(id,row);
+    }
+    for(const e of entries){
+      if(!Array.isArray(e)||e.length<9||!Number.isInteger(e[0])||!logMember(e[0])||rows.has(e[0]))continue;
+      rows.set(e[0],makeLogRow(e));
+    }
+    const ordered=[...rows].sort((a,b)=>(b[0]-a[0])|0).slice(0,logLimit);
+    list.replaceChildren(...ordered.map(([,row])=>row));
+    filterDiagnosticLogs();
+  }
+async function loadLog(older=false) {
+    if(!online||degraded||!state)return;
+    const problems=el('logFilter').value==='fault';
+    const mode=problems?'problems':older?'older':'latest';
+    if(mode===logLoading || (older && (!moreLogs || !logCursor)))return;
+    const seq=++logSequence, boot=logBoot, cursor=logCursor;
+    logLoading=mode;syncLogButtons();
+    const current=()=>seq===logSequence && boot===logBoot;
+    const get=async suffix=>{
+      const page=await enqueueHttp(()=>current()?fetchJson('/api/log'+suffix):null);
+      if(!current()||!page||!Array.isArray(page.entries))return null;
+      if(page.boot!==undefined && state.logBoot!==undefined && String(page.boot)!==boot)return null;
+      return page;
+    };
+    try{
+      const exact=Number.isInteger(state.logFirstNormal)&&Array.isArray(state.logProtected);
+      // A legacy sender exposes neither a protected set nor its retention boundary.
+      // Read its head on explicit requests and bound the view to that snapshot.
+      const head=(!exact||mode==='latest')?await get(''):null;
+      if((!exact||mode==='latest')&&!head)return;
+      const page=mode==='latest'?head:mode==='older'?await get('?before='+cursor):exact?await get('?problems=1'):head;
+      if(!page)return;
+      const count=Math.min(logLimit,Math.max(0,Number(page.count)||0));
+      const retained=logRange(page,count);
+      if(retained){
+        if(!logWindow||!logWindow.exact||((retained.newest-logWindow.newest)|0)>=0)logWindow=retained;
+      }else if(head){
+        const newest=head.entries.length?head.entries[head.entries.length-1][0]:0;
+        logWindow={count:Math.min(logLimit,head.count),newest,first:newest?((newest-Math.min(logLimit,head.count)+1)>>>0):0,problems:new Set(),exact:false};
+      }
+      let entries=page.entries;
+      if(mode==='problems'&&!retained){
+        // At most three 20-row pages are needed for a pre-A18 controller.
+        let part=page;
+        entries=[...part.entries];
+        while(part.more&&part.entries.length&&entries.length<logLimit){
+          part=await get('?before='+part.entries[0][0]);if(!part)return;
+          entries.unshift(...part.entries);
+        }
+        entries=entries.slice(-logLimit).filter(isProblemEvent).slice(-10);
+      }
+      if(!current())return;
+      mergeLogRows(entries,mode==='latest');
+      if(mode==='problems'){
+        problemReadHead=logWindow?.newest??0;
+      }else{
+        if(mode==='latest')logReadHead=retained?.newest??logWindow?.newest??0;
+        logCursor=page.entries.length?page.entries[0][0]:0;
+        moreLogs=Boolean(page.more && logCursor);
+      }
+    }catch(_){if(current())toast('Meldungen aktuell nicht lesbar.',true);}
+    finally{if(current()){logLoading='';syncLogButtons();}}
+  }
+el('logFilter').onchange=()=>{filterDiagnosticLogs();syncLogButtons();if(el('logFilter').value==='fault'||logReadHead===null)loadLog();};
+el('older').onclick=()=>loadLog(true);el('refreshLog').onclick=()=>loadLog();
+async function poll(){
+ if(pollPending)return;pollPending=true;
+ try{await enqueueHttp(()=>readStatus());}catch(_){failedRead();}
+ finally{pollPending=false;setTimeout(poll,degraded?1200:750);}
+}
+document.querySelectorAll('button:not([data-local-info]):not([data-nav]),select:not([data-local-info]),input').forEach(x=>x.disabled=true);
+showPage('Automatik');poll();
+</script><dialog id="safetyInfoDialog" class="safety-info-dialog" aria-labelledby="safetyInfoTitle" aria-describedby="safetyInfoDescription">
+<span class="kicker">Sicherheitsfunktionen · Originalautomation</span>
+<h2 id="safetyInfoTitle">Safety Reset</h2>
+<p id="safetyInfoDescription">Die Steuerung übernimmt die Prozesssteuerung und den EUROMAP-Handshake. Die Sicherheitsfunktionen werden durch die bestehende Beispielautomation ausgeführt.</p>
+<div class="safety-destination"><strong>Zur Original-SIMATIC-HMI wechseln</strong><span>Führe dort die erforderlichen Quittierungen für Not-Halt und Schutztüren gemäß den angezeigten Anweisungen aus.</span></div>
+<p>Dieser Button öffnet ausschließlich diesen Hinweis. Er löst keine Sicherheitsquittierung oder Steuerungsfunktion aus.</p>
+<form method="dialog"><button type="submit" data-local-info="" value="understood" autofocus="">Verstanden</button></form>
+</dialog>
+<script>
+// HMI-only information dialog. No request(), command, or controller binding.
+(() => {
+ const openButton = document.getElementById('safetyInfoOpen');
+ const dialog = document.getElementById('safetyInfoDialog');
+ const compactPhone = window.matchMedia?.('(max-width: 390px), (orientation: landscape) and (max-height: 390px) and (max-width: 950px)');
+ compactPhone?.addEventListener('change', event => {
+  if (event.matches && dialog.open) dialog.close();
+ });
+ openButton.addEventListener('click', () => {
+  if (compactPhone?.matches || dialog.open) return;
+  dialog.showModal();
+ });
+})();
+</script>
+</body></html>

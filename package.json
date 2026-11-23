@@ -1,0 +1,30 @@
+{
+  "name": "smart-hmi-editor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lokaler, portabler HMI-Editor mit getrennten privaten Projektarbeitsbereichen",
+  "scripts": {
+    "start": "node server.cjs",
+    "check": "node qa/check.cjs",
+    "test": "node qa/test.cjs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juridowhiletrue/Smart-HMI-Editor.git"
+  },
+  "homepage": "https://github.com/juridowhiletrue/Smart-HMI-Editor#readme",
+  "keywords": [
+    "hmi",
+    "hmi-editor",
+    "codex",
+    "ai-agent",
+    "agent-skills",
+    "automation",
+    "offline",
+    "industrial-hmi"
+  ]
+}

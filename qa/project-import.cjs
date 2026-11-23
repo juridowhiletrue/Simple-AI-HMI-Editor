@@ -1,0 +1,41 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os');
+const {initialize,extractHtml}=require('../tools/init-workspace.cjs');
+const temp=fs.mkdtempSync(path.join(os.tmpdir(),'smart-hmi-import-'));
+let assertions=0;
+const check=fn=>{fn();assertions++;};
+try{
+  const app=path.join(temp,'editor'),project=path.join(temp,'plant');
+  fs.mkdirSync(app);fs.mkdirSync(project);
+  fs.writeFileSync(path.join(app,'Start-Smart-HMI-Editor.ps1'),'# fixture');
+  const html='<!doctype html><html><body><section data-page="Home"><h1>Plant</h1><button>Run</button></section></body></html>';
+  check(()=>assert.equal(extractHtml(html),html));
+  check(()=>assert.equal(extractHtml('const char page[]=R"UI('+html+')UI";'),html));
+  check(()=>assert.throws(()=>extractHtml('no document')));
+  check(()=>assert.equal(initialize({project,appRoot:app}).reason,'no-hmi-source'));
+  fs.writeFileSync(path.join(project,'Web.h'),'const char page[]=R"UI('+html+')UI";');
+  const before=fs.readFileSync(path.join(project,'Web.h'));
+  const result=initialize({project,appRoot:app});
+  check(()=>assert.equal(result.status,'ready'));
+  check(()=>assert.equal(result.sourceFreshness,'current'));
+  check(()=>assert.equal(result.programContext,'not-assessed'));
+  check(()=>assert.deepEqual(fs.readFileSync(path.join(project,'Web.h')),before));
+  check(()=>assert.equal(fs.readFileSync(path.join(result.workspaceRoot,'baseline/hmi.html'),'utf8'),html));
+  const manifest=fs.readFileSync(path.join(result.workspaceRoot,'baseline/manifest.json'));
+  check(()=>assert.equal(initialize({project,appRoot:app}).workspaceRoot,result.workspaceRoot));
+  check(()=>assert.deepEqual(fs.readFileSync(path.join(result.workspaceRoot,'baseline/manifest.json')),manifest));
+  fs.appendFileSync(path.join(project,'Web.h'),'\n// new source');
+  check(()=>assert.equal(initialize({project,appRoot:app}).sourceFreshness,'changed'));
+  const second=path.join(temp,'ambiguous');fs.mkdirSync(second);
+  fs.writeFileSync(path.join(second,'a.html'),html);fs.writeFileSync(path.join(second,'b.html'),html);
+  check(()=>assert.equal(initialize({project:second,appRoot:app}).reason,'ambiguous-hmi-sources'));
+  check(()=>assert.throws(()=>initialize({project:second,appRoot:app,source:'../plant/Web.h'}),/außerhalb/));
+  const explicit=initialize({project:second,appRoot:app,source:'a.html'});
+  check(()=>assert.equal(explicit.status,'ready'));
+  const adapter=require(path.join(explicit.workspaceRoot,'project/adapter.cjs'));
+  check(()=>assert.equal(adapter.createPreview().post().result,16));
+  console.log(JSON.stringify({passed:true,assertions,scope:'new-project-initialization',existingWorkspacesPreserved:true,network:false}));
+}finally{
+  assert.equal(path.dirname(temp),os.tmpdir());assert.match(path.basename(temp),/^smart-hmi-import-/);
+  fs.rmSync(temp,{recursive:true,force:true});
+}

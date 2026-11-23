@@ -1,0 +1,14 @@
+#commentEditor.anchored-note{inset:auto;padding:0;background:none;backdrop-filter:none;display:block;width:370px;max-width:calc(100vw - 24px)}
+@media(min-width:801px){#inspector.dock-left{left:20px;right:auto}}
+.program-drawer{width:min(620px,calc(100vw - 40px))}.program-content{font-size:.875rem;line-height:1.55}.program-content h3{font-size:1rem;margin:0 0 8px}.program-content p{margin:8px 0}.context-card{border-top:1px solid #d9e2ea;padding:16px 0}.context-card ul{padding-left:20px}.source-refs{font-family:Consolas,monospace;font-size:.75rem;color:#526d80;overflow-wrap:anywhere;margin-top:10px}#programBinding{border-top:1px solid #d9e2ea;padding-top:12px}#programBinding>summary{cursor:pointer;font-size:.875rem;font-weight:600;color:#185d83}
+#commentEditor.anchored-note .dialog{width:100%;border:1px solid #e4bd63;border-radius:14px;background:#fffdf6;box-shadow:0 14px 44px #17314735;max-height:75dvh}
+#commentEditor.anchored-note .drawer-head{background:#fff0c9;border-bottom-color:#eddaa8;border-radius:14px 14px 0 0}
+#commentEditor.anchored-note .drawer-body{gap:12px}
+#commentEditor.anchored-note textarea{background:white;min-height:160px}
+#commentEditor.expanded-note:not([hidden]){position:fixed!important;inset:6dvh 10vw!important;width:auto!important;max-width:none!important;display:grid!important;place-items:center!important;background:#12334a44!important;backdrop-filter:blur(3px)!important;border-radius:15px}
+#commentEditor.expanded-note .dialog{width:min(760px,90vw)!important;max-height:85dvh!important}
+#commentEditor.expanded-note textarea{min-height:40dvh!important}
+@media(max-width:600px){#commentEditor.anchored-note{left:10px!important;right:10px!important;bottom:12px!important;top:auto!important;width:auto;max-width:none}#commentEditor.expanded-note{inset:10px!important}#commentEditor.expanded-note textarea{min-height:35dvh!important}}
+
+.delete-note{color:#a92d41;border-color:#dfbdc5;background:#fff8f8}
+.delete-note:hover{color:#8c2032;border-color:#ba6676;background:#fcebef}
