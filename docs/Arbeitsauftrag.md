@@ -1,4 +1,4 @@
-# Smart HMI Editor · Aktiver Arbeitsauftrag
+# Simple-AI-HMI-Editor · Aktiver Arbeitsauftrag
 
 Aktualisierung 23. November 2026. Der Eigentümer hat das öffentliche GitHub-Repository und die anonymisierte Demo autorisiert. Die unten aufgeführten früheren Veröffentlichungsbeschränkungen dokumentieren den damaligen Arbeitsauftrag.
 
@@ -6,13 +6,13 @@ Nutzerauftrag 20. November 2026, Fachchat HMI-Visu. Der Nutzer ist bis morgens n
 
 ## Abgrenzung
 
-- **Smart HMI App / Smart HMI Editor:** Eigenes Werkzeugprojekt, vorerst ausschließlich als Codex-Tool. Keine unabhängige Standalone-Nutzung. Neue ausdrückliche Nutzerautorisierung: sauber in `<EDITOR-ROOT>` ausgliedern und dort ein eigenes lokales Git-Repository führen. Root koordiniert Übernahme und Initialisierung nach Ende aller Schreibarbeiten. Frühere Verbote eines separaten lokalen App-Git sind insoweit historisch. Keine GitHub-/Remote-Synchronisierung oder Veröffentlichung.
+- **Simple-AI-HMI-Editor / Simple-AI-HMI-Editor:** Eigenes Werkzeugprojekt, vorerst ausschließlich als Codex-Tool. Keine unabhängige Standalone-Nutzung. Neue ausdrückliche Nutzerautorisierung: sauber in `<EDITOR-ROOT>` ausgliedern und dort ein eigenes lokales Git-Repository führen. Root koordiniert Übernahme und Initialisierung nach Ende aller Schreibarbeiten. Frühere Verbote eines separaten lokalen App-Git sind insoweit historisch. Keine GitHub-/Remote-Synchronisierung oder Veröffentlichung.
 - **HMI-Draft:** Der private Maschinen-HMI-Entwurf für Beispielprojekt unter ignoriertem `workspaces/beispielprojekt/`. Kopie des vorhandenen v04.2-Stands, klar als Entwurf gekennzeichnet. Fachliche Wünsche dort sammeln/abstimmen; tatsächliche Implementierung separat nach Freigabe im Hauptchat. Nicht mit dem App-Repository vermischen.
 - OPTA ist offline und nicht vor Ort. Keine Geräteverbindung, Programm-/Parameteränderung oder Ausgangsschaltung. Originalprojekte ausschließlich über ausdrücklich konfigurierte lokale Quellpfade lesen und unverändert erhalten; keinen Nachbarordner voraussetzen.
 
 ## Wesentliche Funktionen
 
-Primärer Einstieg ist **„Lade Smart HMI Editor“** im aktuellen Programmierprojekt. Codex ermittelt mit dem lesenden Resolver `tools/codex-workspace.cjs` den passenden privaten Workspace, verwendet den Starter mit `-NoBrowser` und öffnet die verifizierte lokale URL im integrierten Browser. Der Starter gibt Runtime-JSON mit App-/Workspace-Zuordnung zurück. Keine stille Auswahl eines anderen oder mehrdeutigen Projekts. Der Doppelklick-Starter bleibt ein technischer Rückfallweg.
+Primärer Einstieg ist **„Lade Simple-AI-HMI-Editor“** im aktuellen Programmierprojekt. Codex ermittelt mit dem lesenden Resolver `tools/codex-workspace.cjs` den passenden privaten Workspace, verwendet den Starter mit `-NoBrowser` und öffnet die verifizierte lokale URL im integrierten Browser. Der Starter gibt Runtime-JSON mit App-/Workspace-Zuordnung zurück. Keine stille Auswahl eines anderen oder mehrdeutigen Projekts. Der Doppelklick-Starter bleibt ein technischer Rückfallweg.
 
 Direkte interaktive HMI-Vorschau, Hochformat 1080×1920 als veränderbares Standardmonitor-Preset; Texte/Benennungen bearbeiten, Seiten ordnen/benennen/neu aufteilen, Bereiche verschieben und als Layout-Kopie duplizieren; Undo/Redo, lokales Speichern/Recovery, Originalvergleich und eindeutig gespeicherte Arbeitsstände.
 

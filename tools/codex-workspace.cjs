@@ -110,11 +110,11 @@ function resolveProject({appRoot = path.resolve(__dirname, '..'), projectRoot} =
   if (!localAbsolute(projectRoot)) throw new TypeError('--project muss ein absoluter lokaler Projektpfad sein; relative, UNC- und Gerätepfade werden nicht geöffnet.');
   appRoot = canonical(appRoot); projectRoot = path.resolve(projectRoot);
   const warnings = [], base = {
-    product: 'Smart HMI Editor', role: 'Codex-Werkzeug', status: 'needs-setup', readOnly: true,
+    product: 'Simple-AI-HMI-Editor', role: 'Codex-Werkzeug', status: 'needs-setup', readOnly: true,
     appRoot, projectRoot, workspaceRoot: null, projectId: null, baselineVersion: null,
     starterPath: null, serverState: 'not-checked', programContext: 'not-assessed', warnings
   };
-  for (const name of ['Start-Smart-HMI-Editor.ps1', 'Start-HMI-Draft.ps1']) {
+  for (const name of ['Start-Simple-AI-HMI-Editor.ps1', 'Start-HMI-Draft.ps1']) {
     try { const starter = safeFile(appRoot, name); if (starter) { base.starterPath = starter; break; } } catch (_) { /* No unsafe starter. */ }
   }
   if (!fs.existsSync(projectRoot) || !fs.statSync(projectRoot).isDirectory()) return {...base, reason: 'project-directory-missing', proposedWorkspaceRoot: proposal(appRoot, projectRoot)};

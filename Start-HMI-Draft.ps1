@@ -1,8 +1,8 @@
 param([switch]$NoBrowser)
 $ErrorActionPreference = 'Stop'
-$script:SmartHmiStarterRoot = $PSScriptRoot
+$script:SimpleAIHmiStarterRoot = $PSScriptRoot
 
-function Test-SmartHMIPort {
+function Test-SimpleAIHMIPort {
     param([int]$Port)
     $client = New-Object System.Net.Sockets.TcpClient
     try {
@@ -19,7 +19,7 @@ function Test-SmartHMIPort {
     }
 }
 
-function Test-SmartHMIListener {
+function Test-SimpleAIHMIListener {
     param([int]$Port)
     try {
         foreach ($listener in [Net.NetworkInformation.IPGlobalProperties]::GetIPGlobalProperties().GetActiveTcpListeners()) {
@@ -31,9 +31,9 @@ function Test-SmartHMIListener {
     }
 }
 
-function Get-SmartHMIDraftEndpoint {
+function Get-SimpleAIHMIDraftEndpoint {
     param([string]$Url, [int]$Port)
-    if (-not (Test-SmartHMIListener -Port $Port)) {
+    if (-not (Test-SimpleAIHMIListener -Port $Port)) {
         return [pscustomobject]@{ Reachable=$false; State=$null; Error=$null }
     }
     try {
@@ -42,7 +42,7 @@ function Get-SmartHMIDraftEndpoint {
         if ($_.Exception.Response) {
             return [pscustomobject]@{ Reachable=$true; State=$null; Error='Der Port antwortet mit einem HTTP-Fehler.' }
         }
-        if (Test-SmartHMIPort -Port $Port) {
+        if (Test-SimpleAIHMIPort -Port $Port) {
             return [pscustomobject]@{ Reachable=$true; State=$null; Error='Der Port ist belegt, liefert aber keine gueltige Editorantwort.' }
         }
         return [pscustomobject]@{ Reachable=$false; State=$null; Error=$null }
@@ -55,7 +55,7 @@ function Get-SmartHMIDraftEndpoint {
     return [pscustomobject]@{ Reachable=$true; State=$state; Error=$null }
 }
 
-function Get-SmartHMIRuntimeInfo {
+function Get-SimpleAIHMIRuntimeInfo {
     param([string]$AppRoot)
     $nodeCommand = Get-Command node -ErrorAction Stop
     $LASTEXITCODE = 0
@@ -66,18 +66,18 @@ function Get-SmartHMIRuntimeInfo {
     return [pscustomobject]@{ NodeExecutable=$nodeCommand.Source; Identity=$identity }
 }
 
-function Assert-SmartHMIIdentity {
+function Assert-SimpleAIHMIIdentity {
     param($Probe, $Expected, [int]$Port)
     if ($Probe.Error) { throw ($Probe.Error + ' Kein weiterer Serverstart; bitte den belegten Port ' + $Port + ' klaeren oder bewusst einen anderen Port verwenden.') }
     $state = $Probe.State
-    $matches = $state.adapter.productName -eq 'Smart HMI Editor' -and $state.runtime.appRoot -eq $Expected.appRoot -and $state.runtime.workspaceRoot -eq $Expected.workspaceRoot
+    $matches = $state.adapter.productName -eq 'Simple-AI-HMI-Editor' -and $state.runtime.appRoot -eq $Expected.appRoot -and $state.runtime.workspaceRoot -eq $Expected.workspaceRoot
     if ($Expected.workspaceId) { $matches = $matches -and $state.runtime.workspaceId -eq $Expected.workspaceId }
     if (-not $matches) {
         throw ('Auf Port ' + $Port + ' antwortet ein anderer Dienst, Editor oder Arbeitsbereich. Kein weiterer Server wird gestartet und kein falscher Arbeitsbereich geoeffnet.')
     }
 }
 
-function Start-SmartHMIBackgroundServer {
+function Start-SimpleAIHMIBackgroundServer {
     param([string]$Node, [string]$AppRoot)
     $helper = Join-Path $AppRoot 'lib/runtime-info.cjs'
     $start = New-Object System.Diagnostics.ProcessStartInfo
@@ -90,44 +90,44 @@ function Start-SmartHMIBackgroundServer {
     $launcher.Dispose()
 }
 
-function Invoke-SmartHMIEditor {
-    param([string]$AppRoot=$script:SmartHmiStarterRoot, [switch]$NoBrowser)
+function Invoke-SimpleAIHMIEditor {
+    param([string]$AppRoot=$script:SimpleAIHmiStarterRoot, [switch]$NoBrowser)
     $draftRoot = [System.IO.Path]::GetFullPath($AppRoot)
     $draftPort = if ($env:HMI_DRAFT_PORT) { [int]$env:HMI_DRAFT_PORT } else { 8250 }
     if ($draftPort -lt 1 -or $draftPort -gt 65535) { throw 'HMI_DRAFT_PORT muss zwischen 1 und 65535 liegen.' }
     $draftUrl = 'http://127.0.0.1:' + $draftPort + '/'
-    $resolved = Get-SmartHMIRuntimeInfo -AppRoot $draftRoot
+    $resolved = Get-SimpleAIHMIRuntimeInfo -AppRoot $draftRoot
     $expected = $resolved.Identity
-    $probe = Get-SmartHMIDraftEndpoint -Url $draftUrl -Port $draftPort
+    $probe = Get-SimpleAIHMIDraftEndpoint -Url $draftUrl -Port $draftPort
     $reused = [bool]$probe.Reachable
     $ready = $false
     if ($probe.Reachable) {
         # Identity errors deliberately live outside transport error handling.
-        Assert-SmartHMIIdentity -Probe $probe -Expected $expected -Port $draftPort
+        Assert-SimpleAIHMIIdentity -Probe $probe -Expected $expected -Port $draftPort
         $ready = $true
     } else {
         $draftData = Join-Path $expected.workspaceRoot 'data'
         New-Item -ItemType Directory -Path $draftData -Force | Out-Null
-        Start-SmartHMIBackgroundServer -Node $resolved.NodeExecutable -AppRoot $draftRoot
+        Start-SimpleAIHMIBackgroundServer -Node $resolved.NodeExecutable -AppRoot $draftRoot
         for ($draftAttempt=0; $draftAttempt -lt 15; $draftAttempt++) {
-            $probe = Get-SmartHMIDraftEndpoint -Url $draftUrl -Port $draftPort
+            $probe = Get-SimpleAIHMIDraftEndpoint -Url $draftUrl -Port $draftPort
             if ($probe.Reachable) {
-                Assert-SmartHMIIdentity -Probe $probe -Expected $expected -Port $draftPort
+                Assert-SimpleAIHMIIdentity -Probe $probe -Expected $expected -Port $draftPort
                 $ready=$true
                 break
             }
             Start-Sleep -Milliseconds 250
         }
     }
-    if (-not $ready) { throw 'Smart HMI Editor konnte nicht mit dem gewuenschten Workspace gestartet werden. Details in dessen data/server.stderr.txt.' }
-    $runtime = [ordered]@{ product='Smart HMI Editor'; url=$draftUrl; port=$draftPort; appRoot=$expected.appRoot; workspaceRoot=$expected.workspaceRoot; workspaceId=$probe.State.runtime.workspaceId; serverReady=$true; reusedServer=$reused; browserOpened=(-not $NoBrowser) }
+    if (-not $ready) { throw 'Simple-AI-HMI-Editor konnte nicht mit dem gewuenschten Workspace gestartet werden. Details in dessen data/server.stderr.txt.' }
+    $runtime = [ordered]@{ product='Simple-AI-HMI-Editor'; url=$draftUrl; port=$draftPort; appRoot=$expected.appRoot; workspaceRoot=$expected.workspaceRoot; workspaceId=$probe.State.runtime.workspaceId; serverReady=$true; reusedServer=$reused; browserOpened=(-not $NoBrowser) }
     if ($NoBrowser) {
         $runtime | ConvertTo-Json -Compress
     } else {
         Start-Process -FilePath $draftUrl
-        Write-Output ('Smart HMI Editor bereit: ' + $draftUrl)
+        Write-Output ('Simple-AI-HMI-Editor bereit: ' + $draftUrl)
     }
 }
 
 # Dot-sourcing only defines helpers for isolated tests; it never starts anything.
-if ($MyInvocation.InvocationName -ne '.') { Invoke-SmartHMIEditor -NoBrowser:$NoBrowser }
+if ($MyInvocation.InvocationName -ne '.') { Invoke-SimpleAIHMIEditor -NoBrowser:$NoBrowser }

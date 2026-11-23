@@ -2,7 +2,7 @@
   'use strict';
   const api=factory();
   if(typeof module==='object'&&module.exports)module.exports=api;
-  if(root&&root.document)root.SmartHMIComponents=api;
+  if(root&&root.document)root.SimpleAIHMIComponents=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
   const TYPES=['button','iconbutton','toggle','dropdown','indicator'];
@@ -90,7 +90,7 @@
       if(!isTesting())return false;
       if(changed&&typeof options.onValue==='function')options.onValue(state.value);
       if(typeof options.onCommand==='function')options.onCommand(Object.freeze({
-        source:'smart-hmi-components',scope:'draft-only',placeholder:true,programmingRequired:true,implemented:false,
+        source:'simple-ai-hmi-components',scope:'draft-only',placeholder:true,programmingRequired:true,implemented:false,
         action,componentType:config.type,label:config.label,value:state.value,count:state.count,message:state.message,description:config.description
       }));
       return true;
@@ -187,7 +187,7 @@
       }
       return card;
     }
-    Object.defineProperty(card,'smartHMI',{value:Object.freeze({
+    Object.defineProperty(card,'simpleAIHMI',{value:Object.freeze({
       getConfig:()=>copy(config),getState:()=>copy(state),updateConfig,setValue,refreshTesting,
       reset:()=>{state={value:config.defaultValue,count:Number(config.defaultValue)||0,message:''};applyState();return card;}
     })});
@@ -223,8 +223,8 @@
       picker.oninput=()=>{code.textContent=picker.value;change(picker.value);};return picker;
     }
     function updatePreview(preferValue){
-      const next=normalizeConfig(draft);preview.smartHMI.updateConfig(next);
-      if(preferValue!==undefined)preview.smartHMI.setValue(preferValue);
+      const next=normalizeConfig(draft);preview.simpleAIHMI.updateConfig(next);
+      if(preferValue!==undefined)preview.simpleAIHMI.setValue(preferValue);
       status.textContent='Vorschau aktualisiert. Übernehmen speichert diesen Baustein im Entwurf.';
     }
     const type=selectField(fields,'type','Baustein',TYPES.map(t=>[t,TYPE_LABELS[t]]),draft.type);

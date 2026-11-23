@@ -78,7 +78,7 @@ const key = (target, value, extra = {}) => {
 
 check('CommonJS und Browser-API ohne Fremdabhängigkeit', () => {
   assert.equal(typeof api.collect, 'function'); assert.equal(typeof api.render, 'function');
-  uiDom.window.eval(source); assert.equal(typeof uiDom.window.SmartHMINavigator.collect, 'function');
+  uiDom.window.eval(source); assert.equal(typeof uiDom.window.SimpleAIHMINavigator.collect, 'function');
   const style = ui.createElement('style'); style.textContent = css; ui.head.append(style);
   assert.ok(ui.styleSheets.length);
 });

@@ -1,6 +1,6 @@
 {
-  "name": "smart-hmi-editor",
-  "version": "0.1.0",
+  "name": "simple-ai-hmi-editor",
+  "version": "0.1.1",
   "private": true,
   "description": "Lokaler, portabler HMI-Editor mit getrennten privaten Projektarbeitsbereichen",
   "scripts": {
@@ -14,9 +14,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/juridowhiletrue/Smart-HMI-Editor.git"
+    "url": "https://github.com/juridowhiletrue/Simple-AI-HMI-Editor.git"
   },
-  "homepage": "https://github.com/juridowhiletrue/Smart-HMI-Editor#readme",
+  "homepage": "https://github.com/juridowhiletrue/Simple-AI-HMI-Editor#readme",
   "keywords": [
     "hmi",
     "hmi-editor",

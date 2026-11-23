@@ -26,7 +26,7 @@ function resolveReadOnlyWorkspace(){
   return null;
 }
 function coreSeed(){
-  const seed={};for(const name of ['server.cjs','package.json','README.md','Integrationsvertrag.md','Start-HMI-Draft.ps1','Start-HMI-Draft.cmd','Start-Smart-HMI-Editor.ps1','Start-Smart-HMI-Editor.cmd'])if(fs.existsSync(path.join(APP_ROOT,name)))seed[name]=fs.readFileSync(path.join(APP_ROOT,name));
+  const seed={};for(const name of ['server.cjs','package.json','README.md','Integrationsvertrag.md','Start-HMI-Draft.ps1','Start-HMI-Draft.cmd','Start-Simple-AI-HMI-Editor.ps1','Start-Simple-AI-HMI-Editor.cmd'])if(fs.existsSync(path.join(APP_ROOT,name)))seed[name]=fs.readFileSync(path.join(APP_ROOT,name));
   for(const folder of ['lib','public','templates'])collect(path.join(APP_ROOT,folder),folder,seed);return seed;
 }
 function workspaceSeed(root){
@@ -34,7 +34,7 @@ function workspaceSeed(root){
   for(const name of ['hmi.html','data/draft.json','data/Kommentare_und_Aenderungen.md','workspace.json'])if(fs.existsSync(path.join(root,name)))seed[name]=fs.readFileSync(path.join(root,name));return seed;
 }
 function makeVirtualServer(core,workspace=null,options={}){
-  const container=path.resolve(path.parse(APP_ROOT).root,'__smart_hmi_editor_audit_virtual__'),app=path.join(container,'Smart HMI Editor with spaces');
+  const container=path.resolve(path.parse(APP_ROOT).root,'__simple_ai_hmi_editor_audit_virtual__'),app=path.join(container,'Simple-AI-HMI-Editor with spaces');
   const workspaceRelative=options.workspaceRelative||'workspaces/private-review',env={...(options.env||{})};if(workspace)env.HMI_EDITOR_WORKSPACE=workspaceRelative;
   const files=new Map(),dirs=new Set([container]),writes=[],reads=[],outsideAttempts=[],modules=new Map();
   function normalize(file){const target=path.resolve(String(file));if(!within(container,target)){outsideAttempts.push(target);throw Error('Virtual sandbox blocks external path: '+target);}return target;}
@@ -105,7 +105,7 @@ async function snapshotReplay(run,current,label){
   const snap=await run.request('/draft/snapshot',{});check(label+' · Snapshot erfolgreich',()=>assert.equal(snap.status,200,snap.text));
   const folder=path.join(run.root,'exports',snap.json().name),manifest=JSON.parse(run.files.get(path.join(folder,'manifest.json')).toString());
   check(label+' · Snapshot hat korrekte Daten-/Ansichthashes',()=>{assert.equal(hash(run.files.get(path.join(folder,'draft.json'))),manifest.modelSha256);assert.equal(hash(run.files.get(path.join(folder,'hmi.html'))),manifest.previewSha256);});
-  check(label+' · Produkt/Version sind fixiert',()=>{assert.equal(manifest.editor.product,'Smart HMI Editor');assert.ok(manifest.editor.version);});
+  check(label+' · Produkt/Version sind fixiert',()=>{assert.equal(manifest.editor.product,'Simple-AI-HMI-Editor');assert.ok(manifest.editor.version);});
   for(const [relative,expected]of Object.entries(manifest.editor.files)){
     const archived=['replay','replay/app','replay/workspace'].map(prefix=>path.join(folder,prefix,relative)).find(file=>run.files.has(file));check(label+' · Replayhash '+relative,()=>{assert.ok(archived,relative);assert.equal(hash(run.files.get(archived)),expected);});
   }

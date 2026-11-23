@@ -1,12 +1,12 @@
 # Agent entry point
 
-Use [codex-skill/smart-hmi-editor/SKILL.md](codex-skill/smart-hmi-editor/SKILL.md) to load the tool for a new project. Start with the README. A neutral, interactive automation demo is included for first-time users. The resolver is read-only and project workspaces are local.
+Use [codex-skill/simple-ai-hmi-editor/SKILL.md](codex-skill/simple-ai-hmi-editor/SKILL.md) to load the tool for a new project. Start with the README. A neutral, interactive automation demo is included for first-time users. The resolver is read-only and project workspaces are local.
 
-# Smart HMI Editor · Arbeitsregeln
+# Simple-AI-HMI-Editor · Arbeitsregeln
 
-- Dieses Projekt entwickelt den **Smart HMI Editor**. Werkzeugänderungen und Änderungen am privaten HMI-Entwurf getrennt behandeln.
+- Dieses Projekt entwickelt den **Simple-AI-HMI-Editor**. Werkzeugänderungen und Änderungen am privaten HMI-Entwurf getrennt behandeln.
 - Auf Deutsch arbeiten. Zuerst README.md, docs/App-Entwicklung.md, aktiven Workspace und Prüfstand lesen. Bestehende Nutzerkommentare erhalten.
-- Editor-Code gehört in dieses eigene lokale Repository. Seit dem 23. November 2026 ist das öffentliche Repository https://github.com/juridowhiletrue/Smart-HMI-Editor autorisiert. Der versionierte Werkzeugkern und die neutrale Demo sind veröffentlichbar.
+- Editor-Code gehört in dieses eigene lokale Repository. Seit dem 23. November 2026 ist das öffentliche Repository https://github.com/juridowhiletrue/Simple-AI-HMI-Editor autorisiert. Der versionierte Werkzeugkern und die neutrale Demo sind veröffentlichbar.
 - `workspaces/`, echte Programmquellen/-kontexte, Baselines, Kommentare, Snapshotdaten, Zugangsdaten und Laufzeitdateien bleiben lokal und Git-ignoriert.
 - Originalprojekte ausschließlich lesend als Analysequelle verwenden. Nie automatisch Maschinen-HMI, Firmware, Geräteparameter, Verdrahtung oder Ausgänge ändern. Hier keine OPTA-/Maschinenverbindung herstellen.
 - Änderungen am HMI-Draft sind ein Entwurf. Neue Funktionen deutlich als unimplementiert markieren; lokale UI-Tests enden am Testadapter. Kein Testadapter ist ein Produktionsablaufnachweis.

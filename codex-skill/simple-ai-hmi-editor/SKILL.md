@@ -1,18 +1,18 @@
 ---
-name: smart-hmi-editor
-description: Load Smart HMI Editor for an automation project, create a private offline HMI workspace, review and edit its interface, or open the included neutral automation demo. Use for “Lade den Skill Smart HMI Editor” and HMI design requests with this tool.
+name: simple-ai-hmi-editor
+description: Load Simple-AI-HMI-Editor for an automation project, create a private offline HMI workspace, review and edit its interface, or open the included neutral automation demo. Use for “Lade den Skill Simple-AI-HMI-Editor” and HMI design requests with this tool.
 ---
 
-# Smart HMI Editor
+# Simple-AI-HMI-Editor
 
-Repository: https://github.com/juridowhiletrue/Smart-HMI-Editor
+Repository: https://github.com/juridowhiletrue/Simple-AI-HMI-Editor
 App entry point: `server.cjs` · Project resolver: `tools/codex-workspace.cjs`
 
 ## First use and installation
 
 On first loading, briefly tell the user that a neutral interactive automation demo is available to try: “Zum Ausprobieren ist eine neutrale Anlagen-Demo enthalten. Du kannst sagen: Öffne die Demo.” Continue with the requested project unless the user chooses the demo.
 
-Find the local editor clone from the current repository, an explicit user path, `SMART_HMI_EDITOR_ROOT`, or a sibling `Smart-HMI-Editor` directory alongside the current project. An installed skill directory alone is not the app. If there is no clone, clone the repository into a local tools/cache directory and record that location. Install this folder as `smart-hmi-editor` through the host's skill installer when available. Preserve an already installed skill and local user data when updating. A user request to load this tool authorizes its routine local installation and private project preparation, subject to the host's permissions.
+Find the local editor clone from the current repository, an explicit user path, `SIMPLE_AI_HMI_EDITOR_ROOT`, or a sibling `Simple-AI-HMI-Editor` directory alongside the current project. An installed skill directory alone is not the app. If there is no clone, clone the repository into a local tools/cache directory and record that location. Install this folder as `simple-ai-hmi-editor` through the host's skill installer when available. Preserve an already installed skill and local user data when updating. A user request to load this tool authorizes its routine local installation and private project preparation, subject to the host's permissions.
 
 Use the real absolute project path from the active task. Read the project's AGENTS.md before importing a source. Do not assume any machine name, company, Windows username or fixed drive path.
 

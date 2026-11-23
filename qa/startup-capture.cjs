@@ -25,7 +25,7 @@ function capturedStart(workspace, port) {
     const launcher = spawn('powershell.exe', args, {
       windowsHide: true, cwd: app, stdio: ['ignore', 'pipe', 'pipe'],
       env: { ...process.env, HMI_EDITOR_WORKSPACE: workspace, HMI_DRAFT_PORT: String(port),
-        HMI_QA_WORKER: 'powershell.exe', HMI_QA_STARTER: path.join(app, 'Start-Smart-HMI-Editor.ps1') }
+        HMI_QA_WORKER: 'powershell.exe', HMI_QA_STARTER: path.join(app, 'Start-Simple-AI-HMI-Editor.ps1') }
     });
     let output = '', errors = '';
     launcher.stdout.setEncoding('utf8').on('data', chunk => { output += chunk; });
@@ -48,7 +48,7 @@ function capturedStart(workspace, port) {
 }
 
 async function run() {
-  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'smart-hmi-start-'));
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'simple-ai-hmi-start-'));
   const port = await freePort();
   const url = 'http://127.0.0.1:' + port + '/';
   const pidFile = path.join(workspace, 'data/server.json');
@@ -83,7 +83,7 @@ async function run() {
       }
     }
     assert.equal(path.dirname(workspace), os.tmpdir());
-    assert.match(path.basename(workspace), /^smart-hmi-start-[A-Za-z0-9]+$/);
+    assert.match(path.basename(workspace), /^simple-ai-hmi-start-[A-Za-z0-9]+$/);
     fs.rmSync(workspace, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
   }
 }

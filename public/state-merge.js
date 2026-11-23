@@ -1,4 +1,4 @@
-/* Smart HMI Editor: pure three-way merge for JSON draft models. No I/O. */
+/* Simple-AI-HMI-Editor: pure three-way merge for JSON draft models. No I/O. */
 (function (factory) {
   'use strict';
   const api = factory();

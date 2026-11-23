@@ -22,7 +22,7 @@ async function api(url,body){
   const data=await res.json();if(!res.ok){const error=Error(data.error||'Speichern nicht möglich.');error.status=res.status;throw error;}return data;
 }
 const dirty=()=>editRevision>savedRevision;
-const recoveryKey=()=> 'smart-hmi-editor:recovery:'+(model.workspaceId||model.baseline.sourceSha256)+':'+model.baseline.sourceSha256;
+const recoveryKey=()=> 'simple-ai-hmi-editor:recovery:'+(model.workspaceId||model.baseline.sourceSha256)+':'+model.baseline.sourceSha256;
 function rememberRecovery(){
   try{localStorage.setItem(recoveryKey(),JSON.stringify({model:clone(model),baseModel:clone(baseModel),etag,htmlHash,at:new Date().toISOString()}));recoveryStored=true;}catch{recoveryStored=false;}
   return recoveryStored;
@@ -286,20 +286,20 @@ function applyModel(){
     if(action.type==='component'){
       let component=nodeFor(action.key);
       if(!component){
-        if(!window.SmartHMIComponents)continue;
-        component=window.SmartHMIComponents.create(action.config,{document:doc,isTesting:()=>mode==='test',onCommand:event=>{$('testResult').textContent='Neue Funktion (Platzhalter): '+event.label+' · Wert '+event.value;toast('UI-Test: '+event.message+' Programmierung bleibt offen.');},onValue:()=>renderFrame()});
+        if(!window.SimpleAIHMIComponents)continue;
+        component=window.SimpleAIHMIComponents.create(action.config,{document:doc,isTesting:()=>mode==='test',onCommand:event=>{$('testResult').textContent='Neue Funktion (Platzhalter): '+event.label+' · Wert '+event.value;toast('UI-Test: '+event.message+' Programmierung bleibt offen.');},onValue:()=>renderFrame()});
         component.dataset.draftKey=action.key;component.dataset.componentAction=action.id;
         const parent=Array.from(doc.querySelectorAll('section[data-page]')).find(n=>n.dataset.page===action.page);
         if(parent){parent.append(component);nodes.set(action.key,component);registerNodes();}
-      }else component.smartHMI?.updateConfig(action.config);
-      component?.smartHMI?.refreshTesting();continue;
+      }else component.simpleAIHMI?.updateConfig(action.config);
+      component?.simpleAIHMI?.refreshTesting();continue;
     }
     const el=nodeFor(action.key);if(!el)continue;
     if(action.type==='text')setText(el,action.value);
     else if(action.type==='state-style'){
       const override=testOverrides.get(action.key),recipe=override?.recipe||action.recipe;
       const value=override?override.value:!['element','manual'].includes(recipe.valueSource)?testContext[recipe.valueSource]:undefined;
-      window.SmartHMIStateStyles?.apply(el,recipe,value);
+      window.SimpleAIHMIStateStyles?.apply(el,recipe,value);
     }
     else if(action.type==='hide')el.classList.add('draft-hidden');
     else if(action.type==='style'){
@@ -326,7 +326,7 @@ function applyModel(){
       }
     }
   }
-  for(const [key,override] of testOverrides){const el=nodeFor(key);if(el)window.SmartHMIStateStyles?.apply(el,override.recipe,override.value);}
+  for(const [key,override] of testOverrides){const el=nodeFor(key);if(el)window.SimpleAIHMIStateStyles?.apply(el,override.recipe,override.value);}
   for(const section of doc.querySelectorAll('section[data-page]')){
     const empty=section.querySelector('.draft-empty');if(empty)empty.style.display=section.querySelector('.panel,.grid,.process,.shc-component')?'none':'';
   }
@@ -368,7 +368,7 @@ function selectElement(el){
   captureComponentInput();
   if(el.closest('[data-shc-locked]'))el=blockFor(el);
   el=el.closest('.shc-component')||el;
-  if(selected!==keyFor(el)){for(const key of testOverrides.keys()){const previous=nodeFor(key);if(previous)window.SmartHMIStateStyles?.clear(previous);}testOverrides.clear();}
+  if(selected!==keyFor(el)){for(const key of testOverrides.keys()){const previous=nodeFor(key);if(previous)window.SimpleAIHMIStateStyles?.clear(previous);}testOverrides.clear();}
   selected=keyFor(el);$('selectionName').textContent=labelFor(el)||'Bereich';
   const position=el.getBoundingClientRect(),framePosition=frame.getBoundingClientRect(),frameScale=framePosition.width/frame.clientWidth;
   const focusX=framePosition.left+(position.left+Math.min(position.width/2,100))*frameScale;
@@ -383,7 +383,7 @@ function selectElement(el){
   $('elementText').closest('label').hidden=!!component;$('applyText').hidden=!!component;
   $('componentEditor').hidden=!component;$('componentEditor').replaceChildren();
   componentEditorView=null;componentEditorKey=component?.key||null;
-  if(component)componentEditorView=window.SmartHMIComponents.renderEditor($('componentEditor'),componentDrafts.get(component.key)||component.config,{onApply:config=>{change(m=>{m.actions.find(a=>a.id===component.id).config=config;},'Neuen Baustein aktualisiert');componentDrafts.delete(component.key);persistTransient();}});
+  if(component)componentEditorView=window.SimpleAIHMIComponents.renderEditor($('componentEditor'),componentDrafts.get(component.key)||component.config,{onApply:config=>{change(m=>{m.actions.find(a=>a.id===component.id).config=config;},'Neuen Baustein aktualisiert');componentDrafts.delete(component.key);persistTransient();}});
   persistTransient();renderBreadcrumbs(el);
   $('stateStylePanel').hidden=!!component;if(!component&&$('stateStylePanel').open)loadStateStyleEditor();
   const command=selectedCommands()[0]||'';
@@ -416,10 +416,10 @@ function renderBreadcrumbs(el){
 }
 function openNavigator(){
   $('moreMenu').hidden=true;$('moreButton').setAttribute('aria-expanded','false');
-  if(!doc||!window.SmartHMINavigator)return;
+  if(!doc||!window.SimpleAIHMINavigator)return;
   if(original){toast('Bitte zuerst zum Entwurf wechseln, um Elemente zu bearbeiten.');return;}
   navigatorView?.destroy();
-  navigatorView=window.SmartHMINavigator.render($('navigatorBody'),{document:doc,pages:model.pages,getKey:keyFor,pageFilter:'',onSelect:entry=>{
+  navigatorView=window.SimpleAIHMINavigator.render($('navigatorBody'),{document:doc,pages:model.pages,getKey:keyFor,pageFilter:'',onSelect:entry=>{
     const page=model.pages.find(p=>p.id===entry.page);
     if(page&&!page.visible){toast('Diese Seite ist ausgeblendet. Bitte zuerst in „Seiten ordnen“ einblenden.');return;}
     $('navigatorDialog').hidden=true;setMode('edit');if(entry.page)setCurrentPage(entry.page);
@@ -454,11 +454,11 @@ async function loadSelectionProgram(){
   catch{target.textContent='Der gespeicherte Programmkontext ist gerade nicht erreichbar.';}
 }
 function loadStateStyleEditor(){
-  const el=nodeFor(selected);if(!el||!window.SmartHMIStateStyles)return;
+  const el=nodeFor(selected);if(!el||!window.SimpleAIHMIStateStyles)return;
   const key=selected,existing=[...model.actions].reverse().find(a=>a.type==='state-style'&&a.key===key);
   const control=el.matches('input,select')?el:el.querySelector('input,select');
   const recipe=existing?.recipe||{mode:control?.matches('select')?'options':'binary',target:'background',valueSource:control?'element':projectAdapter.stateValueHints?.[key]||'manual',offColor:'#cc4249',onColor:'#16835e',manualValue:'0'};
-  window.SmartHMIStateStyles.renderEditor($('stateStyleEditor'),recipe,{element:el,sources:[{value:'element',label:'Wert des Bedienelements'},{value:'manual',label:'Freier Beispielwert'},...(projectAdapter.previewControls||[]).map(c=>({value:c.key,label:c.label+' (Testdaten)'}))],
+  window.SimpleAIHMIStateStyles.renderEditor($('stateStyleEditor'),recipe,{element:el,sources:[{value:'element',label:'Wert des Bedienelements'},{value:'manual',label:'Freier Beispielwert'},...(projectAdapter.previewControls||[]).map(c=>({value:c.key,label:c.label+' (Testdaten)'}))],
     onPreview:(value,previewRecipe)=>{testOverrides.set(key,{value,recipe:previewRecipe});renderFrame();},
     onApply:next=>{testOverrides.delete(key);addAction({type:'state-style',key,recipe:next,anchor:anchorFor(el)},'Zustandsfarben im Entwurf geändert');}
   });
@@ -801,7 +801,7 @@ $('addPage').onclick=()=>{const name=$('newPageName').value.trim();if(!name)retu
 $('addComponent').onclick=()=>{
   const palette=$('componentPalette');palette.replaceChildren();
   const labels={button:'Schaltfläche',iconbutton:'Icon-Schaltfläche',toggle:'0/1-Schalter',dropdown:'Auswahlliste',indicator:'Zustandsanzeige'};
-  for(const config of window.SmartHMIComponents.templates){const button=document.createElement('button');button.textContent=labels[config.type];button.onclick=()=>{
+  for(const config of window.SimpleAIHMIComponents.templates){const button=document.createElement('button');button.textContent=labels[config.type];button.onclick=()=>{
     const id='component-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,5),key='component:'+id;
     addAction({type:'component',key,page:currentPage,config,requiresBinding:true},'Neues Element: '+labels[config.type]);$('componentDialog').hidden=true;
     requestAnimationFrame(()=>{const el=nodeFor(key);if(el){el.scrollIntoView({block:'center',behavior:'smooth'});selectElement(el);}});
@@ -819,7 +819,7 @@ function initializeTestTools(){
   updateTestControls();
 }
 $('testScene').onchange=async()=>{try{testContext=await api('/draft/preview',{scene:$('testScene').value});updateTestControls();renderFrame();}catch(e){toast(e.message);}};
-$('resetTest').onclick=async()=>{try{testContext=await api('/draft/preview',{reset:true});testOverrides.clear();for(const el of nodes.values())el.smartHMI?.reset();updateTestControls();renderFrame();$('testResult').textContent='UI-Test zurückgesetzt · ohne echten Ablauf';}catch(e){toast(e.message);}};
+$('resetTest').onclick=async()=>{try{testContext=await api('/draft/preview',{reset:true});testOverrides.clear();for(const el of nodes.values())el.simpleAIHMI?.reset();updateTestControls();renderFrame();$('testResult').textContent='UI-Test zurückgesetzt · ohne echten Ablauf';}catch(e){toast(e.message);}};
 $('undo').onclick=undo;$('redo').onclick=redo;
 $('compare').onclick=()=>{
   original=!original;$('compare').setAttribute('aria-pressed',String(original));$('compare').textContent=original?'Zurück zum Entwurf':'Original ansehen';

@@ -9,7 +9,7 @@ const crypto = require('node:crypto');
 const vm = require('node:vm');
 const {spawnSync} = require('node:child_process');
 const api = require('../tools/codex-workspace.cjs');
-const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'smart-hmi-codex-'));
+const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'simple-ai-hmi-codex-'));
 const checks = [], cleanupFailures = [];
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const originalSource = '<program>offline-test-source</program>\n', originalHtml = '<section data-page="Test">Test-HMI</section>\n';
@@ -18,7 +18,7 @@ function write(file, content) { fs.mkdirSync(path.dirname(file), {recursive: tru
 function fixture(name) {
   const root = path.join(tempRoot, name), appRoot = path.join(root, 'Editor App'), projectRoot = path.join(root, 'Programmprojekt');
   fs.mkdirSync(appRoot, {recursive: true}); fs.mkdirSync(projectRoot, {recursive: true});
-  write(path.join(appRoot, 'Start-Smart-HMI-Editor.ps1'), 'throw "Der Starter darf von der Zuordnung niemals ausgeführt werden."');
+  write(path.join(appRoot, 'Start-Simple-AI-HMI-Editor.ps1'), 'throw "Der Starter darf von der Zuordnung niemals ausgeführt werden."');
   write(path.join(projectRoot, 'Hmi/page.h'), originalSource);
   return {root, appRoot, projectRoot};
 }
@@ -179,10 +179,10 @@ check('CLI importiert ohne Seiteneffekt und akzeptiert keine unbemerkten Extraar
   assert.throws(() => api.main([]), /Aufruf/);
 });
 check('Kurzer Codex-Skill besitzt vollständige eindeutige Frontmatter ohne Scaffold', () => {
-  const skill = fs.readFileSync(path.join(__dirname, '../codex-skill/smart-hmi-editor/SKILL.md'), 'utf8');
+  const skill = fs.readFileSync(path.join(__dirname, '../codex-skill/simple-ai-hmi-editor/SKILL.md'), 'utf8');
   const header = skill.match(/^---\r?\n([\s\S]*?)\r?\n---/); assert.ok(header);
   const rows = header[1].split(/\r?\n/); assert.equal(rows.length, 2);
-  assert.equal(rows[0], 'name: smart-hmi-editor'); assert.ok(rows[1].startsWith('description: '));
+  assert.equal(rows[0], 'name: simple-ai-hmi-editor'); assert.ok(rows[1].startsWith('description: '));
   const description = rows[1].slice('description: '.length); assert.ok(description.length > 20 && description.length <= 1024);
   assert.doesNotMatch(description, /[<>]|\[TODO:/); assert.doesNotMatch(skill, /^\[TODO:/m);
 });
@@ -198,7 +198,7 @@ function cleanup(directory) {
   }
 }
 try {
-  if (!api.inside(fs.realpathSync(os.tmpdir()), fs.realpathSync(tempRoot)) || !path.basename(tempRoot).startsWith('smart-hmi-codex-')) throw Error('Ungültige temporäre Prüfgrenze.');
+  if (!api.inside(fs.realpathSync(os.tmpdir()), fs.realpathSync(tempRoot)) || !path.basename(tempRoot).startsWith('simple-ai-hmi-codex-')) throw Error('Ungültige temporäre Prüfgrenze.');
   cleanup(tempRoot); fs.rmdirSync(tempRoot);
 } catch (error) { cleanupFailures.push(error.message); }
 const report = {passed: checks.every(check => check.passed) && !cleanupFailures.length, at: new Date().toISOString(), node: process.version, checks, cleanupFailures, scope: 'temporary-filesystem and direct CLI only; no real project mutations; no server, adapter, browser or device execution'};

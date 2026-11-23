@@ -1,6 +1,6 @@
 # Kleine Verbesserungen aus bewährten Editoren
 
-Recherche: 20. November 2026. Gegenstand ist die **App Smart HMI Editor**. Die Maschinenansichten bleiben der getrennte, private Arbeitsstand **HMI-Draft Beispielprojekt**. Es wurden ausschließlich öffentliche Originaldokumentation und offizielle Repositories gelesen; keine Fremdpakete installiert, kein Fremdcode übernommen und keine der Vergleichsanwendungen praktisch erprobt.
+Recherche: 20. November 2026. Gegenstand ist die **App Simple-AI-HMI-Editor**. Die Maschinenansichten bleiben der getrennte, private Arbeitsstand **HMI-Draft Beispielprojekt**. Es wurden ausschließlich öffentliche Originaldokumentation und offizielle Repositories gelesen; keine Fremdpakete installiert, kein Fremdcode übernommen und keine der Vergleichsanwendungen praktisch erprobt.
 
 **Empfehlung: Die vorhandene App behalten und höchstens drei kleine Bedienverbesserungen ergänzen. Eine zusätzliche Editorbibliothek ist dafür derzeit nicht nötig.** Der besondere Nutzen unserer App besteht darin, die echte vorhandene HTML-HMI direkt zu besprechen und zu verändern. Ein Wechsel auf ein fremdes Komponenten- oder Zeichenmodell würde eine zusätzliche Übersetzung einführen. Das ist unsere technische Bewertung der nachstehenden Quellen, keine Aussage der Anbieter.
 

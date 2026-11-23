@@ -1,8 +1,8 @@
-# Smart HMI App · Entwicklung des Werkzeugs
+# Simple-AI-HMI-Editor · Entwicklung des Werkzeugs
 
 Aktualisierung 23. November 2026. Der Eigentümer hat das öffentliche GitHub-Repository und die anonymisierte Demo autorisiert. Die unten aufgeführten früheren Veröffentlichungsbeschränkungen dokumentieren den damaligen Arbeitsauftrag.
 
-Stand 20. November 2026. Diese Liste betrifft **den Editor**, nicht die Maschinen-HMI. Produktname: Smart HMI Editor. Aktueller lokaler Arbeitsbereich: HMI-Draft für Beispielprojekt.
+Stand 20. November 2026. Diese Liste betrifft **den Editor**, nicht die Maschinen-HMI. Produktname: Simple-AI-HMI-Editor. Aktueller lokaler Arbeitsbereich: HMI-Draft für Beispielprojekt.
 
 ## Bestätigter Auftrag
 
@@ -11,15 +11,15 @@ Stand 20. November 2026. Diese Liste betrifft **den Editor**, nicht die Maschine
 - Sichtbare Bezeichnungen bearbeiten; Seiten benennen, sortieren und neu aufteilen; Bereiche verschieben, duplizieren, verbreitern und ausblenden. Rückgängig/Wiederholen und gespeicherte Arbeitsstände.
 - PDF-artige Notizen: Pins an Elementen, Flächenmarkierung, aufklappbare und vergrößerbare Notizfelder mit Platz für lange Erklärungen, Antworten und Bearbeitungsstand.
 - Wünsche aus dem Chat werden direkt im getrennten Entwurf sichtbar. Kommentare und ungesicherte Eingaben bei Aktualisierungen erhalten; Konflikte ausdrücklich abstimmen.
-- Editor-Kern, Projektadapter, Baseline, HMI-Arbeitsdatei, Kommentare und Tests getrennt halten. Das Unterprojekt soll später ohne Verlust in ein eigenständiges Smart-HMI-Editor-Projekt umziehen können.
+- Editor-Kern, Projektadapter, Baseline, HMI-Arbeitsdatei, Kommentare und Tests getrennt halten. Das Unterprojekt soll später ohne Verlust in ein eigenständiges Simple-AI-HMI-Editor-Projekt umziehen können.
 - Jeden HMI-Wunsch auch auf tiefere Programmfolgen beurteilen. Solche Folgen erklären, einzeln bestätigen und als spätere Implementierungsanforderungen vormerken. Keine automatische Programmierung aus einer Gestaltungsidee ableiten.
 - Auf Aufforderung ganzheitlichen Programmkontext erfassen: vollständige relevante Anwendung, Bedienbindung, Befehlsverarbeitung, Abläufe, Zustände, Bedingungen und Auswirkungen. Eindeutige Codebelege für Bedienelement → Befehl → Handler → Ablauf. Analyse versionieren und zwischenspeichern; Quellstand ausdrücklich prüfen statt bei jedem Klick teuer neu zu analysieren. Unbekannte Zuordnungen und externer nicht verfügbarer Kontext bleiben erkennbar. Die eigentliche fachliche Analyse erfolgt mit dem Assistenten; die lokale App bekommt ihren geprüften Kontext, keine vorgetäuschte autonome Programmverständnis-Funktion.
 
 ## Arbeitsweise
 
-Primärer Einstieg: Im aktuellen Programmierprojekt **„Lade Smart HMI Editor“** an Codex. Der lesende Resolver `tools/codex-workspace.cjs` ermittelt den passenden privaten Workspace; Codex prüft die Zuordnung, startet mit `Start-Smart-HMI-Editor.ps1 -NoBrowser` und öffnet die bestätigte URL im integrierten Browser. Der Starter gibt Runtime-JSON zurück und startet Node bei Bedarf mit verstecktem Fenster. Ein anderer Dienst oder Workspace auf dem Port ist ein klarer Fehler. Standalone-Nutzung ist derzeit nicht vorgesehen; der vorhandene Doppelklick-Starter bleibt technischer Rückfallweg.
+Primärer Einstieg: Im aktuellen Programmierprojekt **„Lade Simple-AI-HMI-Editor“** an Codex. Der lesende Resolver `tools/codex-workspace.cjs` ermittelt den passenden privaten Workspace; Codex prüft die Zuordnung, startet mit `Start-Simple-AI-HMI-Editor.ps1 -NoBrowser` und öffnet die bestätigte URL im integrierten Browser. Der Starter gibt Runtime-JSON zurück und startet Node bei Bedarf mit verstecktem Fenster. Ein anderer Dienst oder Workspace auf dem Port ist ein klarer Fehler. Standalone-Nutzung ist derzeit nicht vorgesehen; der vorhandene Doppelklick-Starter bleibt technischer Rückfallweg.
 
-In der Kommunikation ausdrücklich **Arbeit an der Smart HMI App** und **Arbeit am HMI-Entwurf** unterscheiden. App-Funktionen und App-Fehler hier pflegen; fachliche HMI-Änderungen ausschließlich im privaten Workspace unter `project/HMI-Anforderungen.md` sowie in dessen Kommentaren. Editor-Code, Notizen und Beispieldaten gehören nicht in die OPTA-Anwendung.
+In der Kommunikation ausdrücklich **Arbeit an der Simple-AI-HMI-Editor** und **Arbeit am HMI-Entwurf** unterscheiden. App-Funktionen und App-Fehler hier pflegen; fachliche HMI-Änderungen ausschließlich im privaten Workspace unter `project/HMI-Anforderungen.md` sowie in dessen Kommentaren. Editor-Code, Notizen und Beispieldaten gehören nicht in die OPTA-Anwendung.
 
 Der gegenwärtige Auftrag implementiert die App. Der HMI-Arbeitsstand beginnt unverändert mit der gesicherten v04.2-Darstellung; vorläufige QA-Änderungen sind keine Nutzeranforderungen.
 

@@ -1,10 +1,14 @@
-# Smart HMI Editor · Prüfstand A01
+# Simple-AI-HMI-Editor · Prüfstand A01
+
+## 23. November 2026 · Namensumstellung auf Simple-AI-HMI-Editor
+
+Nach der Umstellung bestanden alle zehn Kern-Suiten und die 23 Prüfungen des Projektresolvers. Der umbenannte Skill ist sowohl im Repository als auch in der lokalen Installation mit dem Skill-Validator geprüft. Der Windows-Starter wurde unter dem neuen lokalen App-Pfad ausgeführt. Die laufende Oberfläche zeigt den neuen Namen und ordnet den privaten Arbeitsbereich korrekt zu.
 
 ## 23. November 2026 · Öffentliche Demo und Skill
 
 Die portable Kernprüfung besteht aus zehn erfolgreichen Suiten. Der neue Projektimport wurde mit 16 Fällen geprüft, darunter eindeutige und mehrdeutige Quellen, C++-HTML, unveränderte Originale und Erhalt eines bestehenden Entwurfs. Die neutrale Demo bestand 19 Prüfungen über sieben Seiten und sechs Beispielsituationen mit einem lokalen Bedienbefehl. Der installierbare Skill enthält den automatischen Projekteinstieg und den Demo-Hinweis für neue Anwender.
 
-20. November 2026 · Editor 0.1.0 · begleitete Nutzung als Codex-Werkzeug. Primärer Aufruf im Programmierprojekt: **„Lade den Smart HMI Editor.“**
+20. November 2026 · Editor 0.1.0 · begleitete Nutzung als Codex-Werkzeug. Primärer Aufruf im Programmierprojekt: **„Lade den Simple-AI-HMI-Editor.“**
 
 Der Editor liegt eigenständig unter `<EDITOR-ROOT>`. Der private WF-Arbeitsbereich `workspaces/beispielprojekt/` enthält die vollständige HMI von **v04-dev-2026-11-20.2** als getrennten Entwurf. Anwendung und Original-HMI im Maschinenprojekt blieben unverändert; die OPTA war während dieser Arbeit offline.
 

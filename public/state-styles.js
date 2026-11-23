@@ -2,7 +2,7 @@
   'use strict';
   const api=factory();
   if(typeof module==='object'&&module.exports)module.exports=api;
-  if(root&&root.document)root.SmartHMIStateStyles=api;
+  if(root&&root.document)root.SimpleAIHMIStateStyles=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
   const owned=new WeakMap(),optionTargets=new WeakMap();

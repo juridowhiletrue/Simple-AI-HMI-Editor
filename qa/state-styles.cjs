@@ -25,7 +25,7 @@ function click(host,text){const el=Array.from(host.querySelectorAll('button')).f
 function attrs(root){return [root,...root.querySelectorAll('*')].map(el=>Array.from(el.attributes).filter(a=>a.name!=='style').map(a=>[a.name,a.value]));}
 function dropdown(){const select=node('select');select.id='real-selection';select.dataset.cmd='real-command';for(const [value,label] of [['0','Aus'],['1','Ein'],['manual','Hand']]){const option=document.createElement('option');option.value=value;option.textContent=label;select.append(option);}select.value='1';return select;}
 
-check('CommonJS und Browser-API verfügbar',()=>{assert.equal(typeof api.apply,'function');dom.window.eval(code);assert.equal(typeof dom.window.SmartHMIStateStyles.renderEditor,'function');});
+check('CommonJS und Browser-API verfügbar',()=>{assert.equal(typeof api.apply,'function');dom.window.eval(code);assert.equal(typeof dom.window.SimpleAIHMIStateStyles.renderEditor,'function');});
 check('Normalisierung ist defensiv, stabil und verändert Eingaben nicht',()=>{
   const raw={type:'dropdown',target:'text',valueSource:'band',manualValue:'1',options:[{value:0,label:'Aus',color:'#abc'},{value:1,label:'Ein',color:'rgb(10, 20, 30)'}]};const original=JSON.stringify(raw);const recipe=api.normalizeRecipe(raw);
   assert.equal(recipe.mode,'options');assert.equal(recipe.options[0].color,'#aabbcc');assert.equal(recipe.options[1].color,'#0a141e');assert.equal(JSON.stringify(raw),original);assert.deepEqual(api.normalizeRecipe(recipe),recipe);

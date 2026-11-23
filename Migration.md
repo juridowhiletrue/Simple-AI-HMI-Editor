@@ -1,4 +1,4 @@
-# Smart HMI Editor · Saubere Ausgliederung
+# Simple-AI-HMI-Editor · Saubere Ausgliederung
 
 Stand 20. November 2026. **Der Nutzer hat ein eigenes lokales Git-Repository ausdrücklich autorisiert. GitHub und andere Veröffentlichung/Synchronisierung bleiben unzulässig.** Die tatsächliche Ausgliederung, Prozessumstellung und Git-Initialisierung koordiniert ausschließlich der Root-Agent nach Ende aller Schreibarbeiten. Dieses Dokument und `qa/migration-check.cjs` führen weder Migration noch Git-Aktionen aus.
 
@@ -8,7 +8,7 @@ Kanonisches Ziel: `<EDITOR-ROOT>`. Der Editor wird weder Teil von `Beispielproje
 
 | Ebene | Inhalt | Ablage/Versionsführung |
 | --- | --- | --- |
-| Smart HMI App | Editorfunktionen, Bedienkomfort, Notizen, Undo, Speicherung, Vorschau, generische Prüfwerkzeuge | Editor-Kern im eigenen lokalen Repository; Anforderungen in `docs/App-Entwicklung.md` |
+| Simple-AI-HMI-Editor | Editorfunktionen, Bedienkomfort, Notizen, Undo, Speicherung, Vorschau, generische Prüfwerkzeuge | Editor-Kern im eigenen lokalen Repository; Anforderungen in `docs/App-Entwicklung.md` |
 | HMI-Draft für Beispielprojekt | Tatsächliche Maschinenansicht, Benennungen/Anordnung, Programmkontext, Kommentare, bestätigte mögliche Programmfolgen | Nur im ignorierten Workspace `workspaces/beispielprojekt/`; eigene Liste `project/HMI-Anforderungen.md` |
 
 Die Freigabe einer App-Funktion ist keine Freigabe einer Maschinen-HMI oder OPTA-Programmänderung. Technische Verbesserungen am Editor dürfen die fachliche WF-Anforderungsliste nicht mit vermeintlichen Maschinenanforderungen füllen.
@@ -16,7 +16,7 @@ Die Freigabe einer App-Funktion ist keine Freigabe einer Maschinen-HMI oder OPTA
 ## Zielstruktur
 
 ```text
-Smart-HMI-Editor/
+Simple-AI-HMI-Editor/
   server.cjs                 # APP_ROOT = Editor-Verzeichnis
   package.json
   public/                    # Editor-Oberfläche
@@ -24,7 +24,7 @@ Smart-HMI-Editor/
   docs/App-Entwicklung.md     # ausschließlich Werkzeugentwicklung
   qa/                        # generische Tests; Ergebnisdateien ignorieren
   templates/demo/            # versionierte, rein generische Startvorlage
-  Start-Smart-HMI-Editor.*    # generische Windows-Starter
+  Start-Simple-AI-HMI-Editor.*    # generische Windows-Starter
   workspaces/                # vollständig Git-ignoriert
     demo/                    # beschreibbare Laufzeitkopie der Demo
     beispielprojekt/                 # ROOT = gewählter privater Workspace

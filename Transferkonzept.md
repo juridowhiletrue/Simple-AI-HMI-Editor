@@ -1,8 +1,8 @@
-# Smart HMI Editor · Trennung und spätere Übernahme
+# Simple-AI-HMI-Editor · Trennung und spätere Übernahme
 
 Aktualisierung 23. November 2026. Der Eigentümer hat das öffentliche GitHub-Repository und die anonymisierte Demo autorisiert. Die unten aufgeführten früheren Veröffentlichungsbeschränkungen dokumentieren den damaligen Arbeitsauftrag.
 
-Der Maschinen-Arbeitsbereich heißt **HMI-Draft**; das Werkzeug heißt **Smart HMI Editor**. Beide sind kein zusätzlicher Programmstand der OPTA. Erst ein später ausdrücklich freigegebener Maschinenentwurf wird zur Implementierung an den Hauptchat übergeben.
+Der Maschinen-Arbeitsbereich heißt **HMI-Draft**; das Werkzeug heißt **Simple-AI-HMI-Editor**. Beide sind kein zusätzlicher Programmstand der OPTA. Erst ein später ausdrücklich freigegebener Maschinenentwurf wird zur Implementierung an den Hauptchat übergeben.
 
 **Neue Nutzerautorisierung vom 20. November 2026:** Eigenes lokales Git für die Editor-App ist jetzt ausdrücklich zulässig und gewünscht. GitHub, Remotes und Veröffentlichung bleiben nicht beauftragt. Der Root-Agent koordiniert nach Ende aller Schreibarbeiten die Ausgliederung nach `<EDITOR-ROOT>` und die lokale Initialisierung. Dieses Dokument und seine Prüfwerkzeuge führen keine Migration oder Git-Aktion aus.
 

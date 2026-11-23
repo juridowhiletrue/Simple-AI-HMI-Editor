@@ -1,13 +1,13 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const {initialize,extractHtml}=require('../tools/init-workspace.cjs');
-const temp=fs.mkdtempSync(path.join(os.tmpdir(),'smart-hmi-import-'));
+const temp=fs.mkdtempSync(path.join(os.tmpdir(),'simple-ai-hmi-import-'));
 let assertions=0;
 const check=fn=>{fn();assertions++;};
 try{
   const app=path.join(temp,'editor'),project=path.join(temp,'plant');
   fs.mkdirSync(app);fs.mkdirSync(project);
-  fs.writeFileSync(path.join(app,'Start-Smart-HMI-Editor.ps1'),'# fixture');
+  fs.writeFileSync(path.join(app,'Start-Simple-AI-HMI-Editor.ps1'),'# fixture');
   const html='<!doctype html><html><body><section data-page="Home"><h1>Plant</h1><button>Run</button></section></body></html>';
   check(()=>assert.equal(extractHtml(html),html));
   check(()=>assert.equal(extractHtml('const char page[]=R"UI('+html+')UI";'),html));
@@ -36,6 +36,6 @@ try{
   check(()=>assert.equal(adapter.createPreview().post().result,16));
   console.log(JSON.stringify({passed:true,assertions,scope:'new-project-initialization',existingWorkspacesPreserved:true,network:false}));
 }finally{
-  assert.equal(path.dirname(temp),os.tmpdir());assert.match(path.basename(temp),/^smart-hmi-import-/);
+  assert.equal(path.dirname(temp),os.tmpdir());assert.match(path.basename(temp),/^simple-ai-hmi-import-/);
   fs.rmSync(temp,{recursive:true,force:true});
 }

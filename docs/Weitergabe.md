@@ -1,4 +1,4 @@
-# Weitergabe des Smart HMI Editors
+# Weitergabe des Simple-AI-HMI-Editors
 
 Das öffentliche Repository enthält den Werkzeugkern, den Skill und eine anonymisierte Automation als Demo. Die Demo hat einen lokalen Testadapter und neutrale Beispieldaten. Dateinamen, Logos, Kunden-/Firmenkennungen, persönliche Pfade und reale Netzwerkadressen gehören bei neuen Beispielen in die Prüfung vor einem Commit.
 

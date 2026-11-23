@@ -2,7 +2,7 @@
   'use strict';
   const api = factory();
   if (typeof module === 'object' && module.exports) module.exports = api;
-  if (root && root.document) root.SmartHMINavigator = api;
+  if (root && root.document) root.SimpleAIHMINavigator = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 

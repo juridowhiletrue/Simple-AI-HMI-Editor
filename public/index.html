@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HMI-Draft · Smart HMI Editor</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HMI-Draft · Simple-AI-HMI-Editor</title>
 <link rel="stylesheet" href="/app.css"><link rel="stylesheet" href="/notes.css"><link rel="stylesheet" href="/components.css"><link rel="stylesheet" href="/state-styles.css"><link rel="stylesheet" href="/element-navigator.css"><link rel="stylesheet" href="/ux.css">
 <style>#chrome{position:sticky;top:0;z-index:35;background:#e9eef3;box-shadow:0 3px 12px #17314708}.drawer{top:calc(var(--chrome-height,180px) + 12px);max-height:calc(100dvh - var(--chrome-height,180px) - 30px)}.popover{position:fixed}#workspaceTitle{font-size:inherit;background:none;padding:0;letter-spacing:inherit}.test-tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 24px;background:#fff1d4;border-top:1px solid #e9cf96;font-size:.8125rem}.test-tools label,#testSignals{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.test-tools select{font-size:.8125rem;max-width:210px;padding:8px}.test-tools output{width:100%;color:#735011}.component-palette{display:grid;grid-template-columns:1fr 1fr;gap:10px}.component-palette button{min-height:66px;text-align:left}.impact-note{border-left:3px solid #a36d19;padding:10px;background:#fff6e4;font-size:.8125rem;line-height:1.5}@media(max-width:800px){.drawer{top:auto;max-height:64dvh}.test-tools{padding:10px 14px}}@media(max-width:560px){.modes{display:grid!important;grid-template-columns:1fr 1fr!important;width:100%}.component-palette{grid-template-columns:1fr}}</style>
 </head>
 <body>
 <div id="chrome">
 <header class="workbar">
- <div class="brand"><span class="brand-mark" aria-hidden="true">✳</span><div><h1><span id="workspaceTitle">HMI-Draft</span> <span id="version">A01</span></h1><p id="productTitle">Smart HMI Editor</p></div></div>
+ <div class="brand"><span class="brand-mark" aria-hidden="true">✳</span><div><h1><span id="workspaceTitle">HMI-Draft</span> <span id="version">A01</span></h1><p id="productTitle">Simple-AI-HMI-Editor</p></div></div>
  <div class="workstate"><span class="draft-badge">ENTWURF · OFFLINE</span><span id="saveState" role="status">Wird geladen …</span><button id="retrySave" hidden>Speichern wiederholen</button><button id="emergencyDownload" hidden>Zwischenstand herunterladen</button><button id="resumeComponent" hidden>Offenen Baustein fortsetzen</button></div>
  <div class="top-actions"><button id="undo" title="Rückgängig (Strg+Z)">↶ <span>Zurück</span></button><button id="redo" title="Wiederholen (Strg+Umschalt+Z)">↷</button><button id="snapshot">Stand sichern</button><button id="moreButton" aria-expanded="false" aria-controls="moreMenu">Mehr ···</button></div>
 </header>

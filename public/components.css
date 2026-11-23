@@ -1,4 +1,4 @@
-/* Smart HMI Editor: invented components remain visibly unimplemented. */
+/* Simple-AI-HMI-Editor: invented components remain visibly unimplemented. */
 .shc-component{box-sizing:border-box;min-width:0;border:2px dashed #9470c3;border-radius:13px;background:#faf7ff;color:#29344b;padding:15px;font:15px/1.45 Segoe UI,system-ui,sans-serif}
 .shc-component *{box-sizing:border-box}
 .shc-component [hidden],.shc-editor [hidden]{display:none!important}

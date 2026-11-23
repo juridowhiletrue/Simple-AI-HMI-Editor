@@ -164,7 +164,7 @@ const server = http.createServer(async(req,res)=>{
       atomic(`${folder}/draft.json`,model);
       atomic(`${folder}/Kommentare_und_Aenderungen.md`,markdown(model));
       fs.writeFileSync(path.join(ROOT,folder,'hmi.html'),preview);
-      const runtimeFiles=['server.cjs','package.json','project/adapter.cjs','project/preview-controller.cjs','project/workspace-source.json','project/source-import.json','project/context-provider.cjs','project/context/model.json','project/context/Programmkontext.md','lib/source-keys.cjs','lib/workspace.cjs','lib/runtime-info.cjs','public/index.html','public/app.js','public/state-merge.js','public/components.js','public/state-styles.js','public/element-navigator.js','public/element-navigator.css','public/app.css','public/notes.css','public/ux.css','public/components.css','public/state-styles.css','Start-HMI-Draft.ps1','Start-HMI-Draft.cmd','Start-Smart-HMI-Editor.ps1','Start-Smart-HMI-Editor.cmd'];
+      const runtimeFiles=['server.cjs','package.json','project/adapter.cjs','project/preview-controller.cjs','project/workspace-source.json','project/source-import.json','project/context-provider.cjs','project/context/model.json','project/context/Programmkontext.md','lib/source-keys.cjs','lib/workspace.cjs','lib/runtime-info.cjs','public/index.html','public/app.js','public/state-merge.js','public/components.js','public/state-styles.js','public/element-navigator.js','public/element-navigator.css','public/app.css','public/notes.css','public/ux.css','public/components.css','public/state-styles.css','Start-HMI-Draft.ps1','Start-HMI-Draft.cmd','Start-Simple-AI-HMI-Editor.ps1','Start-Simple-AI-HMI-Editor.cmd'];
       const editorFiles={};
       for(const file of runtimeFiles){
         const from=path.join(file.startsWith('project/')?ROOT:APP_ROOT,file);if(!fs.existsSync(from))continue;
@@ -195,7 +195,7 @@ const server = http.createServer(async(req,res)=>{
       fs.mkdirSync(path.join(ROOT,folder,'replay/data'),{recursive:true});
       fs.writeFileSync(path.join(ROOT,folder,'replay/hmi.html'),preview);
       atomic(`${folder}/replay/data/draft.json`,model);
-      atomic(`${folder}/manifest.json`,{name:model.name,version:model.version,serial:model.serial,createdAt:new Date().toISOString(),approved:false,requiresMasterApproval:true,baseline,previewSha256:sha(preview),modelSha256:sha(JSON.stringify(model,null,2)),scope:'presentation-only',editor:{product:'Smart HMI Editor',version:JSON.parse(fs.readFileSync(path.join(APP_ROOT,'package.json'),'utf8')).version,files:editorFiles},programContext:{files:contextFiles},assets:{files:assetFiles}});
+      atomic(`${folder}/manifest.json`,{name:model.name,version:model.version,serial:model.serial,createdAt:new Date().toISOString(),approved:false,requiresMasterApproval:true,baseline,previewSha256:sha(preview),modelSha256:sha(JSON.stringify(model,null,2)),scope:'presentation-only',editor:{product:'Simple-AI-HMI-Editor',version:JSON.parse(fs.readFileSync(path.join(APP_ROOT,'package.json'),'utf8')).version,files:editorFiles},programContext:{files:contextFiles},assets:{files:assetFiles}});
       fs.copyFileSync(path.join(APP_ROOT,'Integrationsvertrag.md'),path.join(ROOT,folder,'Integrationsvertrag.md'));
       send(200,{ok:true,name:`${model.version}-${token}`,serial:model.serial}); return;
     }

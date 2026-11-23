@@ -23,7 +23,7 @@ function mount(config,options={}){const component=api.create(config,{document,is
 const input=(node,selector,value,event='input')=>{const target=node.querySelector(selector);assert.ok(target,selector);target.value=value;target.dispatchEvent(new Event(event,{bubbles:true}));return target;};
 const clickText=(node,text)=>{const button=Array.from(node.querySelectorAll('button')).find(b=>b.textContent===text);assert.ok(button,text);button.click();return button;};
 check('Browser- und CommonJS-API sind verfügbar',()=>{
-  assert.equal(typeof api.create,'function');dom.window.eval(code);assert.equal(typeof dom.window.SmartHMIComponents.renderEditor,'function');
+  assert.equal(typeof api.create,'function');dom.window.eval(code);assert.equal(typeof dom.window.SimpleAIHMIComponents.renderEditor,'function');
 });
 check('Normalisierung ist unabhängig, defensiv und idempotent',()=>{
   const raw={kind:'icon-button',label:' Test ',icon:'▶',offColor:'#abc',onColor:'red',options:[{label:'A',value:0,color:'#fff'},{label:'B',value:0},{label:'C',value:1}],implemented:true};
@@ -47,8 +47,8 @@ check('0/1-Schalter ändert lokalen Wert, Text, Farbe und zugänglichen Zustand'
 check('Ohne UI-Test sind Aktionen gesperrt und erzeugen keine Platzhalterereignisse',()=>{
   let testing=false,calls=0;const element=mount({type:'toggle'},{isTesting:()=>testing,onValue:()=>calls++,onCommand:()=>calls++});
   const button=element.querySelector('button');assert.equal(button.disabled,true);button.click();assert.equal(calls,0);assert.equal(element.dataset.value,'0');
-  testing=true;element.smartHMI.refreshTesting();assert.equal(button.disabled,false);button.click();assert.equal(element.dataset.value,'1');assert.equal(calls,2);
-  testing=false;element.smartHMI.refreshTesting();button.click();assert.equal(element.dataset.value,'1');assert.equal(calls,2);assert.match(element.querySelector('.shc-output').textContent,/UI-Test einschalten/);
+  testing=true;element.simpleAIHMI.refreshTesting();assert.equal(button.disabled,false);button.click();assert.equal(element.dataset.value,'1');assert.equal(calls,2);
+  testing=false;element.simpleAIHMI.refreshTesting();button.click();assert.equal(element.dataset.value,'1');assert.equal(calls,2);assert.match(element.querySelector('.shc-output').textContent,/UI-Test einschalten/);
 });
 check('Icon-Schaltfläche ist bedienbar, beschriftet und kann 0/1-Farben testen',()=>{
   const element=mount({type:'iconbutton',label:'Neue Verriegelung',icon:'🔒',behavior:'value',offColor:'#fff',onColor:'#f00'});
@@ -57,7 +57,7 @@ check('Icon-Schaltfläche ist bedienbar, beschriftet und kann 0/1-Farben testen'
 });
 check('Schaltflächen demonstrieren Meldung oder lokalen Zähler',()=>{
   const messages=[];const message=mount({type:'button',message:'Nur diese Testmeldung.'},{onCommand:event=>messages.push(event)});message.querySelector('button').click();assert.equal(message.querySelector('.shc-output').textContent,'Nur diese Testmeldung.');
-  const values=[];const counter=mount({type:'button',behavior:'counter',defaultValue:5},{onValue:value=>values.push(value)});counter.querySelector('button').click();counter.querySelector('button').click();assert.equal(counter.smartHMI.getState().count,7);assert.deepEqual(values,[6,7]);
+  const values=[];const counter=mount({type:'button',behavior:'counter',defaultValue:5},{onValue:value=>values.push(value)});counter.querySelector('button').click();counter.querySelector('button').click();assert.equal(counter.simpleAIHMI.getState().count,7);assert.deepEqual(values,[6,7]);
   assert.match(counter.querySelector('.shc-output').textContent,/7/);
   const event=messages[0];assert.equal(event.scope,'draft-only');assert.equal(event.placeholder,true);assert.equal(event.programmingRequired,true);assert.equal(event.implemented,false);assert.equal(Object.hasOwn(event,'command'),false);assert.equal(Object.isFrozen(event),true);
 });
@@ -71,19 +71,19 @@ check('Anzeige lässt ihren Beispielwert im UI-Test bewusst umschalten',()=>{
 });
 check('Konfigurationsänderung erhält laufenden Testwert und DOM-Fokus bei gleichem Typ',()=>{
   const config={type:'toggle',label:'Alt',onColor:'#000000'},element=mount(config);const button=element.querySelector('button');button.click();button.focus();
-  element.smartHMI.updateConfig({...config,label:'Neu',onColor:'#ff0000'});assert.equal(element.querySelector('button'),button);assert.equal(document.activeElement,button);assert.equal(element.dataset.value,'1');assert.match(element.textContent,/Neu/);assert.equal(element.querySelector('.shc-state').style.backgroundColor,'rgb(255, 0, 0)');
-  element.smartHMI.updateConfig({...config,defaultValue:1});assert.equal(element.dataset.value,'1');element.smartHMI.reset();assert.equal(element.dataset.value,'1');
+  element.simpleAIHMI.updateConfig({...config,label:'Neu',onColor:'#ff0000'});assert.equal(element.querySelector('button'),button);assert.equal(document.activeElement,button);assert.equal(element.dataset.value,'1');assert.match(element.textContent,/Neu/);assert.equal(element.querySelector('.shc-state').style.backgroundColor,'rgb(255, 0, 0)');
+  element.simpleAIHMI.updateConfig({...config,defaultValue:1});assert.equal(element.dataset.value,'1');element.simpleAIHMI.reset();assert.equal(element.dataset.value,'1');
 });
 check('Dropdown-Konfiguration kann Optionen aktualisieren, ohne das Steuerelement auszutauschen',()=>{
   const element=mount({type:'dropdown',options:[{label:'A',value:'a'},{label:'B',value:'b'}]});const select=element.querySelector('select');select.value='b';select.dispatchEvent(new Event('change',{bubbles:true}));
-  element.smartHMI.updateConfig({type:'dropdown',label:'Neu',options:[{label:'A2',value:'a',color:'#000'},{label:'B2',value:'b',color:'#f00'}]});
+  element.simpleAIHMI.updateConfig({type:'dropdown',label:'Neu',options:[{label:'A2',value:'a',color:'#000'},{label:'B2',value:'b',color:'#f00'}]});
   assert.equal(element.querySelector('select'),select);assert.equal(select.value,'b');assert.equal(select.options[1].textContent,'B2');assert.equal(element.querySelector('.shc-selected').textContent,'B2');
-  element.smartHMI.updateConfig({type:'dropdown',options:[{label:'C',value:'c'}]});assert.equal(element.dataset.value,'c');
+  element.simpleAIHMI.updateConfig({type:'dropdown',options:[{label:'C',value:'c'}]});assert.equal(element.dataset.value,'c');
 });
 check('Typ-/Testverhaltenswechsel setzt lokale Werte nachvollziehbar zurück',()=>{
   const element=mount({type:'button',behavior:'counter'});element.querySelector('button').click();element.querySelector('button').click();
-  element.smartHMI.updateConfig({type:'button',behavior:'value'});assert.equal(element.dataset.value,'0');element.querySelector('button').click();assert.equal(element.dataset.value,'1');
-  element.smartHMI.updateConfig({type:'indicator',defaultValue:0});assert.equal(element.dataset.value,'0');
+  element.simpleAIHMI.updateConfig({type:'button',behavior:'value'});assert.equal(element.dataset.value,'0');element.querySelector('button').click();assert.equal(element.dataset.value,'1');
+  element.simpleAIHMI.updateConfig({type:'indicator',defaultValue:0});assert.equal(element.dataset.value,'0');
 });
 check('Texte, Icons, Beschreibung und Optionslisten bleiben sichere Texte',()=>{
   const unsafe='<img src=x onerror="alert(1)"><script>window.bad=1</script>';

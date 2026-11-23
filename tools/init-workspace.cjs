@@ -68,7 +68,7 @@ function initialize({project,source,appRoot=path.resolve(__dirname,'..')}) {
   json('baseline/manifest.json',manifest);
   json('workspace.json',{schema:1,id,name,projectId:name});
   json('data/draft.json',{schema:1,name,workspaceId:id,version:'A01',stage:'Entwurf',approved:false,baseline:manifest,serial:0,savedAt:null,pages:(pages.length?pages:['HMI']).map(id=>({id,name:id,visible:true,title:null})),actions:[],comments:[]});
-  const config = {projectId:name,workspaceName:name,productName:'Smart HMI Editor',defaultPages:pages.length?pages:['HMI'],blocks:'.panel,.grid,.node,main,section',previewControls:[]};
+  const config = {projectId:name,workspaceName:name,productName:'Simple-AI-HMI-Editor',defaultPages:pages.length?pages:['HMI'],blocks:'.panel,.grid,.node,main,section',previewControls:[]};
   const adapter = "'use strict';\nconst fs=require('node:fs');const path=require('node:path');\n"+
     'const browser='+JSON.stringify(config)+';\n'+
     "module.exports={pages:browser.defaultPages,browser,capture(){const p=path.join(__dirname,'../baseline');return {source:fs.readFileSync(path.join(p,"+JSON.stringify(sourceName)+")),html:fs.readFileSync(path.join(p,'hmi.html'),'utf8'),version:"+JSON.stringify(version)+",sourceName:"+JSON.stringify(sourceName)+",sourceRef:"+JSON.stringify(manifest.source)+"};},"+
